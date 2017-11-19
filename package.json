@@ -1,14 +1,13 @@
 {
   "name": "x",
   "version": "1.0.0",
-  "private": true,
-  "description": "Just for fun",
+  "description": "Node.js MongoDB",
   "main": "app.js",
+  "author": "xg4 <xingor4@gmail.com>",
+  "license": "MIT",
   "scripts": {
     "start": "node app"
   },
-  "author": "x",
-  "license": "ISC",
   "dependencies": {
     "async": "^2.5.0",
     "bcryptjs": "^2.4.3",
