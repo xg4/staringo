@@ -1,0 +1,24 @@
+//- topic create or edit
+mixin topic_edit(action,topic)
+    if (typeof (action) !== 'undefined' && action === 'edit')
+        - var form_title = '编辑话题',form_action = '/topic/'+ topic._id +'/edit'
+    else
+        - var form_title = '发布话题',form_action = '/topic/create'
+    h1.topic-form-title= form_title
+    form.topic-form(action= form_action method='post')
+        div.input-group
+            label.input-group-addon.tab-selector 选择版块：
+            select.tab-value.form-control(name="topic_tab")
+                option 请选择
+                - for (var i = 0; i < topic.tabs.length;i++) {
+                    if (topic.tab && (topic.tab == topic.tabs[i][0] || topic.tab == topic.tabs[i][1]))
+                        option(value= topic.tabs[i][0] selected) #{topic.tabs[i][1]}
+                    else
+                        option(value= topic.tabs[i][0]) #{topic.tabs[i][1]}
+                - }
+
+        input.form-control(type="text" name='topic_title' value= topic.title autofocus placeholder="标题字数 10 字以上")
+        div.markdown-editor
+            textarea.editor(name="topic_content" placeholder="文章支持 Markdown 语法, 请注意标记代码") #{topic.content}
+            div.editor-btn-group
+                input.btn.btn-primary.btn-form(type="submit" data-loading-text="提交中" value="提交")

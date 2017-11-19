@@ -1,0 +1,41 @@
+{
+  "name": "x",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Just for fun",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app"
+  },
+  "author": "x",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.5.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.1",
+    "colors": "1.1.2",
+    "cookie-parser": "^1.4.3",
+    "csurf": "^1.9.0",
+    "eventproxy": "^1.0.0",
+    "express": "^4.15.4",
+    "express-session": "^1.15.5",
+    "lodash": "^4.17.4",
+    "log4js": "^2.3.3",
+    "markdown-it": "^8.4.0",
+    "moment": "^2.19.1",
+    "mongoose": "4.4.9",
+    "multiline": "^1.0.2",
+    "nodemailer": "^4.1.0",
+    "nodemailer-smtp-transport": "^2.7.4",
+    "pug": "^2.0.0-rc.4",
+    "response-time": "^2.3.2",
+    "serve-favicon": "^2.4.4",
+    "utility": "^1.12.0",
+    "uuid": "^3.1.0",
+    "validator": "^8.2.0",
+    "xss": "^0.3.4"
+  },
+  "devDependencies": {
+    "errorhandler": "^1.5.0"
+  }
+}

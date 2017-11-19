@@ -1,0 +1,194 @@
+/* popover */
+.popover {
+    max-width: 400px;
+    min-width: 150px;
+    min-height: 100px;
+    background-color: rgba(255, 255, 255, .9);
+}
+
+/* 复写 btn 样式 */
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn.active.focus {
+    outline: none;
+}
+
+.btn-block {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+}
+
+/*-----*/
+
+/*复写 drapdown 样式*/
+.header-user-profile .dropdown-toggle:focus,
+.header-user-profile .dropdown-toggle:hover {
+    color: #000;
+}
+
+.user-dropdown-menu {
+    top: 120%;
+    right: 0;
+    left: auto;
+    width: 120px;
+    min-width: 120px;
+}
+
+.user-dropdown-menu .dropdown-text {
+    font-weight: 600;
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    line-height: 1.42857143;
+    color: #333;
+    /*用户名太长 变成...*/
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.user-dropdown-menu > li > a:hover,
+.user-dropdown-menu > li > a:focus {
+    color: #fff;
+    background-color: #0366d6;
+}
+
+.user-dropdown-menu > .active > a,
+.user-dropdown-menu > .active > a:hover,
+.user-dropdown-menu > .active > a:focus {
+    background-color: #0366d6;
+}
+
+.user-dropdown-menu > .arrow,
+.user-dropdown-menu > .arrow:after {
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+}
+
+.user-dropdown-menu > .arrow {
+    border-width: 11px;
+    top: -11px;
+    left: 80%;
+    margin-left: -11px;
+    border-top-width: 0;
+    border-bottom-color: #999;
+    border-bottom-color: rgba(0, 0, 0, .25);
+}
+
+.user-dropdown-menu > .arrow:after {
+    border-width: 10px;
+    top: 1px;
+    margin-left: -10px;
+    content: " ";
+    border-top-width: 0;
+    border-bottom-color: #fff;
+}
+.user-dropdown-menu .glyphicon {
+    margin-right: 10px;
+}
+
+/*-----*/
+
+/*复写 tooltip 样式*/
+.tooltip-inner {
+    background: rgba(0, 0, 0, .8);
+}
+
+.tooltip.top .tooltip-arrow {
+    border-top-color: rgba(0, 0, 0, .8);
+}
+
+.tooltip.top-left .tooltip-arrow {
+    border-top-color: rgba(0, 0, 0, .8);
+}
+
+.tooltip.top-right .tooltip-arrow {
+    border-top-color: rgba(0, 0, 0, .8);
+}
+
+.tooltip.right .tooltip-arrow {
+    border-right-color: rgba(0, 0, 0, .8);
+}
+
+.tooltip.left .tooltip-arrow {
+    border-left-color: rgba(0, 0, 0, .8);
+}
+
+.tooltip.bottom .tooltip-arrow {
+    border-bottom-color: rgba(0, 0, 0, .8);
+}
+
+.tooltip.bottom-left .tooltip-arrow {
+    border-bottom-color: rgba(0, 0, 0, .8);
+}
+
+.tooltip.bottom-right .tooltip-arrow {
+    border-bottom-color: rgba(0, 0, 0, .8);
+}
+
+/*-----*/
+
+/*复写 alert*/
+.alert {
+    border-radius: 0;
+}
+
+.alert .close:focus {
+    outline: none;
+}
+
+.alert.show {
+    animation: alertShow .5s;
+    -moz-animation: alertShow .5s; /* Firefox */
+    -webkit-animation: alertShow .5s; /* Safari and Chrome */
+    -o-animation: alertShow .5s; /* Opera */
+}
+
+@keyframes alertShow {
+    from {
+        transform: translateY(-100px);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+@-moz-keyframes alertShow /* Firefox */
+{
+    from {
+        transform: translateY(-100px);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+@-webkit-keyframes alertShow /* Safari 和 Chrome */
+{
+    from {
+        transform: translateY(-100px);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+@-o-keyframes alertShow /* Opera */
+{
+    from {
+        transform: translateY(-100px);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+/*-----*/

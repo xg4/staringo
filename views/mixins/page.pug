@@ -1,0 +1,28 @@
+//-page
+mixin page(page,pages)
+    nav.text-center(aria-label="Page navigation")
+        ul.pagination
+            if (page == 1)
+                li.disabled
+                    a(aria-label="Previous")
+                        span(aria-hidden="true") &laquo;
+            else
+                li
+                    a(href="?page=" + (page - 1) aria-label="Previous")
+                        span(aria-hidden="true") &laquo;
+            - for (var i = 1;i<=pages;i++) {
+            if (page == i)
+                li.active
+                    a(href="?page=" + i) #{i}
+            else
+                li
+                    a(href="?page=" + i) #{i}
+            - }
+            if (page == pages)
+                li.disabled
+                    a(aria-label="Next")
+                        span(aria-hidden="true") &raquo;
+            else
+                li
+                    a(href="?page=" + (page + 1) aria-label="Next")
+                        span(aria-hidden="true") &raquo;

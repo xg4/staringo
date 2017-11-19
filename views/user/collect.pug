@@ -1,0 +1,13 @@
+extends layout
+include ../mixins/topic_item
+include ../mixins/page
+
+block user_content
+    if (collections.length != 0)
+        each collect in collections
+            +topic_item(current_user,collect.topic,markdown)
+        +page(page,pages)
+    else
+        div.EmptyState
+            div.EmptyState-inner
+                span 空

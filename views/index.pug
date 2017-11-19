@@ -1,0 +1,10 @@
+extends home
+
+block home_content
+    if (topics.length != 0)
+        each topic in topics
+            +topic_item(current_user,topic,markdown)
+    else
+        div.EmptyState.card.topic-item
+            div.EmptyState-inner
+                span 空

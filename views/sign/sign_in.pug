@@ -1,0 +1,23 @@
+extends sign_layout
+block content
+    div.auth-form#login
+        form(action='/login', method='post')
+            div.auth-form-header
+                h1 登录
+            if (error)
+                +alert('danger',error)
+            if (success)
+                +alert('success',success)
+            div.auth-form-body
+                label(for="username") 用户名 或 邮箱地址
+                input.form-control#username(type="text" name="username" value= username tabindex="1"
+                autocapitalize="off" autocorrect="off" autofocus)
+                label(for="password") 密码
+                    a.label-link(href="/password_reset") 忘记密码?
+                input.form-control#password(type="password" name='password' tabindex="2")
+                input.btn.btn-primary.btn-form(type="submit" value="登录" tabindex="3")
+            div.auth-form-footer
+                p.create-account-callout
+                    | 还没账号？
+                    a(href="/join") 创建账号
+                    | 。

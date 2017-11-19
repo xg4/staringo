@@ -1,0 +1,55 @@
+extends sign_layout
+block content
+    h1.join-title 注册
+    div.join-wrapper.container-fluid
+        div.join-main
+            form.join-form(action="/join" method="post" autocomplete="off")
+                div.join-form-title
+                    h2 创建账号
+                if (error)
+                    +alert('danger',error)
+                div.form-group
+                    label(for="username") 用户名
+                    input.form-control#username(type="text" name="username" autocapitalize="off" autofocus)
+                    p.note 用户名以字母开头(不区分大小写),至少5个字符,特殊符号只可使用'_'。
+                div.form-group
+                    label(for="email") 电子邮箱
+                    input.form-control#email(type="text" name="email" autocapitalize="off")
+                    p.note 您偶尔会收到与帐户相关的电子邮件。我们承诺不与任何人分享您的电子邮件。
+                div.form-group
+                    label(for="password") 密码
+                    input.form-control#password(type="password" name="password")
+                    p.note 不能为空。
+                div.form-group
+                    label(for="rePassword") 确认密码
+                    input.form-control#rePassword(type="password" name="rePassword")
+                    p.note 确认密码。
+                p.tos-info
+                    | 点击下面的“创建账号”，即表示您同意
+                    a(href="#") 服务条款
+                    | 和
+                    a(href="#") 隐私政策
+                    | 。
+                input.btn.btn-primary.btn-form(type="submit" value="创建账号")
+        div.join-secondary
+            div.join-info-module
+                h2.bg-primary 加入的理由
+                ul.features-list
+                    li
+                        strong 送金币
+                    li
+                        strong 送装备
+                    li.divider(role="separator")
+                    li
+                        svg.icon(aria-hidden="true" height="16" version="1.1" viewBox="0 0 12 16" width="12")
+                            path(fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z")
+                        | 送手机
+                    li
+                        svg.icon(aria-hidden="true" height="16" version="1.1" viewBox="0 0 12 16" width="12")
+                            path(fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z")
+                        | 送钱
+                    li
+                        svg.icon(aria-hidden="true" height="16" version="1.1" viewBox="0 0 12 16" width="12")
+                            path(fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z")
+                        | 送女朋友
+

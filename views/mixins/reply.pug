@@ -1,0 +1,73 @@
+//-reply
+mixin reply(reply,current_user,markdown,formatDate,topic)
+    div.Reply.List-item(id= reply._id)
+        if (topic)
+            h2.Reply-topic-title
+                | 文章标题：
+                a(href="/topic/" + reply.topic._id.toString() + '#' + reply._id.toString()) #{reply.topic.title}
+        div.Reply-header
+            div.Reply-author-info
+                div.Reply-author-avatar
+                    a(href="/user/" + reply.author.username data-user="show" data-id= reply.author._id.toString())
+                        img.avatar(src= reply.author.avatar)
+                div.Reply-author-detail
+                    div.Reply-author-name
+                        a(href="/user/" + reply.author.username data-user="show" data-id= reply.author._id.toString())
+                            span #{reply.author.username}
+                        if (reply.author.isAdvanced || reply.author.is_verify)
+                            a.Reply-author-badge
+                                +user_badge(reply.author)
+                    if (reply.author.signature)
+                        div.Reply-author-bio #{reply.author.signature}
+                    else
+                        div.Reply-author-bio “这家伙很懒，什么个性签名都没有留下。”
+            div.Reply-extra-info
+                if (reply.ups.length)
+                    button.btn-normal.show-ups-btn(data-ups="show")
+                        span.ups-count #{reply.ups.length}
+                        | 人赞同了该回复
+        div.Reply-body
+            div.RichContent
+                div.RichContent-inner
+                    - var c = markdown(reply.content)
+                    | !{c}
+                - var t = formatDate(reply.create_at)
+                div.Reply-time
+                    span(data-toggle="tooltip" title="发布于 "+ t) 编辑于 #{reply.update_at_ago()}
+                if (!topic)
+                    ul.reply-toolbar
+                        li
+                            if (current_user && reply.ups.indexOf(current_user._id) !== -1)
+                                button.btn-normal(data-reply="up" data-toggle="tooltip" title="点赞")
+                                    span.glyphicon.glyphicon-heart
+                                    | 点赞
+                            else
+                                button.btn-normal(data-reply="up" data-toggle="tooltip" title="点赞")
+                                    span.glyphicon.glyphicon-heart-empty
+                                    | 点赞
+                        li
+                            button.btn-normal(data-toggle="tooltip" title="评论")
+                                span.glyphicon.glyphicon-comment
+                                | 评论
+                        if (current_user && (current_user._id.toString() === reply.author._id.toString()))
+                            li
+                                button.btn-normal.editor-show-btn(data-toggle="tooltip" title="修改")
+                                    span.glyphicon.glyphicon-edit
+                                    | 修改
+                            li
+                                button.btn-normal(data-reply="delete" data-toggle="tooltip" title="删除")
+                                    span.glyphicon.glyphicon-trash
+                                    | 删除
+                        li
+                            button.btn-normal(data-toggle="tooltip" title="举报")
+                                span.glyphicon.glyphicon-flag
+                                | 举报
+            if (!topic)
+                if (current_user&&(current_user._id.toString() === reply.author._id.toString()))
+                    form.reply2-form(action="/reply/" + reply._id + "/edit" method="post")
+                        textarea.editor.reply_editor(name="reply_content") #{reply.content}
+                        div.editor-btn-group
+                            input.btn.btn-link.editor-hide-btn(type="button" value="取消")
+                            input.btn.btn-primary.btn-edit(type="submit" value="提交")
+
+

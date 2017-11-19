@@ -1,0 +1,33 @@
+extends ../layout
+include ../mixins/msg_item
+include ../mixins/page
+
+block public
+
+block content
+    div.container-fluid
+        div.msg-wrapper
+            div.msg-side.card(role="navigation")
+                div.msg-menu-header
+                    h3 消息中心
+                ul.msg-menu
+                    li.msg-menu-item.active
+                        a(href='#') 全部
+                    li.msg-menu-item
+                        a(href='#') 回复我的
+                    li.msg-menu-item
+                        a(href='#') @ 我的
+                    li.msg-menu-item
+                        a(href='#') 收到的赞
+            div.msg-main.card.p-2
+                div.msg-header
+                    h2.msg-header-text 全部
+                div.msg-list
+                    if ( all_msg.length != 0 )
+                        each msg in all_msg
+                            +msg_item(msg)
+                        +page(page,pages)
+                    else
+                        div.EmptyState
+                            div.EmptyState-inner
+                                span 空

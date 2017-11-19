@@ -1,0 +1,39 @@
+extends sign_layout
+
+block content
+    div.auth-form
+        - if (!type) {
+            - if (url) {
+                - var action = "/password_reset/" + url
+                - var text = "修改密码 @" + name
+            - } else {
+                - var action = "/password_reset"
+                - var text = "重置密码"
+            - }
+        - } else {
+            - var text = "激活成功"
+        - }
+        form#forgot_password_form(action= action, method='post')
+            div.auth-form-header
+                h1 #{text}
+            if (error && !type)
+                +alert('danger',error)
+            div.auth-form-body
+                if (!success && !type)
+                    if (!url)
+                        label(for="email") 输入您的电子邮件地址，我们将发送一个链接重置您的密码。
+                        input.form-control#email(type="text" autofocus name="email" placeholder="确定你的邮箱地址" value= email)
+                        input.btn.btn-primary.btn-form(type="submit" value="发送密码重置邮件")
+                    else
+                        p.note 密码不能为空。
+                        label(for="pwd") 密码
+                        input.form-control#pwd(type="password" autofocus name="pwd" tabindex="1")
+                        label(for="rePwd") 确认密码
+                        input.form-control#rePwd(type="password" autofocus name="rePwd" tabindex="2")
+                        input.btn.btn-primary.btn-form(type="submit" value="修改密码" tabindex="3")
+                else if (success)
+                    +alert('success',success)
+                    a.btn.btn-default.btn-block(href="/login") 返回登录
+                else if (error && type)
+                    +alert('danger',error)
+                    a.btn.btn-default.btn-block(href="/login") 返回登录

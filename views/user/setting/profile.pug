@@ -1,0 +1,62 @@
+extends ../../layout
+
+block public
+
+block content
+    div.container-fluid
+        div.user-wrapper
+            div.user-side(role="navigation")
+                nav.menu
+                    h3.menu-header 个人设置
+                    a.menu-item.selected 简介
+                    a.menu-item(href="/settings/account") 账户
+                    a.menu-item(href="#") 电子邮件
+                    a.menu-item(href="#") 安全
+            div.user-main.card.p-2
+                div.setting-header
+                    h2.setting-header-text 个人资料
+                if (error)
+                    +alert('danger',error)
+                if (success)
+                    +alert('success',success)
+                form.user-profile-form(method="post" action="/settings/profile")
+                    div.form-group
+                        label.user-profile-label id
+                        span.user-profile-text #{user._id}
+                    div.form-group
+                        label.user-profile-label 用户名
+                        span.user-profile-text #{user.username}
+                    div.form-group
+                        label.user-profile-label 电子邮箱
+                        span.user-profile-text #{user.email}
+                    div.form-group
+                        label.user-profile-label(for="user_profile_signature") 我的签名
+                        textarea.form-control#user_profile_signature(name='signature' placeholder="介绍下自己") #{user.signature}
+                    div.form-group
+                        label.user-profile-label 性别
+                        div.user-gender-group
+                            - var g1,g2,g3;
+                            - if (user.gender === 1) g1 = 'checked';
+                            - if (user.gender === 0) g2 = 'checked';
+                            - if (user.gender === -1) g3 = 'checked';
+                            label
+                                input(name='gender' type="radio" value='1' checked= g1 )
+                                span.user-gender-btn 男
+                            label
+                                input(name='gender' type="radio" value='0' checked= g2 )
+                                span.user-gender-btn 女
+                            label
+                                input(name='gender' type="radio" value='-1' checked= g3 )
+                                span.user-gender-btn 保密
+                    div.form-group
+                        label.user-profile-label(for="user_profile_location") 位置
+                        input.form-control#user_profile_location(name='location' type='text' value= user.location)
+                    div.form-group
+                        label.user-profile-label(for="user_profile_birthday") 出生日期
+                        - var formatTime = function(t) {if (!t) return null;t = new Date(t);var m= (t.getMonth()+1)<10?'0'+ (t.getMonth()+1):(t.getMonth()+1); var d= t.getDate()<10?'0'+ t.getDate():t.getDate(); return t.getFullYear() + '-' + m + '-' + d}
+                        input.form-control#user_profile_birthday(name='birthday' type='date' value= formatTime(user.birthday))
+                    div.form-group
+                        input.btn.btn-primary.center-block(type="submit" value="提交")
+
+
+

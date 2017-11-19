@@ -1,0 +1,22 @@
+extends home
+
+block home_content
+    div.panel.panel-primary
+        div.panel-heading 排行榜
+        div.panel-body
+            p Staringo 积分排行前100的用户！
+        table.table.table-striped.card
+            tr
+                th #
+                th 用户名
+                th 积分
+                th 主题数
+                th 评论数
+            each user,i in users
+                tr
+                    td #{i+1}
+                    td
+                        a(href="/user/" + user.username data-user="show" data-id= user._id.toString()) #{user.username}
+                    td #{user.score}
+                    td #{user.topic_count}
+                    td #{user.reply_count}

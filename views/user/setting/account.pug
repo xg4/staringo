@@ -1,0 +1,33 @@
+extends ../../layout
+
+block public
+
+block content
+    div.container-fluid
+        div.user-wrapper
+            div.user-side(role="navigation")
+                nav.menu
+                    h3.menu-header 个人设置
+                    a.menu-item(href="/settings/profile") 简介
+                    a.menu-item.selected 账户
+                    a.menu-item(href="#") 电子邮件
+                    a.menu-item(href="#") 安全
+            div.user-main.card.p-2
+                div.setting-header
+                    h2.setting-header-text 账号
+                if (error)
+                    +alert('danger',error)
+                if (success)
+                    +alert('success',success)
+                form.user-profile-form(method="post" action="/settings/account")
+                    div.form-group
+                        label.user-profile-label 旧密码
+                        input.form-control.user-profile-input(name="oldPassword" type="password" tabindex="2" required)
+                    div.form-group
+                        label.user-profile-label 新密码
+                        input.form-control.user-profile-input(name="password" type="password" tabindex="2" required)
+                    div.form-group
+                        label.user-profile-label 确认新密码
+                        input.form-control.user-profile-input(name="rePassword" type="password" tabindex="2" required)
+                    div.form-group
+                        input.btn.btn-primary.center-block(type="submit" value="提交")

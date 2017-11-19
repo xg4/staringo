@@ -1,0 +1,107 @@
+extends layout
+include ./mixins/topic_item
+include ./mixins/page
+
+block public
+    script.
+        $(function () {
+
+            $(document).on('scroll', function () {
+                var $myInfo = $('.author-card.js-stuck');
+                if ($myInfo[0]) {
+                    var scroll = $(window).scrollTop();
+
+                    var $p = $('.author-card.is-placeholder');
+                    if (scroll >= $p.offset().top) {
+                        $p.css('display', 'block');
+                        $myInfo.addClass('is-stuck');
+                        $myInfo.css('left', $p.offset().left - $(document).scrollLeft());
+                    }
+                    if (scroll < $p.offset().top) {
+                        $p.css('display', 'none');
+                        $myInfo.removeClass('is-stuck');
+                    }
+                }
+
+            });
+
+            $(document).trigger('scroll');
+
+            $(window).on('resize', function () {
+                $(document).trigger('scroll');
+            });
+
+
+        });
+
+block content
+    div.container
+        div.topic-wrapper
+            div.topic-main.topic-list
+                block home_content
+            div.topic-side
+                div.card
+                    ul.category-list
+                        li.category-item
+                            a(target="_blank" href="/users/top100")
+                                span.category-icon.category-icon-fire
+                                    span.glyphicon.glyphicon-fire
+                                span.category-label 积分榜
+                        li.category-item
+                            a(target="_blank" href="/?tab=good")
+                                span.category-icon.category-icon-good
+                                    span.glyphicon.glyphicon-bookmark
+                                span.category-label 精华
+                        li.category-item
+                            a(target="_blank")
+                                span.category-icon
+                                    span.glyphicon.glyphicon-remove
+                                span.category-label 还没想好
+                        li.category-item
+                            a(target="_blank")
+                                span.category-icon
+                                    span.glyphicon.glyphicon-remove
+                                span.category-label 还没想好
+                        li.category-item
+                            a(target="_blank")
+                                span.category-icon
+                                    span.glyphicon.glyphicon-remove
+                                span.category-label 还没想好
+                if (current_user)
+                    div.author-card.is-placeholder
+                    div.card.author-card.js-stuck
+                        div.card-header.author-card-title
+                            div.card-header-title 我
+                        div.card-section
+                            div.Author-user-info
+                                div.Author-user-avatar
+                                    a(href='/user/' + current_user.username)
+                                        img(src= current_user.avatar)
+                                div.Author-user-detail
+                                    div.Author-user-name
+                                        a(href='/user/' + current_user.username) #{current_user.username}
+                                    if (current_user.signature)
+                                        div.Author-user-bio #{current_user.signature}
+                                    else
+                                        div.Author-user-bio “这家伙很懒，什么个性签名都没有留下。”
+                        if (current_user.isAdvanced || current_user.is_verify)
+                            div.card-section
+                                div.Author-item
+                                    div.Author-item-icon
+                                        +user_badge(current_user)
+                                    div.Author-item-value 优秀贡献者
+                        div.card-section
+                            div.Author-counts
+                                div.NumBoard
+                                    a.NumBoard-item
+                                        div.NumBoard-name 积分
+                                        div.NumBoard-value #{current_user.score}
+                                    a.NumBoard-item(href="/user/" + current_user.username + "/topics")
+                                        div.NumBoard-name 文章
+                                        div.NumBoard-value #{current_user.topic_count}
+                                    a.NumBoard-item(href="/user/" + current_user.username + "/followers")
+                                        div.NumBoard-name 关注者
+                                        div.NumBoard-value #{current_user.follower_count}
+                            div.Author-btn-group
+                                a.btn.btn-primary(href="/topic/create") 发布主题
+                                a.btn.btn-default(href="/user/" + current_user.username + "/collections") 我的收藏

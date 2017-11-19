@@ -1,0 +1,6 @@
+//-alert
+mixin alert(level,msg,Animation)
+    - var level = 'alert-' +level;
+    div.alert.alert-dismissible(class= level class= Animation role="alert") #{msg}
+        button.close(type="button" data-dismiss="alert" aria-label="Close")
+            span(aria-hidden="true") &times;

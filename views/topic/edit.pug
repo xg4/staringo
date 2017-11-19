@@ -1,0 +1,22 @@
+extends ../layout
+include ../mixins/alert
+include ../mixins/topic_edit
+
+block public
+    link(rel='stylesheet', href='/public/libs/editor/editor.css')
+    script(src="/public/libs/editor/editor.js")
+    //script(src="/public/libs/editor/ext.js")
+    script.
+        $(function () {
+            var editor = new Editor();
+            editor.render($('.editor')[0]);
+        });
+
+block content
+    div.container
+        div.topic-form-wrapper
+            if (edit_error)
+                +alert('danger',edit_error,'show')
+            +topic_edit(action,topic)
+
+

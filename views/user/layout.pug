@@ -1,0 +1,143 @@
+extends ../layout
+
+block public
+    script.
+        $(function () {
+
+            $(document).on('scroll', function () {
+                var $avatar = $('.user-profile-avatar img');
+                var h = $avatar.offset().top + $avatar.height();
+                var scroll = $(window).scrollTop();
+                if (scroll >= h) {
+                    $('.user-profile-sticky').addClass('is-stuck');
+                }
+                if (scroll < h) {
+                    $('.user-profile-sticky').removeClass('is-stuck');
+                }
+
+                var $nav = $('.user-profile-nav.js-sticky');
+                var $p = $('.user-profile-nav.is-placeholder');
+                if (scroll >= $p.offset().top) {
+                    $p.css('display', 'block');
+                    $nav.addClass('is-stuck');
+                    $nav.css('left', $p.offset().left - $(document).scrollLeft());
+
+                }
+                if (scroll < $p.offset().top) {
+                    $p.css('display', 'none');
+                    $nav.removeClass('is-stuck');
+                }
+            });
+
+            $(document).trigger('scroll');
+            $(window).on('resize', function () {
+                $(document).trigger('scroll');
+            });
+        });
+
+
+block content
+    div.container-fluid
+        div.user-wrapper
+            div.user-side.card.p-2
+                div.user-profile-sticky
+                    div.user-profile-mini-info
+                        span.user-profile-mini-avatar
+                            img(src= user.avatar alt="@" + user.username)
+                        span.user-profile-mini-name #{user.username}
+                a.user-profile-avatar(aria-label="更换头像")
+                    - if (user.avatar) var avatar_url = user.avatar.replace(/size=48/,"size=230");
+                    img(src= avatar_url alt="@" + user.username)
+                div.user-profile-name
+                    h1
+                        div.nickname(data-toggle="tooltip" title="昵称") #{user.nickname}
+                        div.username(data-toggle="tooltip" title="用户名") #{user.username}
+
+                div.user-profile-bio #{user.signature}
+                if (current_user && current_user._id.toString() === user._id.toString())
+                    div.user-profile-btn
+                        a.btn.btn-block.btn-primary(href="/settings/profile") 编辑个人资料
+                else
+                    div.user-profile-btn
+                        - var is_f; var is_not_f;
+                        - if ( is_follow ) { is_f = 'show' } else { is_not_f = 'show' }
+                        button.btn.btn-block.btn-primary.User-follow-btn.animated(class= is_not_f data-user="follow" data-username= user.username) 关注
+                        button.btn.btn-block.btn-info.User-de-follow-btn.animated(class= is_f data-user="de_follow" data-username= user.username) 关注
+                if (user.isAdvanced || user.is_verify)
+                    ul.user-profile-details
+                        li
+                            div.Author-item
+                                div.Author-item-icon
+                                    +user_badge(user)
+                                div.Author-item-value 优秀贡献者
+                ul.user-profile-details
+                    if (user.email)
+                        li
+                            span.glyphicon.glyphicon-envelope
+                            span  #{user.email}
+                    if (user.location)
+                        li
+                            span.glyphicon.glyphicon-map-marker
+                            span  #{user.location}
+                    li
+                        span.glyphicon.glyphicon-time
+                        span(data-toggle="tooltip" title= formatDate(user.create_at))  创建于 #{user.create_at_ago()}
+            div.user-main.card
+                div.user-profile-nav.is-placeholder
+                div.user-profile-nav.js-sticky
+                    nav.underline-nav(role="navigation")
+                        if (active == 'index')
+                            a.underline-nav-item.selected(aria-selected="true" role="tab") 动态
+                        else
+                            a.underline-nav-item(href="/user/"+ user.username aria-selected="false" role="tab") 动态
+                        if (active == 'topic')
+                            a.underline-nav-item.selected(aria-selected="true" role="tab")
+                                | 文章
+                                span.counter #{user.topic_count}
+                        else
+                            a.underline-nav-item(href="/user/" + user.username + "/topics" aria-selected="false" role="tab")
+                                | 文章
+                                span.counter #{user.topic_count}
+                        if (active == 'reply')
+                            a.underline-nav-item.selected(aria-selected="true" role="tab")
+                                | 回复
+                                span.counter #{user.reply_count}
+                        else
+                            a.underline-nav-item(href="/user/" + user.username + "/replies" aria-selected="false" role="tab")
+                                | 回复
+                                span.counter #{user.reply_count}
+                        if (active == 'collect')
+                            a.underline-nav-item.selected(aria-selected="true" role="tab")
+                                | 收藏
+                                span.counter #{user.collect_topic_count}
+                        else
+                            a.underline-nav-item(href="/user/" + user.username + "/collections" aria-selected="false" role="tab")
+                                | 收藏
+                                span.counter #{user.collect_topic_count}
+                        if (active == 'follower')
+                            a.underline-nav-item.selected(aria-selected="true" role="tab")
+                                | 关注者
+                                span.counter #{user.follower_count}
+                        else
+                            a.underline-nav-item(href="/user/" + user.username + "/followers" aria-selected="false" role="tab")
+                                | 关注者
+                                span.counter #{user.follower_count}
+                        if (active == 'following')
+                            a.underline-nav-item.selected(aria-selected="true" role="tab")
+                                | 关注了
+                                span.counter #{user.following_count}
+                        else
+                            a.underline-nav-item(href="/user/" + user.username + "/following" aria-selected="false" role="tab")
+                                | 关注了
+                                span.counter #{user.following_count}
+                div.List
+                    div.List-header
+                        h4.List-header-text #{active_info}
+                        div.List-header-options 按时间排序
+                    block user_content
+
+
+
+
+
+

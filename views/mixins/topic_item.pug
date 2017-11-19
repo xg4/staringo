@@ -1,0 +1,69 @@
+//- index topic item
+mixin topic_item(current_user,topic)
+    div.topic-item.card
+        div.topic-detail
+            div.topic-header 来自话题:
+                span
+                    a(href="#") #{topic.tab}
+            div.topic-body
+                h2.topic-title
+                    if (topic.top)
+                        span.label.label-success 置顶
+                    if (topic.good)
+                        span.label.label-warning 精华
+                    if (topic.lock)
+                        span.label.label-danger
+                            span.glyphicon.glyphicon-lock
+                            | 锁定
+                    a(href="/topic/" + topic._id) #{topic.title}
+                ul.topic-author-detail
+                    li.topic-author-avatar
+                        a(href="/user/" + topic.author.username data-user="show" data-id= topic.author._id.toString())
+                            img.avatar(src= topic.author.avatar)
+                    li.topic-author-name
+                        a(href="/user/" + topic.author.username data-user="show" data-id= topic.author._id.toString()) #{topic.author.username}
+                    if (topic.author.isAdvanced || topic.author.is_verify)
+                        li.topic-author-badge
+                            +user_badge(topic.author)
+                    if (topic.author.signature)
+                        li.topic-author-bio #{topic.author.signature}
+                    else
+                        li.topic-author-bio “这家伙很懒，什么个性签名都没有留下。”
+                div.topic-content
+                    div.topic-text
+                        - var c = markdown(topic.content);
+                        | !{c}
+            div.topic-footer
+                ul.topic-footer-toolbar
+                    li.like-btn
+                        button.btn-normal.topic-up-btn(data-toggle="tooltip" title="点赞" data-topic="up" data-id= topic._id.toString())
+                            if (topic.current_is_up)
+                                span.glyphicon.glyphicon-heart
+                            else
+                                span.glyphicon.glyphicon-heart-empty
+                            span.count #{topic.ups.length}
+                    li.reply-btn
+                        a.btn-normal(href="/topic/" + topic._id.toString() + '#Reply' data-toggle="tooltip" title="评论")
+                            span.glyphicon.glyphicon-comment
+                            span.count #{topic.reply_count}
+
+                    if (current_user && current_user._id.toString() === topic.author._id.toString())
+                        li.edit-btn
+                            a.btn-normal(href="/topic/" + topic._id + "/edit" data-toggle="tooltip" title="修改")
+                                span.glyphicon.glyphicon-edit
+                        li.delete-btn
+                            button.btn-normal(data-toggle="tooltip" title="删除" data-topic="delete" data-id= topic._id)
+                                span.glyphicon.glyphicon-trash
+                    li.animated.bounceInLeft.share-btn
+                        button.btn-normal(data-toggle="tooltip" title="分享")
+                            span.glyphicon.glyphicon-send
+
+                    li.animated.bounceInLeft.collect-btn
+                        - var is_collect = '';var is_not_collect = '';
+                        - if (!topic.current_is_collect) { is_not_collect = 'show' } else { is_collect = 'show' }
+                            button.btn-normal(class= is_not_collect data-toggle="tooltip" title="收藏" data-topic="collect" data-id= topic._id.toString())
+                                span.glyphicon.glyphicon-star-empty
+                                span.count #{topic.collect_count}
+                            button.btn-normal(class= is_collect data-toggle="tooltip" title="收藏" data-topic="de_collect" data-id= topic._id.toString())
+                                span.glyphicon.glyphicon-star
+                                span.count #{topic.collect_count}

@@ -1,0 +1,210 @@
+extends ../layout
+include ../mixins/reply
+
+block public
+    link(rel='stylesheet', href='/public/libs/editor/editor.css')
+    link(rel='stylesheet', href='/public/libs/jquery-atwho/jquery.atwho.css')
+    link(rel='stylesheet', href='/public/libs/webuploader/webuploader.css')
+
+    script(src="/public/libs/jquery-atwho/jquery.atwho.js")
+    script(src="/public/libs/lodash.compat.js")
+    script(src="/public/libs/markdownit.js")
+    script(src="/public/libs/editor/editor.js")
+    script(src="/public/libs/webuploader/webuploader.withoutimage.js")
+    script(src="/public/libs/editor/ext.js")
+
+    script.
+        $(function () {
+
+            // 获取所有回复者name
+            var allNames = $('.reply_author').map(function (idx, ele) {
+                return $(ele).text().trim();
+            }).toArray();
+            allNames.push($('.user_card .user_name').text())
+            allNames = _.uniq(allNames);
+            // END 获取所有回复者name
+
+
+            $('textarea.editor').each(function () {
+                var editor = new Editor({
+                    status: []
+                });
+                var $el = $(this);
+
+                editor.render(this);
+                $(this).data('editor',editor);
+
+                var $input = $(editor.codemirror.display.input);
+                $input.keydown(function (event) {
+                    if (event.keyCode === 13 && (event.ctrlKey || event.metaKey)) {
+                        event.preventDefault();
+                        $el.closest('form').submit();
+                    }
+                });
+
+                // at.js
+                var codeMirrorGoLineUp = CodeMirror.commands.goLineUp;
+                var codeMirrorGoLineDown = CodeMirror.commands.goLineDown;
+                var codeMirrorNewlineAndIndent = CodeMirror.commands.newlineAndIndent;
+                $input.atwho({
+                    at: '@',
+                    data: allNames
+                })
+                    .on('shown.atwho', function () {
+                        CodeMirror.commands.goLineUp = _.noop;
+                        CodeMirror.commands.goLineDown = _.noop;
+                        CodeMirror.commands.newlineAndIndent = _.noop;
+                    })
+                    .on('hidden.atwho', function () {
+                        CodeMirror.commands.goLineUp = codeMirrorGoLineUp;
+                        CodeMirror.commands.goLineDown = codeMirrorGoLineDown;
+                        CodeMirror.commands.newlineAndIndent = codeMirrorNewlineAndIndent;
+                    });
+            });
+
+        });
+
+block content
+    div.TopicPage
+        div.TopicHeader
+            div.TopicHeader-content
+                div.TopicHeader-main
+                    div.TopicHeader-tags
+                        div.tag
+                            span.tag-content
+                                a(href="#") #{topic.tab}
+                    div.TopicHeader-title #{topic.title}
+                    div.TopicHeader-detail
+                        - var c = markdown(topic.content)
+                        | !{c}
+                div.TopicHeader-side
+                    div.TopicHeader-follow-status
+                        div.TopicHeader-follow-counts.NumBoard
+                            button.btn-normal.NumBoard-item(data-topic="collections" data-id= topic._id.toString())
+                                div.NumBoard-name 被收藏
+                                div.NumBoard-value.collect-value #{topic.collect_count}
+                            div.NumBoard-divider
+                            div.NumBoard-item
+                                div.NumBoard-name 被浏览
+                                div.NumBoard-value #{topic.visit_count}
+            div.TopicHeader-footer
+                div.TopicHeader-main
+                    - var t = formatDate(topic.create_at)
+                    div.Topic-time
+                        span(data-toggle="tooltip" title="发布于 " + t) 编辑于 #{topic.update_at_ago()}
+                    ul.TopicHeader-toolbar.reply-toolbar
+                        if (current_user && current_user._id.toString() === topic.author._id.toString())
+                            li
+                                a.btn-normal(href="/topic/" + topic._id + "/edit" data-toggle="tooltip" title="修改")
+                                    span.glyphicon.glyphicon-edit
+                                    span.count 编辑
+                            li
+                                button.btn-normal(data-topic="delete" data-id= topic._id.toString() data-toggle="tooltip" title="删除")
+                                    span.glyphicon.glyphicon-trash
+                                    span.count 删除
+                        li
+                            button.btn-normal(data-toggle="tooltip" title="举报")
+                                span.glyphicon.glyphicon-flag
+                                span.count 举报
+                div.TopicHeader-side
+                    div.TopicHeader-btn-group
+                        div.collect-box
+                            - if (is_collect) var collect = 'collect'; else var collect = '';
+                            div.collect-btn-group(class= collect)
+                                button.btn.btn-primary(data-topic="collect" data-id= topic._id.toString())
+                                    span.glyphicon.glyphicon-plus
+                                    | 收藏
+                                button.btn.btn-info(data-topic="de_collect" data-id= topic._id.toString()) 收藏
+                        button.btn.btn-default(data-topic='reply') 回复主题
+        div.Topic-body
+            div.Topic-replies-main
+                div.card.Topic-replies.List
+                    div.List-header
+                        h4.List-header-text #{topic.reply_count}个回复
+                        div.List-header-options
+                            button.btn-normal 默认排序
+                    if (topic.replies.length === 0)
+                        div.EmptyState
+                            div.EmptyState-inner
+                                p 没有回复
+                    each reply in topic.replies
+                        +reply(reply,current_user,markdown,formatDate)
+                // 回复文章 form
+                if (current_user)
+                    div.card.topic-add-reply#Reply
+                        div.Reply-add.reply
+                            div.Reply-add-header
+                                div.Reply-author-info
+                                    div.Reply-author-avatar
+                                        img.avatar(src= current_user.avatar)
+                                    div.Reply-author-detail
+                                        div.Reply-author-name #{current_user.username}
+                                        if (current_user.signature)
+                                            div.Reply-author-bio #{current_user.signature}
+                                        else
+                                            div.Reply-author-bio “这家伙很懒，什么个性签名都没有留下。”
+
+                                button.btn-normal.anonymous-btn 匿名回复
+                            form.reply-form(action="/reply/" + topic._id method="post")
+                                div.markdown-editor
+                                    textarea.editor.reply-editor(name="reply_content" placeholder="文章支持 Markdown 语法, 请注意标记代码")
+                                    div.editor-btn-group
+                                        input.btn.btn-primary.form-btn.topic-form-btn(type="submit" value="提交")
+            div.Topic-replies-side
+                div.card.author-card
+                    div.card-header.author-card-title
+                        div.card-header-title 关于作者
+                    div.card-section
+                        div.Author-user-info
+                            div.Author-user-avatar
+                                a(href="/user/" + topic.author.username)
+                                    img(src= topic.author.avatar)
+                            div.Author-user-detail
+                                a(href="/user/" + topic.author.username)
+                                    div.Author-user-name #{topic.author.username}
+                                if (topic.author.signature)
+                                    div.Author-user-bio #{topic.author.signature}
+                                else
+                                    div.Author-user-bio “这家伙很懒，什么个性签名都没有留下。”
+                    if (topic.author.isAdvanced || topic.author.is_verify)
+                        div.card-section
+                            div.Author-item
+                                div.Author-item-icon
+                                    +user_badge(topic.author)
+                                div.Author-item-value 优秀贡献者
+                    div.card-section
+                        div.Author-counts
+                            div.NumBoard
+                                a.NumBoard-item
+                                    div.NumBoard-name 积分
+                                    div.NumBoard-value #{topic.author.score}
+                                a.NumBoard-item
+                                    div.NumBoard-name 主题数
+                                    div.NumBoard-value #{topic.author.topic_count}
+                                a.NumBoard-item
+                                    div.NumBoard-name 关注者
+                                    div.NumBoard-value.author-follower-count #{topic.author.follower_count}
+                        if (current_user && current_user._id.toString() === topic.author._id.toString())
+                            div.Author-btn-group
+                                a.btn.btn-primary(href="/topic/create") 发布主题
+                                a.btn.btn-default(href="/user/" + current_user.username + "/collections") 我的收藏
+                        else
+                            div.Author-btn-group
+                                - var xFollow = ''; var xDeFollow = '';
+                                - if (!is_follow) {xFollow = 'show'} else {xDeFollow = 'show'}
+                                    button.btn.btn-primary.User-follow-btn.animated(class= xFollow data-user="follow" data-username= topic.author.username) 关注
+                                    button.btn.btn-info.User-de-follow-btn.animated(class= xDeFollow data-user="de_follow" data-username= topic.author.username) 关注
+                                button.btn.btn-default 回复
+                div.card
+                    div.card-header
+                        div.card-header-title 作者的其他文章
+                    div.card-section.other-topic-list
+                        if (author_other_topics.length != 0)
+                            each t in author_other_topics
+                                div.other-topic-item
+                                    a(href="/topic/" + t._id.toString()) #{t.title}
+                                    span #{t.reply_count}个回复
+                        else
+                            div.EmptyState
+                                div.EmptyState-inner
+                                    span 空

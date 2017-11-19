@@ -1,0 +1,11 @@
+extends ../layout
+
+block content
+    h1= title
+    p Welcome to #{title}
+    if (typeof(error) !== 'undefined' && error)
+        .alert.alert-error #{error}
+    if (typeof(success) !== 'undefined' && success)
+        .alert.alert-success #{success}
+    a(href= typeof(referer) !== 'undefined' ? referer : '/')
+        span 返回

@@ -1,0 +1,18 @@
+extends layout
+include ../mixins/reply
+include ../mixins/page
+
+block user_content
+    if (replies.length != 0)
+        each reply in replies
+            +reply(reply,current_user,markdown,formatDate,reply.topic)
+        +page(page,pages)
+    else
+        div.EmptyState
+            div.EmptyState-inner
+                span 空
+
+
+
+
+

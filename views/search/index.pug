@@ -1,0 +1,39 @@
+extends ../home
+include ../mixins/user_item
+
+block home_content
+    div.form-group
+        ul.nav.nav-tabs
+            if (type == 'topic')
+                li.active(role="presentation")
+                    a 文章
+            else
+                li(role="presentation")
+                    a(href="/search?type=topic&q=" + q) 文章
+            if (type == 'user')
+                li.active(role="presentation")
+                    a 用户
+            else
+                li(role="presentation")
+                    a(href="/search?type=user&q=" + q) 用户
+
+    if (topics)
+        if (topics.length != 0)
+            each topic in topics
+                +topic_item(current_user,topic,markdown)
+            +page(page,pages)
+        else
+            div.EmptyState.card.topic-item
+                div.EmptyState-inner
+                    span 没有找到相应文章
+    if (users)
+        if (users.length != 0)
+            each user in users
+                div.card
+                    +user_item(user,current_user)
+            div.card
+                +page(page,pages)
+        else
+            div.EmptyState.card.topic-item
+                div.EmptyState-inner
+                    span 没有找到相应用户

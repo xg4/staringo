@@ -1,0 +1,26 @@
+//- user
+mixin user_item(user,current_user)
+    div.User-item
+        div.User
+            div.User-avatar
+                a(href="/user/" + user.username data-user="show" data-id= user._id.toString())
+                    img(src= user.avatar alt="用户头像")
+            div.User-detail
+                a(href="/user/" + user.username data-user="show" data-id= user._id.toString())
+                    h2.User-name #{user.username}
+                    if (user.gender === 1)
+                        span.User-gender 男
+                    else if (user.gender === 0)
+                        span.User-gender 女
+                div.User-info
+                    span.User-info-item #{user.topic_count} 文章
+                    span.User-info-item #{user.collect_topic_count} 收藏
+                    span.User-info-item
+                        span.User-follow-count #{user.follower_count}
+                        | 关注者
+            div.User-extra
+                if (current_user && user._id.toString() != current_user._id.toString())
+                    - var is_follow = ''; var is_not_follow = '';
+                    - if (user.current_is_follow) { is_follow = 'show' } else { is_not_follow = 'show'}
+                    button.btn.btn-primary.User-follow-btn.animated(class= is_not_follow data-user="follow" data-username= user.username) 关注
+                    button.btn.btn-info.User-de-follow-btn.animated(class= is_follow data-user="de_follow" data-username= user.username) 关注

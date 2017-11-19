@@ -1,0 +1,35 @@
+//- msg item
+mixin msg_item(msg)
+    div.msg-item
+        if (msg.has_read)
+            span.label.label-default.msg-label 已读
+        else
+            span.label.label-primary.msg-label 未读
+        div.msg-item-top
+            div.msg-item-top-left
+                a.msg-author-avatar(href="/user/" + msg.author.username)
+                    img(src=msg.author.avatar)
+            div.msg-item-top-right
+                div
+                    a.msg-author-username(href="/user/" + msg.author.username) #{msg.author.username}
+                    span.msg-time(data-toggle="tooltip" title= formatDate(msg.create_at)) #{msg.create_at_ago()}
+                div
+                    //- reply为空 at在文章，没有reply
+                    if (msg.reply)
+                        div.msg-content 内容：
+                            a(href="/topic/" + msg.reply.topic + '#' + msg.reply._id) #{msg.reply.content}
+                    else
+                        div.msg-content 内容：
+                            a(href="/topic/" + msg.topic._id) #{msg.topic.content}
+        div.msg-item-bottom
+            div.msg-info
+                if (msg.type === 'at')
+                    if (msg.reply)
+                        a(href="/topic/" + msg.topic._id) #{msg.topic.title}
+                        |  评论中@了你
+                    else
+                        a(href="/topic/" + msg.topic._id) #{msg.topic.title}
+                        |  文章中@了你
+                else if (msg.type === 'reply')
+                    a(href="/topic/" + msg.topic._id) #{msg.topic.title}
+                    |  文章中回复了你
