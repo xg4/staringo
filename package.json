@@ -5,6 +5,10 @@
   "main": "app.js",
   "author": "xg4 <xingor4@gmail.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xg4/x.git"
+  },
   "scripts": {
     "start": "node app"
   },
