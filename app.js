@@ -1,13 +1,3 @@
-/*!
- * staringo - app.js
- * Copyright(c) 2017 xingo4 <xingo4@icloud.com>
- * MIT Licensed
- */
-
-/**
- * Module dependencies.
- */
-
 var config = require('./config');
 require('colors');
 
