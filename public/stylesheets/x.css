@@ -6,6 +6,21 @@
     background-color: rgba(255, 255, 255, .9);
 }
 
+/*label*/
+.label-success {
+    background: linear-gradient(to left, #3b9eff 0, #19c3ff 100%);
+}
+
+.label-warning {
+    background: #ff6428;
+    background: -webkit-linear-gradient(left, #ff850b 0, #ff5945 100%);
+    background: linear-gradient(to right, #ff850b 0, #ff5945 100%);
+}
+
+.label-danger {
+    background-image: linear-gradient(-225deg, #AC32E4 0%, #7918F2 48%, #4801FF 100%);
+}
+
 /* 复写 btn 样式 */
 .btn:focus,
 .btn:active:focus,
@@ -20,6 +35,60 @@
     font-size: 14px;
     font-weight: 600;
     line-height: 20px;
+}
+
+.btn-primary {
+    background: #ff6428;
+    background: -webkit-linear-gradient(left, #ff850b 0, #ff5945 100%);
+    background: linear-gradient(to right, #ff850b 0, #ff5945 100%);
+    border: none;
+    outline: 0;
+}
+
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:active:hover,
+.btn-primary:active,
+.btn-primary:focus,
+.btn-primary:active:focus {
+    border: none;
+    background: #ff6428;
+}
+
+.btn-default {
+    color: #fff;
+    border: none;
+    background: linear-gradient(to right, #ff3299 0%, #ff0844 100%);
+    outline: 0;
+}
+
+.btn-default:hover,
+.btn-default:active,
+.btn-default:active:hover,
+.btn-default:active,
+.btn-default:focus,
+.btn-default:active:focus {
+    color: #fff;
+    border: none;
+    background: #ff0855;
+}
+
+.btn-info {
+    color: #fff;
+    border: none;
+    background: linear-gradient(to left, #3b9eff 0, #19c3ff 100%);
+    outline: 0;
+}
+
+.btn-info:hover,
+.btn-info:active,
+.btn-info:active:hover,
+.btn-info:active,
+.btn-info:focus,
+.btn-info:active:focus {
+    color: #fff;
+    border: none;
+    background: #5bc0de;
 }
 
 /*-----*/
@@ -91,6 +160,7 @@
     border-top-width: 0;
     border-bottom-color: #fff;
 }
+
 .user-dropdown-menu .glyphicon {
     margin-right: 10px;
 }

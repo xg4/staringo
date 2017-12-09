@@ -68,17 +68,6 @@ header.sign {
 
 .btn-form {
     width: 100%;
-    border: 1px solid rgba(27, 31, 35, 0.2);
-    border-radius: 0.25em;
-    background-color: #2e6da4;
-    background-image: linear-gradient(-180deg, #337ab7 0%, #2e6da4 90%);
-}
-
-.btn-form:hover,
-.btn-form:focus {
-    background-color: #2c65a1;
-    background-image: linear-gradient(-180deg, #2e77b2 0%, #2c65a1 90%);
-    border-color: rgba(27, 31, 35, 0.5);
 }
 
 .auth-form-footer {

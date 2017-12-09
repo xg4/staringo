@@ -12,9 +12,7 @@ mixin topic_item(current_user,topic)
                     if (topic.good)
                         span.label.label-warning 精华
                     if (topic.lock)
-                        span.label.label-danger
-                            span.glyphicon.glyphicon-lock
-                            | 锁定
+                        span.label.label-danger 锁定
                     a(href="/topic/" + topic._id) #{topic.title}
                 ul.topic-author-detail
                     li.topic-author-avatar

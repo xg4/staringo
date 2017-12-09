@@ -15,6 +15,7 @@ var UserSchema = new Schema({
     gender: {type: Number, default: -1}, // 性别 1男 0女 -1保密
     birthday: {type: Date}, // 出生日期
 
+    is_admin:{type: Boolean, default: false}, // 是否为管理员
     is_block: {type: Boolean, default: false}, // 是否被屏蔽
 
     create_at: {type: Date, default: Date.now}, // 创建时间

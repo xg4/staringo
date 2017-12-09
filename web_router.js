@@ -19,6 +19,7 @@ var topic = require('./controllers/topic');
 var reply = require('./controllers/reply');
 var auth = require('./middlewares/auth');
 var search = require('./controllers/search');
+var admin = require('./controllers/admin');
 
 var router = express.Router();
 
@@ -119,5 +120,10 @@ router.get('/messages', auth.userRequired, message.index); // 用户个人的所
  * search controller
  */
 router.get('/search', search.index);
+
+/**
+ * admin controller
+ */
+router.get('/admin', admin.index);
 
 module.exports = router;
