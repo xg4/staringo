@@ -15,7 +15,9 @@ exports.index = function (req, res, next) {
 
     if (!q) {
         return res.render('search/index', {
-            title: '搜索结果 - ' + config.name
+            title: '搜索结果 - ' + config.name,
+            q: q,
+            type: type
         });
     }
 

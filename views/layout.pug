@@ -47,8 +47,9 @@ html(lang="en")
                             a(href="/tabs" aria-label="话题") 话题
                 div.header-search(role="search")
                     form(action="/search" method="get")
-                        input(type="text" name="q" autocomplete="off" placeholder="Search" aria-label="")
-                        span.glyphicon.glyphicon-search
+                        input(type="text" name="q" autocomplete="off" placeholder="搜索" aria-label="search")
+                        button(type="submit")
+                            span.glyphicon.glyphicon-search
                 if (current_user)
                     div.header-user-btn-group
                         a( href="/messages").btn-normal.header-user-msg-btn

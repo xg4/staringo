@@ -5,7 +5,7 @@ var Topic = require('../proxy').Topic;
 
 exports.index = function (req, res, next) {
     var page = Number(req.query.page) || 1;
-    var limit = 10;
+    var limit = 16;
 
     var query = {};
     var opt = {skip: (page - 1) * limit, limit: limit, sort: '-collect_count'};

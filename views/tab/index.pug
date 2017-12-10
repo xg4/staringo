@@ -5,9 +5,10 @@ block home_content
         h2.tabs-title
             span.glyphicon.glyphicon-th-large
             | 话题广场
-        each tab in tabs
-            div.item
-                div.content
-                    a.tab-name(href="/tab/" + tab._id.toString()) #{tab.name}
-                    p #{tab.collect_count} 关注 #{tab.topic_count} 文章
+        div.list
+            each tab in tabs
+                div.item
+                    div.content
+                        a.tab-name(href="/tab/" + tab._id.toString()) #{tab.name}
+                        p #{tab.collect_count} 关注 #{tab.topic_count} 文章
         +page(page,pages)
