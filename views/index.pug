@@ -4,6 +4,7 @@ block home_content
     if (topics.length != 0)
         each topic in topics
             +topic_item(current_user,topic,markdown)
+        +page(page,pages)
     else
         div.EmptyState.card.topic-item
             div.EmptyState-inner

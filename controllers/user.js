@@ -139,7 +139,7 @@ exports.index = function (req, res, next) {
 exports.listTopics = function (req, res, next) {
     var username = req.params.name;
     var page = Number(req.query.page) || 1;
-    var limit = 5;//config.list_topic_count;
+    var limit = config.list_topic_count;
     var currentUser = req.session.user;
 
     User.getUserByUsername(username, function (err, user) {
@@ -227,7 +227,7 @@ exports.listTopics = function (req, res, next) {
 exports.listReplies = function (req, res, next) {
     var username = req.params.name;
     var page = Number(req.query.page) || 1;
-    var limit = 5;//config.list_topic_count;
+    var limit = config.list_topic_count;
     var currentUser = req.session.user;
 
     User.getUserByUsername(username, function (err, user) {
@@ -291,7 +291,7 @@ exports.listReplies = function (req, res, next) {
 exports.listCollections = function (req, res, next) {
     var username = req.params.name;
     var page = Number(req.query.page) || 1;
-    var limit = 5;//config.list_topic_count;
+    var limit = config.list_topic_count;
     var currentUser = req.session.user;
 
     User.getUserByUsername(username, function (err, user) {
@@ -373,7 +373,7 @@ exports.listCollections = function (req, res, next) {
 exports.listFollowing = function (req, res, next) {
     var username = req.params.name;
     var page = Number(req.query.page) || 1;
-    var limit = 5;//config.list_topic_count;
+    var limit = config.list_topic_count;
     var currentUser = req.session.user;
 
     User.getUserByUsername(username, function (err, user) {
@@ -449,7 +449,7 @@ exports.listFollowing = function (req, res, next) {
 exports.listFollowers = function (req, res, next) {
     var username = req.params.name;
     var page = Number(req.query.page) || 1;
-    var limit = 5;//config.list_topic_count;
+    var limit = config.list_topic_count;
     var currentUser = req.session.user;
 
     User.getUserByUsername(username, function (err, user) {

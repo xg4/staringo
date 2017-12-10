@@ -44,10 +44,10 @@ html(lang="en")
                         li
                             a(href="/" aria-label="首页") 首页
                         li
-                            a(href="/topic" aria-label="话题") 话题
+                            a(href="/tabs" aria-label="话题") 话题
                 div.header-search(role="search")
                     form(action="/search" method="get")
-                        input(type="text" name="q" autocomplete="off" placeholder="Search Staringo" aria-label="")
+                        input(type="text" name="q" autocomplete="off" placeholder="Search" aria-label="")
                         span.glyphicon.glyphicon-search
                 if (current_user)
                     div.header-user-btn-group

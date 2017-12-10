@@ -19,6 +19,7 @@ var topic = require('./controllers/topic');
 var reply = require('./controllers/reply');
 var auth = require('./middlewares/auth');
 var search = require('./controllers/search');
+var tab = require('./controllers/tab');
 var admin = require('./controllers/admin');
 
 var router = express.Router();
@@ -122,8 +123,16 @@ router.get('/messages', auth.userRequired, message.index); // 用户个人的所
 router.get('/search', search.index);
 
 /**
+ * tab controller
+ */
+router.get('/tabs', tab.index);
+router.get('/tab/:tab_id', tab.show);
+
+/**
  * admin controller
  */
 router.get('/admin', admin.index);
+router.get('/admin/tabs/create', admin.getTab);
+router.post('/admin/tabs/create', admin.postTab);
 
 module.exports = router;

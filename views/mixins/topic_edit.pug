@@ -7,18 +7,11 @@ mixin topic_edit(action,topic)
     h1.topic-form-title= form_title
     form.topic-form(action= form_action method='post')
         div.form-group
-            div.input-group
-                label.input-group-addon.tab-selector 选择版块：
-                select.tab-value.form-control(name="topic_tab")
-                    option 请选择
-                    - for (var i = 0; i < topic.tabs.length;i++) {
-                        if (topic.tab && (topic.tab == topic.tabs[i][0] || topic.tab == topic.tabs[i][1]))
-                            option(value= topic.tabs[i][0] selected) #{topic.tabs[i][1]}
-                        else
-                            option(value= topic.tabs[i][0]) #{topic.tabs[i][1]}
-                    - }
+            - var tab;
+            - if(topic.tab){ tab = topic.tab.name} else {tab = ''}
+            input.form-control(type="text" name='topic_tab' value= tab autofocus placeholder="文章的话题")
         div.form-group
-            input.form-control(type="text" name='topic_title' value= topic.title autofocus placeholder="标题字数 10 字以上")
+            input.form-control(type="text" name='topic_title' value= topic.title placeholder="标题字数 10 字以上")
         div.form-group
             div.markdown-editor
                 textarea.editor(name="topic_content" placeholder="文章支持 Markdown 语法, 请注意标记代码") #{topic.content}

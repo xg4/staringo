@@ -1,0 +1,17 @@
+extends ../home
+include ../mixins/page
+
+block home_content
+    div.card
+        div.tab-info-box
+            div.tab-info
+                div.title #{tab.name}
+                div #{tab.collect_count} 关注 #{tab.topic_count} 文章
+        if (topics.length != 0)
+            each topic in topics
+                +topic_item(current_user,topic,markdown)
+            +page(page,pages)
+        else
+            div.EmptyState.card.topic-item
+                div.EmptyState-inner
+                    span 空

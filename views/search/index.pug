@@ -2,7 +2,7 @@ extends ../home
 include ../mixins/user_item
 
 block home_content
-    div.form-group
+    div.card.nav-tabs-box
         ul.nav.nav-tabs
             if (type == 'topic')
                 li.active(role="presentation")
@@ -21,7 +21,8 @@ block home_content
         if (topics.length != 0)
             each topic in topics
                 +topic_item(current_user,topic,markdown)
-            +page(page,pages)
+            div.card
+                +page(page,pages)
         else
             div.EmptyState.card.topic-item
                 div.EmptyState-inner

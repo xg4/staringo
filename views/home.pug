@@ -87,9 +87,8 @@ block content
                         if (current_user.isAdvanced || current_user.is_verify)
                             div.card-section
                                 div.Author-item
-                                    div.Author-item-icon
-                                        +user_badge(current_user)
-                                    div.Author-item-value 优秀贡献者
+                                    +user_badge(current_user,true)
+
                         div.card-section
                             div.Author-counts
                                 div.NumBoard

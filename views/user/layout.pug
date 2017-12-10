@@ -67,9 +67,8 @@ block content
                     ul.user-profile-details
                         li
                             div.Author-item
-                                div.Author-item-icon
-                                    +user_badge(user)
-                                div.Author-item-value 优秀贡献者
+                                +user_badge(user,true)
+
                 ul.user-profile-details
                     if (user.email)
                         li

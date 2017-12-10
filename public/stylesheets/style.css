@@ -24,6 +24,33 @@ a:focus {
 }
 
 /*----*/
+/*user badge*/
+.user-badge-box {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.user-badge-icon {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.user-badge-text {
+    display: inline-block;
+    font-size: 14px;
+    line-height: 24px;
+    color: #8590a6;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
 /* loader */
 .loader {
     position: relative;
@@ -239,12 +266,9 @@ a:focus {
     margin-top: 16px;
 }
 
-.HoverCard-btn-group Button {
+.HoverCard-btn-group button {
     width: 140px;
-}
-
-.HoverCard-btn-group Button + Button {
-    margin-left: 16px;
+    margin: 0 auto;
 }
 
 /*logo*/
@@ -2071,4 +2095,101 @@ footer ul li {
 /*markdown editor*/
 .markdown-editor {
     border: 1px solid #ccc;
+}
+
+/*tabs*/
+.tabs-title {
+    padding: 10px;
+    margin: 0 0 10px 0;
+    border-bottom: 5px solid #666;
+    color: #666;
+    font-weight: 700;
+    font-size: 18px;
+    outline: 0;
+}
+
+.tabs-title span {
+    margin-right: 5px;
+}
+
+.tab-list::after {
+    clear: both;
+}
+
+.tab-list::before {
+    display: table;
+    content: "";
+}
+
+.clearfix::before,
+.clearfix::after {
+    display: table;
+    content: "";
+}
+
+.tab-list .item {
+    margin: 10px 30px;
+    position: relative;
+    float: left;
+    width: 40%;
+    background: #ccc;
+    background-color: rgba(255, 255, 255, .5);
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: 6px;
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    line-break: auto;
+}
+
+.tab-list .content {
+    padding-left: 32px;
+    margin: 18px 15px 18px 0;
+}
+
+.tab-list .content p {
+    height: 40px;
+    overflow: hidden;
+}
+
+.tab-name {
+    color: #259;
+    text-decoration: none;
+}
+
+/*user 100*/
+.user-badge {
+    display: inline-block;
+    margin-right: 5px;
+    padding: 5px;
+    font-size: 10%;
+    font-weight: normal;
+}
+
+/*tab topic*/
+.tab-info-box {
+    position: relative;
+    height: 150px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.tab-info {
+    text-align: center;
+    color: #666;
+    padding: 4rem 0;
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.tab-info .title {
+    font-size: 25px;
+    line-height: 30px;
+    font-weight: 700;
+    margin-bottom: .3rem;
 }

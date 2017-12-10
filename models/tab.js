@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 var ObjectId = Schema.Types.ObjectId;
 
 var TabSchema = new Schema({
-    tab: {type: String},
+    name: {type: String},
 
     author: {type: ObjectId, ref: 'User'},
 
@@ -16,8 +16,6 @@ var TabSchema = new Schema({
 
 TabSchema.plugin(BaseModel);
 TabSchema.index({create_at: -1});
-
-TabSchema.index({author: 1, create_at: -1});
 
 mongoose.model('Tab', TabSchema);
 

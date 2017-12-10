@@ -3,6 +3,7 @@ var models = require('../models');
 var Topic = models.Topic;
 var User = require('./user');
 var Reply = require('./reply');
+var Tab = require('./tab');
 var tools = require('../common/tools');
 var at = require('../common/at');
 var _ = require('lodash');
@@ -75,12 +76,13 @@ exports.getTopicsByQuery = function (query, opt, callback) {
 
         topics.forEach(function (topic, i) {
             var ep = new EventProxy();
-            ep.all('author', 'reply', function (author, reply) {
+            ep.all('author', 'reply', 'tab', function (author, reply, tab) {
                 // 保证顺序
                 // 作者可能已被删除
                 if (author) {
                     topic.author = author;
                     topic.reply = reply;
+                    topic.tab = tab;
                 } else {
                     topics[i] = null;
                 }
@@ -88,6 +90,7 @@ exports.getTopicsByQuery = function (query, opt, callback) {
             });
 
             User.getUserById(topic.author, ep.done('author'));
+            Tab.getTabById(topic.tab, ep.done('tab'));
             // 获取主题的最后回复
             Reply.getReplyById(topic.last_reply, ep.done('reply'));
         });
@@ -105,7 +108,7 @@ exports.getTopicsByQuery = function (query, opt, callback) {
  */
 exports.getTopicsByQuery4Search = function (query, opt, callback) {
     Topic.find(query, {}, opt)
-        .populate('author')
+        .populate(['author','tab'])
         .exec(function (err, topics) {
             if (err) {
                 return callback(err);
@@ -150,12 +153,12 @@ exports.getCountByQuery4Search = function (query, callback) {
  */
 exports.getTopicById = function (id, callback) {
     var proxy = new EventProxy();
-    var events = ['topic_edit', 'author', 'last_reply'];
-    proxy.all(events, function (topic, author, last_reply) {
+    var events = ['topic_edit', 'author', 'last_reply', 'tab'];
+    proxy.all(events, function (topic, author, last_reply, tab) {
         if (!author) {
             return callback(null, null, null, null);
         }
-        return callback(null, topic, author, last_reply);
+        return callback(null, topic, tab, author, last_reply);
     }).fail(callback);
 
     Topic.findOne({_id: id}, proxy.done(function (topic) {
@@ -163,11 +166,14 @@ exports.getTopicById = function (id, callback) {
             proxy.emit('topic_edit', null);
             proxy.emit('author', null);
             proxy.emit('last_reply', null);
+            proxy.emit('tab', null);
             return;
         }
         proxy.emit('topic_edit', topic);
 
         User.getUserById(topic.author, proxy.done('author'));
+
+        Tab.getTabById(topic.tab, proxy.done('tab'));
 
         if (topic.last_reply) {
             Reply.getReplyById(topic.last_reply, proxy.done(function (last_reply) {
@@ -192,10 +198,10 @@ exports.getTopicById = function (id, callback) {
  */
 exports.getFullTopic = function (id, callback) {
     var proxy = new EventProxy();
-    var events = ['topic_edit', 'author', 'replies'];
+    var events = ['topic_edit', 'author', 'replies', 'tab'];
     proxy
-        .all(events, function (topic, author, replies) {
-            callback(null, '', topic, author, replies);
+        .all(events, function (topic, author, replies, tab) {
+            callback(null, '', topic, author, replies, tab);
         })
         .fail(callback);
 
@@ -213,9 +219,17 @@ exports.getFullTopic = function (id, callback) {
         User.getUserById(topic.author, proxy.done(function (author) {
             if (!author) {
                 proxy.unbind();
-                return callback(null, '话题的作者丢了。');
+                return callback(null, '文章的作者被删除。');
             }
             proxy.emit('author', author);
+        }));
+
+        Tab.getTabById(topic.tab, proxy.done(function (tab) {
+            if (!tab) {
+                proxy.unbind();
+                return callback(null, '文章的话题被删除。');
+            }
+            proxy.emit('tab', tab);
         }));
 
         Reply.getRepliesByTopicId(topic._id, proxy.done('replies'));

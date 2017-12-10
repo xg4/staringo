@@ -10,7 +10,7 @@ exports.index = function (req, res, next) {
     var q = validator.trim(req.query.q || '');
     var type = req.query.type;
     var page = Number(req.query.page) || 1;
-    var limit = 5;//config.list_topic_count;
+    var limit = config.list_topic_count;
     var currentUser = req.session.user;
 
     if (!q) {
@@ -33,7 +33,7 @@ exports.index = function (req, res, next) {
             proxy.all(event, function (topics, pages) {
 
                 return res.render('search/index', {
-                    title: q + ' - ' + '搜索结果 - ' + config.name,
+                    title: '搜索 - ' + config.name,
                     q: q,
                     type: type,
                     topics: topics,
@@ -92,7 +92,7 @@ exports.index = function (req, res, next) {
             proxy.all(event, function (users, pages) {
 
                 return res.render('search/index', {
-                    title: q + ' - ' + '搜索结果 - ' + config.name,
+                    title: '搜索 - ' + config.name,
                     q: q,
                     type: type,
                     users: users,

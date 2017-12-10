@@ -14,6 +14,7 @@ var User = require('../proxy').User;
 var Topic = require('../proxy').Topic;
 var TopicCollect = require('../proxy').TopicCollect;
 var Follow = require('../proxy').Follow;
+var Tab = require('../proxy').Tab;
 var EventProxy = require('eventproxy');
 var tools = require('../common/tools');
 /*var store = require('../common/store');*/
@@ -60,7 +61,7 @@ exports.index = function (req, res, next) {
 
     ep.fail(next);
 
-    Topic.getFullTopic(topic_id, ep.done(function (message, topic, author, replies) {
+    Topic.getFullTopic(topic_id, ep.done(function (message, topic, author, replies, tab) {
         if (message) {
             logger.error('getFullTopic error topic_id: ' + topic_id);
             return res.renderError(message);
@@ -71,6 +72,7 @@ exports.index = function (req, res, next) {
 
         topic.author = author;
         topic.replies = replies;
+        topic.tab = tab;
 
         if (!currentUser) {
             ep.emit('is_follow', null);
@@ -129,12 +131,9 @@ exports.index = function (req, res, next) {
  * topic create page
  */
 exports.create = function (req, res, next) {
-    var format_topic = {
-        tabs: config.tabs
-    };
     res.render('topic/edit', {
         title: '发布话题 - ' + config.name,
-        topic: format_topic
+        topic: ''
     });
 };
 
@@ -143,13 +142,10 @@ exports.create = function (req, res, next) {
  */
 exports.put = function (req, res, next) {
     var title = validator.trim(req.body.topic_title);
-    var tab = validator.trim(req.body.topic_tab);
+    var tabName = validator.trim(req.body.topic_tab);
     var content = validator.trim(req.body.topic_content);
 
-    // 得到所有的 tab, e.g. ['ask', 'share', ..]
-    var allTabs = config.tabs.map(function (tPair) {
-        return tPair[0];
-    });
+    var currentUser = req.session.user;
 
     // 验证
     var editError;
@@ -158,8 +154,8 @@ exports.put = function (req, res, next) {
         editError = '标题不能是空的。'
     } else if (title.length < 5 || title.length > 100) {
         editError = '标题字数太多或太少。'
-    } else if (!tab || allTabs.indexOf(tab) === -1) {
-        editError = '必须选择一个版块。'
+    } else if (!tabName) {
+        editError = '必须选择一个话题。'
     } else if (content === '') {
         editError = '内容不可为空'
     }
@@ -169,8 +165,7 @@ exports.put = function (req, res, next) {
     var format_topic = {
         title: title,
         content: content,
-        tab: tab,
-        tabs: config.tabs
+        tab: tabName
     };
 
     if (editError) {
@@ -182,28 +177,43 @@ exports.put = function (req, res, next) {
         });
     }
 
-    Topic.newAndSave(title, content, tab, req.session.user._id, function (err, topic) {
-        if (err) {
-            return next(err);
-        }
+    var ep = new EventProxy();
+    ep.on('tab_saved', function (tab) {
+        Topic.newAndSave(title, content, tab, req.session.user._id, function (err, topic) {
+            if (err) {
+                return next(err);
+            }
 
-        var proxy = new EventProxy();
+            var proxy = new EventProxy();
 
-        proxy.all('score_saved', function () {
-            res.redirect('/topic/' + topic._id);
+            proxy.all('score_saved', function () {
+                res.redirect('/topic/' + topic._id);
+            });
+            proxy.fail(next);
+            User.getUserById(req.session.user._id, proxy.done(function (user) {
+                user.score += 5;
+                user.topic_count += 1;
+                user.save();
+                req.session.user = user;
+                proxy.emit('score_saved');
+            }));
+
+            //发送at消息
+            at.sendMessageToMentionUsers(content, topic._id, req.session.user._id);
         });
-        proxy.fail(next);
-        User.getUserById(req.session.user._id, proxy.done(function (user) {
-            user.score += 5;
-            user.topic_count += 1;
-            user.save();
-            req.session.user = user;
-            proxy.emit('score_saved');
-        }));
-
-        //发送at消息
-        at.sendMessageToMentionUsers(content, topic._id, req.session.user._id);
     });
+
+    Tab.getTabByName(tabName, function (err, tab) {
+        if (err) {
+            return next(err)
+        }
+        if (!tab) {
+            Tab.newAndSave(tabName, currentUser._id, ep.done('tab_saved'))
+        } else {
+            ep.emit('tab_saved', tab)
+        }
+    });
+
 };
 
 /**
@@ -212,20 +222,19 @@ exports.put = function (req, res, next) {
 exports.edit = function (req, res, next) {
     var topic_id = req.params.tid;
 
-    Topic.getTopicById(topic_id, function (err, topic, tags) {
+    Topic.getTopicById(topic_id, function (err, topic, tab) {
         if (!topic) {
-            res.render404('此话题不存在或已被删除。');
-            return;
+            return res.render404('此话题不存在或已被删除。');
         }
 
         if (String(topic.author) === String(req.session.user._id) || req.session.user.is_admin) {
+
             // 整合数据
             var format_topic = {
                 _id: topic._id,
                 title: topic.title,
                 content: topic.content,
-                tab: topic.tab,
-                tabs: config.tabs
+                tab: tab
             };
 
             res.render('topic/edit', {
@@ -233,6 +242,7 @@ exports.edit = function (req, res, next) {
                 action: 'edit',
                 topic: format_topic
             });
+
         } else {
             res.renderError('对不起，你不能编辑此话题。', 403);
         }
@@ -245,18 +255,21 @@ exports.edit = function (req, res, next) {
 exports.update = function (req, res, next) {
     var topic_id = req.params.tid;
     var title = req.body.topic_title;
-    var tab = req.body.topic_tab;
+    var tabName = req.body.topic_tab;
     var content = req.body.topic_content;
+
+    var currentUser = req.session.user;
 
     Topic.getTopicById(topic_id, function (err, topic, tags) {
         if (!topic) {
             return res.render404('此话题不存在或已被删除。');
         }
 
-        if (topic.author.equals(req.session.user._id) || req.session.user.is_admin) {
+        if (topic.author.equals(currentUser._id) || currentUser.is_admin) {
             title = validator.trim(title);
-            tab = validator.trim(tab);
+            tabName = validator.trim(tabName);
             content = validator.trim(content);
+
 
             // 验证
             var editError;
@@ -264,16 +277,15 @@ exports.update = function (req, res, next) {
                 editError = '标题不能是空的。';
             } else if (title.length < 5 || title.length > 100) {
                 editError = '标题字数太多或太少。';
-            } else if (!tab) {
-                editError = '必须选择一个版块。';
+            } else if (!tabName) {
+                editError = '必须写一个话题。';
             }
             // END 验证
             var format_topic = {
                 _id: topic._id,
                 content: content,
                 title: title,
-                tab: tab,
-                tabs: config.tabs
+                tab: tabName
             };
 
             if (editError) {
@@ -285,22 +297,40 @@ exports.update = function (req, res, next) {
                 });
             }
 
-            //保存话题
-            topic.title = title;
-            topic.content = content;
-            topic.tab = tab;
-            topic.update_at = new Date();
+            var ep = new EventProxy();
+            ep.fail(next);
+            ep.on('tab_saved', function (tab) {
 
-            topic.save(function (err) {
-                if (err) {
-                    return next(err);
-                }
-                //发送at消息
-                at.sendMessageToMentionUsers(content, topic._id, req.session.user._id);
+                //保存话题
+                topic.title = title;
+                topic.content = content;
+                topic.tab = tab;
+                topic.update_at = new Date();
 
-                res.redirect('/topic/' + topic._id);
+                topic.save(function (err) {
+                    if (err) {
+                        return next(err);
+                    }
+                    //发送at消息
+                    at.sendMessageToMentionUsers(content, topic._id, req.session.user._id);
+
+                    res.redirect('/topic/' + topic._id);
+
+                });
 
             });
+
+            Tab.getTabByName(tabName, function (err, tab) {
+                if (err) {
+                    next(err)
+                }
+                if (!tab) {
+                    Tab.newAndSave(tabName, currentUser._id, ep.done('tab_saved'))
+                } else {
+                    ep.emit('tab_saved', tab)
+                }
+            });
+
         } else {
             res.renderError('对不起，你不能编辑此话题。', 403);
         }

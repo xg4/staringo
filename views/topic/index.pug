@@ -72,7 +72,7 @@ block content
                     div.TopicHeader-tags
                         div.tag
                             span.tag-content
-                                a(href="#") #{topic.tab}
+                                a(href="/tab/" + topic.tab._id.toString()) #{topic.tab.name}
                     div.TopicHeader-title #{topic.title}
                     div.Topic-badge
                         if (topic.top)

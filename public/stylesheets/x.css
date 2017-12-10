@@ -21,6 +21,35 @@
     background-image: linear-gradient(-225deg, #AC32E4 0%, #7918F2 48%, #4801FF 100%);
 }
 
+/*nav-tab*/
+.nav-tabs-box{
+    padding: 10px;
+}
+.nav-tabs {
+    background: #f8f9fa;
+    border-bottom: 1px solid #d1d5da;
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:focus,
+.nav-tabs > li.active > a:hover {
+    background: #f3f3f3;
+    border: 1px solid #d1d5da;
+    border-bottom-color: transparent;
+}
+
+/*panel*/
+.panel-primary {
+    border-color: #f8f9fa;
+}
+
+.panel-primary > .panel-heading {
+    color: #666;
+    font-weight: 600;
+    border-color: #f8f9fa;
+    background: #f8f9fa;
+}
+
 /* 复写 btn 样式 */
 .btn:focus,
 .btn:active:focus,
@@ -262,3 +291,15 @@
 }
 
 /*-----*/
+/*pagination*/
+.pagination > .active > a,
+.pagination > .active > a:focus,
+.pagination > .active > a:hover,
+.pagination > .active > span,
+.pagination > .active > span:focus,
+.pagination > .active > span:hover {
+    background: #00a1d6;
+    color: #fff;
+    border: 1px solid #00a1d6;
+}
+

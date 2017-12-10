@@ -6,7 +6,7 @@ var config = require('../config');
 var _ = require('lodash');
 
 var TopicSchema = new Schema({
-    tab: {type: String, ref: 'Tab'},
+    tab: {type: ObjectId, ref: 'Tab'},
     title: {type: String},
     content: {type: String},
     author: {type: ObjectId, ref: 'User'},
@@ -32,19 +32,6 @@ TopicSchema.plugin(BaseModel);
 TopicSchema.index({create_at: -1});
 TopicSchema.index({top: -1, last_reply_at: -1});
 TopicSchema.index({author: 1, create_at: -1});
-
-TopicSchema.virtual('tabName').get(function () {
-    var tab = this.tab;
-    var pair = _.find(config.tabs, function (_pair) {
-        return _pair[0] === tab;
-    });
-
-    if (pair) {
-        return pair[1];
-    } else {
-        return '';
-    }
-});
 
 mongoose.model('Topic', TopicSchema);
 

@@ -4,7 +4,9 @@ mixin topic_item(current_user,topic)
         div.topic-detail
             div.topic-header 来自话题:
                 span
-                    a(href="#") #{topic.tab}
+                - var tab;
+                - if(topic.tab){ tab = topic.tab.name} else {tab = ''}
+                    a(href="/tab/" + topic.tab._id.toString()) #{tab}
             div.topic-body
                 h2.topic-title
                     if (topic.top)

@@ -9,14 +9,17 @@ block home_content
             tr
                 th #
                 th 用户名
-                th 积分
-                th 主题数
-                th 评论数
+                th.text-center 积分
+                th.text-center 主题数
+                th.text-center 评论数
             each user,i in users
                 tr
                     td #{i+1}
                     td
                         a(href="/user/" + user.username data-user="show" data-id= user._id.toString()) #{user.username}
-                    td #{user.score}
-                    td #{user.topic_count}
-                    td #{user.reply_count}
+                        div.user-badge
+                            if (user.is_admin)
+                                span.label.label-warning 管理员
+                    td.text-center #{user.score}
+                    td.text-center #{user.topic_count}
+                    td.text-center #{user.reply_count}
