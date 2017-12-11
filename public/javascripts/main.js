@@ -66,7 +66,6 @@ var userModal = function (title, currentUser, users) {
         } else {
             btn = '<button class="btn btn-primary User-follow-btn animated show" data-user="follow" data-username="' + user.username + '">关注</button><button class="btn btn-info User-de-follow-btn animated" data-user="de_follow" data-username="' + user.username + '">关注</button>';
         }
-        // ES6 语法
         userTemplate += '<div class="User-item"><div class="User"><div class="User-avatar"><a href="/user/' + user.username + '"><img src="' + user.avatar + '" alt="用户头像"></a></div><div class="User-detail"><a href="/user/' + user.username + '"><h2 class="User-name">' + user.username + '</h2></a><div class="User-info"><span class="User-info-item">' + user.topic_count + ' 文章</span><span class="User-info-item">' + user.collect_topic_count + ' 收藏</span><span class="User-info-item"><span class="User-follow-count">' + user.follower_count + '</span> 关注者</span></div></div><div class="User-extra">' + btn + '</div></div></div>';
     });
 

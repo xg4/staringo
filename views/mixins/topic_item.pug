@@ -3,10 +3,10 @@ mixin topic_item(current_user,topic)
     div.topic-item.card
         div.topic-detail
             div.topic-header 来自话题:
-                span
-                - var tab;
-                - if(topic.tab){ tab = topic.tab.name} else {tab = ''}
-                    a(href="/tab/" + topic.tab._id.toString()) #{tab}
+                if (topic.tab)
+                    - console.log(topic.tab);
+                    span
+                        a(href="/tab/" + topic.tab._id.toString()) #{topic.tab.name}
             div.topic-body
                 h2.topic-title
                     if (topic.top)

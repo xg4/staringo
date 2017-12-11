@@ -126,7 +126,6 @@
     clear: both;
     line-height: 1.42857143;
     color: #333;
-    /*用户名太长 变成...*/
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;

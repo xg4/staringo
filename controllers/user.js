@@ -188,7 +188,7 @@ exports.listTopics = function (req, res, next) {
             ep.after('topics_read', topics.length, function () {
                 proxy.emit('topics', topics);
             });
-            topics.map(function (topic) {
+            topics.forEach(function (topic) {
                 if (currentUser) {
                     TopicCollect.getTopicCollect(currentUser._id, topic._id, function (err, is_collect) {
                         topic.current_is_collect = is_collect;
@@ -341,7 +341,7 @@ exports.listCollections = function (req, res, next) {
             ep.after('topics_read', collections.length, function () {
                 proxy.emit('topic_collect', collections)
             });
-            collections.map(function (collect) {
+            collections.forEach(function (collect) {
                 if (currentUser && collect.topic) {
                     TopicCollect.getTopicCollect(currentUser._id, collect.topic._id, function (err, is_collect) {
                         collect.topic.current_is_collect = is_collect;

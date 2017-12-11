@@ -15,7 +15,7 @@ mixin reply(reply,current_user,markdown,formatDate,topic)
                         a(href="/user/" + reply.author.username data-user="show" data-id= reply.author._id.toString())
                             span #{reply.author.username}
                         if (reply.author.isAdvanced || reply.author.is_verify)
-                            a.Reply-author-badge
+                            div.Reply-author-badge
                                 +user_badge(reply.author)
                     if (reply.author.signature)
                         div.Reply-author-bio #{reply.author.signature}

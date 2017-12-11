@@ -18,7 +18,7 @@ exports.getTopicCollectsByUserId = function (userId, opt, callback) {
     TopicCollect.find({user: userId}, '', opt)
         .populate({
             path: 'topic',
-            populate: {path: 'author'}
+            populate: [{path: 'author'}, {path: 'tab'}]
         })
         .exec(callback);
 };
