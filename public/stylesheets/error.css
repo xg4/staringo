@@ -1,0 +1,122 @@
+.container {
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 960px;
+}
+
+.root-view-bg {
+    background-color: #fff;
+}
+
+.root-view-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.main-container > .view {
+    margin-top: 1.767rem;
+}
+
+.not-found-view {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    margin-bottom: 4rem;
+}
+
+.where-is-panfish {
+    position: relative;
+    width: 52rem;
+    max-width: 70%;
+    padding-top: 48%;
+}
+
+.where-is-panfish .bg {
+    width: 77.724%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.error-content {
+    width: 100%;
+    position: absolute;
+    top: 90%;
+    left: 0;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.where-is-panfish .elem {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+}
+
+img {
+    border-style: none;
+}
+
+.where-is-panfish .panfish {
+    width: 20.994%;
+    -webkit-transform: translate(-55%, 32%);
+    transform: translate(-55%, 32%);
+    -webkit-animation: a 2s ease-in-out alternate infinite;
+    animation: a 2s ease-in-out alternate infinite;
+}
+
+.where-is-panfish .sea {
+    width: 99.199%;
+    -webkit-transform: translate(-50%, 75.3%);
+    transform: translate(-50%, 75.3%);
+    opacity: .7;
+}
+
+.where-is-panfish .spray {
+    width: 40.545%;
+    -webkit-transform: translate(-55%, 162%);
+    transform: translate(-55%, 162%);
+    opacity: .4;
+}
+
+.index-link {
+    display: block;
+    margin-top: 2rem;
+    padding: 1.1rem 2rem;
+    font-size: 1.5rem;
+    color: #fff;
+    background-color: #007fff;
+    border-radius: 5px;
+}
+
+.index-link:hover {
+    color: #fff;
+}
+
+a {
+    text-decoration: none;
+    cursor: pointer;
+    color: #909090;
+}
+
+.container:after {
+    display: table;
+    content: "";
+    clear: both;
+}

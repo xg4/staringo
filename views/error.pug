@@ -1,8 +1,15 @@
 extends layout
+block public
+    link(rel='stylesheet', href='/public/stylesheets/error.css')
 
 block content
-    h2= error.status
-    p= error.message
-    p= error.code
-    pre #{error.stack}
-    p= error
+    div.container.main-container
+        div.root-view-bg
+        div.view.not-found-view
+            div.where-is-panfish
+                img.elem.bg(src="/public/images/error_bg.png")
+                img.elem.panfish(src="/public/images/error_panfish.png")
+                img.elem.sea(src="/public/images/error_sea.png")
+                img.elem.spray(src="/public/images/error_spray.png")
+                div.error-content #{error}
+            a.index-link(href="/") 回到首页

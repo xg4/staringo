@@ -24,10 +24,10 @@ var UserSchema = new Schema({
     //用户产生的数据
     score: {type: Number, default: 0}, // 积分
     level: {type: String}, // 等级
+
     topic_count: {type: Number, default: 0},
     reply_count: {type: Number, default: 0},
     collect_topic_count: {type: Number, default: 0},
-
     following_count: {type: Number, default: 0}, // 关注的人数
     follower_count: {type: Number, default: 0}, // 被关注的人数
 

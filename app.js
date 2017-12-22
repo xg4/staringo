@@ -81,7 +81,7 @@ _.extend(app.locals, {
     config: config
 });
 
-_.extend(app.locals,{formatDate:require('./common/tools').formatDate});
+_.extend(app.locals, {formatDate: require('./common/tools').formatDate});
 
 app.use(errorPageMiddleware.errorPage);
 _.extend(app.locals, require('./common/render_helper'));
@@ -116,7 +116,7 @@ if (config.debug) {
 
         // render the error page
         res.status(err.status || 500);
-        return res.render('error');
+        return res.render('error', {title: '404 Not Found - ' + config.name, error: '没有找到该页面！'});
     });
 }
 
