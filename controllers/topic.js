@@ -41,6 +41,7 @@ exports.index = function (req, res, next) {
 
     var topic_id = req.params.tid;
     var currentUser = req.session.user;
+    var reply_type = req.body.reply || 'time';
 
     if (topic_id.length !== 24) {
         return res.render404('此话题不存在!');
@@ -80,20 +81,6 @@ exports.index = function (req, res, next) {
             Follow.getFollow(currentUser._id, author._id, ep.done('is_follow'))
         }
 
-        // 点赞数排名第三的回答，它的点赞数就是阈值
-        topic.reply_up_threshold = (function () {
-            var allUpCount = replies.map(function (reply) {
-                return reply.ups && reply.ups.length || 0;
-            });
-            allUpCount = _.sortBy(allUpCount, Number).reverse();
-
-            var threshold = allUpCount[2] || 0;
-            if (threshold < 3) {
-                threshold = 3;
-            }
-            return threshold;
-        })();
-
         ep.emit('topic_edit', topic);
 
         // get other_topics
@@ -101,20 +88,6 @@ exports.index = function (req, res, next) {
         var query = {author: topic.author._id, _id: {'$nin': [topic._id]}};
         Topic.getTopicsByQuery(query, options, ep.done('other_topics'));
 
-        // get no_reply_topics
-        /*cache.get('no_reply_topics', ep.done(function (no_reply_topics) {
-            if (no_reply_topics) {
-                ep.emit('no_reply_topics', no_reply_topics);
-            } else {
-                Topic.getTopicsByQuery(
-                    {reply_count: 0, tab: {$nin: ['job', 'dev']}},
-                    {limit: 5, sort: '-create_at'},
-                    ep.done('no_reply_topics', function (no_reply_topics) {
-                        cache.set('no_reply_topics', no_reply_topics, 60 * 1);
-                        return no_reply_topics;
-                    }));
-            }
-        }));*/
         ep.emit('no_reply_topics', null);
     }));
 
@@ -505,8 +478,8 @@ exports.listCollections = function (req, res, next) {
 };
 
 /*
-*  topic up
-* */
+ *  topic up
+ */
 exports.up = function (req, res, next) {
     var topicId = req.params.tid;
     var userId = req.session.user._id;
@@ -532,5 +505,31 @@ exports.up = function (req, res, next) {
             });
         });
 
+    });
+};
+
+// 锁定主题，不可再回复
+exports.lock = function (req, res, next) {
+    var topicId = req.params.tid;
+    var currentUser = req.session.user;
+    Topic.getTopic(topicId, function (err, topic) {
+        if (err) {
+            return next(err);
+        }
+        if (!topic) {
+            return res.render404('此话题不存在或已被删除。');
+        }
+        if (currentUser.is_admin || currentUser._id.toString() === topic.author.toString()) {
+            topic.lock = !topic.lock;
+            topic.save(function (err) {
+                if (err) {
+                    return next(err);
+                }
+                //var msg = topic.lock ? '此话题已锁定。' : '此话题已取消锁定。';
+                return res.redirect('/topic/' + topic._id);
+            });
+        } else {
+            return res.renderError('无权进行此操作！', '403');
+        }
     });
 };

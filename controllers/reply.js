@@ -43,7 +43,7 @@ exports.add = function (req, res, next) {
         }
 
         if (topic.lock) {
-            return res.status(403).send('此主题已锁定。');
+            return res.renderError('此主题已锁定。', '403');
         }
         ep.emit('topic_edit', topic);
     }));
@@ -163,6 +163,7 @@ exports.up = function (req, res, next) {
             reply.ups.splice(upIndex, 1);
             action = 'down';
         }
+        reply.up_count = reply.ups.length;
         reply.save(function () {
             return res.json({
                 status: true,

@@ -12,6 +12,7 @@ var ReplySchema = new Schema({
     update_at: {type: Date, default: Date.now},
     content_is_html: {type: Boolean},
     ups: [{type:ObjectId, ref: 'User'}],
+    up_count: {type: Number, default: 0},
     deleted: {type: Boolean, default: false}
 });
 

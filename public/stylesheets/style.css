@@ -685,6 +685,12 @@ footer ul li {
     font-size: 14px;
 }
 
+.reply-toolbar li a,
+.reply-toolbar li a:hover,
+.reply-toolbar li button {
+    color: inherit;
+}
+
 .topic-footer-toolbar {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -697,7 +703,6 @@ footer ul li {
     padding: 0 20px;
     margin: 4px -20px -8px;
     color: #555;
-
 }
 
 .topic-footer-toolbar li {
@@ -717,7 +722,7 @@ footer ul li {
     line-height: 1;
     color: #b2bac2;
     border-radius: 1px;
-    border: 1px solid #edeeef;
+    border: 1px solid #8590a6;
 }
 
 .topic-footer-toolbar li button,
@@ -730,10 +735,12 @@ footer ul li {
     align-items: center;
     padding: 0 .8rem;
     height: 100%;
+    color: #555;
 }
 
+.topic-footer-toolbar li a,
 .topic-footer-toolbar li a:hover {
-    color: inherit;
+    color: #555;
 }
 
 .topic-footer-toolbar li button .count,
@@ -747,17 +754,7 @@ footer ul li {
     margin-left: .8rem;
 }
 
-.topic-footer-toolbar .share-btn,
-.topic-footer-toolbar .collect-btn {
-    display: none;
-}
-
-.topic-item:hover .share-btn,
-.topic-item:hover .collect-btn {
-    display: block;
-}
-
-.topic-item:hover .collect-btn button {
+.topic-item .collect-btn button {
     display: none;
 }
 
@@ -848,6 +845,10 @@ footer ul li {
     color: #1e1e1e;
 }
 
+.Topic-badge {
+    margin-bottom: 4px;
+}
+
 .Topic-badge .label {
     display: inline-block;
     margin-right: 5px;
@@ -857,11 +858,17 @@ footer ul li {
 }
 
 .TopicHeader-detail {
-    /*min-height: 10px;
-    max-height: 51px;*/
     overflow: hidden;
     -webkit-transition: color .14s ease-out;
     transition: color .14s ease-out;
+}
+
+.TopicHeader-toolbar a {
+    color: inherit;
+}
+
+.TopicHeader-toolbar a:hover {
+    color: inherit;
 }
 
 .TopicHeader-side {
@@ -933,16 +940,13 @@ footer ul li {
 }
 
 .TopicHeader-btn-group {
-
     margin: 0 -8px;
-
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-pack: end;
     -ms-flex-pack: end;
     justify-content: flex-end;
-
     -webkit-box-align: end;
     -ms-flex-align: end;
     align-items: flex-end;
@@ -1626,6 +1630,11 @@ footer ul li {
     text-align: center;
 }
 
+.EmptyState img {
+    width: 66px;
+    height: 77px;
+}
+
 .Reply-topic-title {
     margin-top: 0;
     margin-bottom: 5px;
@@ -2125,8 +2134,8 @@ footer ul li {
     -webkit-box-align: start;
     -ms-flex-align: start;
     align-items: flex-start;
-    justify-content:space-around;
-    flex-wrap:wrap;
+    justify-content: space-around;
+    flex-wrap: wrap;
 }
 
 .tab-list .item {

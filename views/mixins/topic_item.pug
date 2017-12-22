@@ -53,11 +53,11 @@ mixin topic_item(current_user,topic)
                         li.delete-btn
                             button.btn-normal(data-toggle="tooltip" title="删除" data-topic="delete" data-id= topic._id)
                                 span.glyphicon.glyphicon-trash
-                    li.animated.bounceInLeft.share-btn
+                    li.share-btn
                         button.btn-normal(data-toggle="tooltip" title="分享")
                             span.glyphicon.glyphicon-send
 
-                    li.animated.bounceInLeft.collect-btn
+                    li.collect-btn
                         - var is_collect = '';var is_not_collect = '';
                         - if (!topic.current_is_collect) { is_not_collect = 'show' } else { is_collect = 'show' }
                             button.btn-normal(class= is_not_collect data-toggle="tooltip" title="收藏" data-topic="collect" data-id= topic._id.toString())

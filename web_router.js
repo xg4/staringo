@@ -92,17 +92,19 @@ router.post('/topic/create', auth.userRequired, topic.put); //post 新建 topic
 
 router.get('/topic/:tid', topic.index);  // 显示 topic
 
-router.get('/topic/:tid/edit', auth.userRequired, topic.edit);  // 编辑某话题
+router.get('/topic/:tid/edit', auth.userRequired, topic.edit);  // 编辑话题
 router.post('/topic/:tid/edit', auth.userRequired, topic.update); // 提交 编辑
 
-router.post('/topic/:tid/collect', auth.postUserRequired, topic.collect); // 收藏某话题
-router.post('/topic/:tid/de_collect', auth.postUserRequired, topic.de_collect); // 取消收藏某话题
+router.post('/topic/:tid/collect', auth.postUserRequired, topic.collect); // 收藏话题
+router.post('/topic/:tid/de_collect', auth.postUserRequired, topic.de_collect); // 取消收藏话题
 
-router.post('/topic/:tid/delete', auth.postUserRequired, topic.delete); // 删除 主题
+router.post('/topic/:tid/delete', auth.postUserRequired, topic.delete); // 删除主题
 
-router.post('/topic/:tid/collections', topic.listCollections); // 收藏该话题的用户
+router.post('/topic/:tid/collections', topic.listCollections); // 收藏话题的用户
 
-router.post('/topic/:tid/up', auth.postUserRequired, topic.up); // 点赞某话题
+router.post('/topic/:tid/up', auth.postUserRequired, topic.up); // 点赞话题
+
+router.post('/topic/:tid/lock', auth.userRequired, topic.lock); // 锁定话题
 
 /**
  * reply controller

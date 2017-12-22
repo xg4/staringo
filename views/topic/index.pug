@@ -109,6 +109,18 @@ block content
                                 button.btn-normal(data-topic="delete" data-id= topic._id.toString() data-toggle="tooltip" title="删除")
                                     span.glyphicon.glyphicon-trash
                                     span.count 删除
+                            if (topic.lock)
+                                li
+                                    form(action="/topic/" + topic._id + '/lock' method="post")
+                                        button.btn-normal(type="submit" data-toggle="tooltip" title="取消锁定")
+                                            span.glyphicon.glyphicon-lock
+                                            span.count 已锁定
+                            else
+                                li
+                                    form(action="/topic/" + topic._id + '/lock' method="post")
+                                        button.btn-normal(data-topic="lock" data-id= topic._id.toString() data-toggle="tooltip" title="锁定")
+                                            span.glyphicon.glyphicon-lock
+                                            span.count 锁定
                         li
                             button.btn-normal(data-toggle="tooltip" title="举报")
                                 span.glyphicon.glyphicon-flag
@@ -133,6 +145,7 @@ block content
                     if (topic.replies.length === 0)
                         div.EmptyState
                             div.EmptyState-inner
+                                img(src="/public/images/error_panfish.png" alt="mascot")
                                 p 没有回复
                     each reply in topic.replies
                         +reply(reply,current_user,markdown,formatDate)
