@@ -2,6 +2,7 @@ var config = require('../config');
 var EventProxy = require('eventproxy');
 var Tab = require('../proxy').Tab;
 var Topic = require('../proxy').Topic;
+var TopicCollect = require('../proxy').TopicCollect;
 
 exports.index = function (req, res, next) {
     var page = Number(req.query.page) || 1;
@@ -46,6 +47,7 @@ exports.index = function (req, res, next) {
 
 exports.show = function (req, res, next) {
     var tabId = req.params.tab_id;
+    var currentUser = req.session.user;
 
     var page = Number(req.query.page) || 1;
     var limit = config.list_topic_count;
@@ -62,7 +64,7 @@ exports.show = function (req, res, next) {
 
         var proxy = new EventProxy();
         proxy.fail(next);
-        proxy.all('topics_read', 'pages', 'tab_topic_count',function (topics, pages,tab_topic_count) {
+        proxy.all('topics_read', 'pages', 'tab_topic_count', 'is_collect', function (topics, pages, tab_topic_count) {
             tab.topic_count = tab_topic_count;
             res.render('tab/topic', {
                 title: tab.name + ' - ' + config.name,
@@ -73,12 +75,38 @@ exports.show = function (req, res, next) {
             })
         });
 
-        Topic.getTopicsByQuery(query, opt, proxy.done('topics_read'));
+        Topic.getTopicsByQuery(query, opt, proxy.done(function (topics) {
+            var ep = new EventProxy();
+            ep.fail(next);
+
+            ep.after('is_collect', topics.length, function () {
+                proxy.emit('is_collect')
+            });
+
+            topics.forEach(function (topic) {
+                if (!currentUser) {
+                    topic.current_is_collect = null;
+                    topic.current_is_up = null;
+                    ep.emit('is_collect');
+                } else {
+                    TopicCollect.getTopicCollect(currentUser._id, topic._id, function (err, is_collect) {
+                        topic.current_is_collect = is_collect;
+                        if (topic.ups.indexOf(currentUser._id) === -1) {
+                            topic.current_is_up = null;
+                        } else {
+                            topic.current_is_up = true;
+                        }
+                        ep.emit('is_collect')
+                    });
+                }
+            });
+            proxy.emit('topics_read', topics);
+        }));
 
         Topic.getCountByQuery(query, proxy.done(function (all_count) {
             var pages = Math.ceil(all_count / limit);
             proxy.emit('pages', pages);
-            proxy.emit('tab_topic_count',all_count);
+            proxy.emit('tab_topic_count', all_count);
         }));
     });
 
