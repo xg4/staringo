@@ -29,7 +29,8 @@ block home_content
         else
             div.EmptyState.card.topic-item
                 div.EmptyState-inner
-                    span 没有找到相应文章
+                    img(src="/public/images/error_panfish.png" alt="mascot")
+                    p 没有找到相应文章
     if (users)
         if (users.length != 0)
             each user in users
@@ -40,4 +41,5 @@ block home_content
         else
             div.EmptyState.card.topic-item
                 div.EmptyState-inner
-                    span 没有找到相应用户
+                    img(src="/public/images/error_panfish.png" alt="mascot")
+                    p 没有找到相应用户

@@ -5,10 +5,16 @@ block home_content
         h2.tabs-title
             span.glyphicon.glyphicon-th-large
             | 话题广场
-        div.list
-            each tab in tabs
-                div.item
-                    div.content
-                        a.tab-name(href="/tab/" + tab._id.toString()) #{tab.name}
-                        p #{tab.collect_count} 关注 #{tab.topic_count} 文章
-        +page(page,pages)
+        if (collections.length != 0)
+            div.list
+                each tab in tabs
+                    div.item
+                        div.content
+                            a.tab-name(href="/tab/" + tab._id.toString()) #{tab.name}
+                            p #{tab.collect_count} 关注 #{tab.topic_count} 文章
+            +page(page,pages)
+        else
+            div.EmptyState
+                div.EmptyState-inner
+                    img(src="/public/images/error_panfish.png" alt="mascot")
+                    p 空
