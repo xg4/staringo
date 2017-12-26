@@ -22,6 +22,8 @@ var config = require('../config');
 var EventProxy = require('eventproxy');
 var validator = require('validator');
 var _ = require('lodash');
+var uuid = require('uuid');
+var mail = require('../common/mail');
 
 /**
  * ajax user info
@@ -721,6 +723,63 @@ exports.getEmail = function (req, res, next) {
             user: user
         });
     });
+};
+
+exports.postEmail = function (req, res, next) {
+
+    var pwd = validator.trim(req.body.password) || '';
+    var email = validator.trim(req.body.email).toLowerCase();
+    if (!validator.isEmail(email)) {
+        return res.render('user/setting/email', {
+            title: '个人中心 - ' + config.name,
+            error: '邮箱不合法'
+        });
+    }
+
+    User.getUserById(req.session.user._id, function (err, user) {
+        if (err) {
+            return next(err);
+        }
+        if (email.toLocaleLowerCase() !== user.email.toLocaleLowerCase()) {
+            return res.render('user/setting/email', {
+                title: '个人中心 - ' + config.name,
+                error: '邮箱错误!'
+            });
+        }
+        var pwdHash = user.password;
+        tools.bcompare(pwd, pwdHash, function (err, bool) {
+            if (err) {
+                return next(err);
+            }
+            if (!bool) {
+                return res.render('user/setting/email', {
+                    title: '个人中心 - ' + config.name,
+                    error: '密码错误!'
+                });
+            }
+
+            // 动态生成retrive_key和timestamp到users collection,之后重置密码进行验证
+            var retrieveKey = uuid.v4();
+            var retrieveTime = new Date().getTime();
+            user.retrieve_key = retrieveKey;
+            user.retrieve_time = retrieveTime;
+
+            user.save(function (err) {
+                if (err) {
+                    return next(err);
+                }
+                // 发送重置密码邮件
+                mail.sendMailModifyMail(email, retrieveKey, user.username);
+                return res.render('user/setting/email', {
+                    title: '个人中心 - ' + config.name,
+                    success: '我们已给您的电子邮箱发送了一封邮件，请在2小时内点击里面的链接来重置邮箱。如果在几分钟内没有出现，请检查您的垃圾邮件。'
+                });
+            });
+        });
+
+    });
+
+
 };
 
 exports.follow = function (req, res, next) {

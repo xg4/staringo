@@ -392,3 +392,104 @@ exports.postPwdModify = function (req, res, next) {
         }));
     }));
 };
+
+/**
+ * mail modify
+ * 'get' to show the page, 'post' to password modify.
+ * after mail modify, retrieve_key&time will be destroy.
+ * @param  {http.req}   req
+ * @param  {http.res}   res
+ * @param  {Function}   next
+ */
+exports.getMailModify = function (req, res, next) {
+    var url = validator.trim(req.params.key || '');
+    var key = url.split('&')[0];
+    var name = url.split('&')[1];
+
+    User.getUserByNameAndKey(name, key, function (err, user) {
+        if (!user) {
+            return res.render('sign/mail_reset', {
+                title: '修改邮箱 - ' + config.name,
+                error: '信息有误，邮箱无法修改。您可尝试重新申请。',
+                serious: true
+            });
+        }
+        var now = new Date().getTime();
+        var overTime = 1000 * 60 * 60 * 2; // 2个小时
+        if (!user.retrieve_time || now - user.retrieve_time > overTime) {
+            return res.render('sign/mail_reset', {
+                title: '修改邮箱 - ' + config.name,
+                error: '该链接已过期，您可尝试重新申请。',
+                serious: true
+            });
+        }
+        return res.render('sign/mail_reset', {
+            title: '修改邮箱 - ' + config.name,
+            url: url
+        });
+    });
+};
+
+exports.postMailModify = function (req, res, next) {
+    var mail = validator.trim(req.body.mail) || '';
+    var pwd = req.body.password;
+    var url = validator.trim(req.params.key || '');
+    var name = url.split('&')[1];
+    var key = url.split('&')[0];
+
+    var ep = new eventproxy();
+    ep.fail(next);
+
+    if (!validator.isEmail(mail)) {
+        return res.render('sign/mail_reset', {
+            title: '修改邮箱 - ' + config.name,
+            error: '邮箱不合法',
+            url: url
+        });
+    }
+
+    User.getUserByMail(mail, function (err, user) {
+        if (user) {
+            return res.render('sign/mail_reset', {
+                title: '修改邮箱 - ' + config.name,
+                error: '邮箱已存在！',
+                url: url
+            });
+        }
+
+        User.getUserByNameAndKey(name, key, ep.done(function (user) {
+            if (!user) {
+                return res.render('sign/mail_reset', {
+                    title: '修改邮箱 - ' + config.name,
+                    error: '错误的激活链接，您可尝试重新申请。',
+                    serious: true
+                });
+            }
+            var pwdHash = user.password;
+            tools.bcompare(pwd, pwdHash, function (err, bool) {
+                if (err) {
+                    return next(err);
+                }
+                if (!bool) {
+                    return res.render('sign/mail_reset', {
+                        title: '修改邮箱 - ' + config.name,
+                        error: '密码错误！',
+                        url: url
+                    });
+                }
+                user.retrieve_key = null;
+                user.retrieve_time = null;
+                user.email = mail;
+                user.save(function (err) {
+                    if (err) {
+                        return next(err);
+                    }
+                    // 发送密码修改成功邮件
+                    req.session._success = '您的邮箱已修改成功。请登录!';
+                    return res.redirect('/login');
+                });
+            });
+        }));
+
+    });
+};

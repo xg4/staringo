@@ -1,0 +1,20 @@
+extends sign_layout
+
+block content
+    div.auth-form
+        - if (serious) { serious = true } else {serious = false}
+        form#forgot_password_form(action='/mail_reset/' + url, method='post')
+            div.auth-form-header
+                h1 修改邮箱
+            if (error)
+                +alert('danger',error)
+            div.auth-form-body
+                if (success)
+                    +alert('success',success)
+                    a.btn.btn-default.btn-block(href="/login") 返回登录
+                else
+                    label(for="password") 密码
+                    input.form-control#password(type="password" autofocus name="password" tabindex="1" disabled= serious)
+                    label(for="mail") 新邮箱地址
+                    input.form-control#mail(type="text" autofocus name="mail" tabindex="2" disabled= serious)
+                    input.btn.btn-primary.btn-form(type="submit" value="修改邮箱" tabindex="3" disabled= serious)

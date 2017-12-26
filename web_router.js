@@ -50,6 +50,9 @@ router.post('/password_reset', sign.postPwdReset);  // 发送密码重置邮件
 router.get('/password_reset/:key', sign.getPwdModify);  // 进入重置密码页面
 router.post('/password_reset/:key', sign.postPwdModify);  // 更新密码
 
+router.get('/mail_reset/:key', sign.getMailModify);  // 进入重置邮箱页面
+router.post('/mail_reset/:key', sign.postMailModify);  // 更新邮箱
+
 /**
  * user controller
  */
@@ -81,6 +84,7 @@ router.get('/settings/privacy', auth.userRequired, user.getPrivacy); //  用户 
 router.post('/settings/privacy', auth.userRequired, user.postPrivacy); //  用户 隐私信息
 
 router.get('/settings/email', auth.userRequired, user.getEmail); //  用户 邮箱信息
+router.post('/settings/email', auth.userRequired, user.postEmail); //  用户 邮箱信息
 /*router.post('/user/set_star', auth.adminRequired, user.toggleStar); // 把某用户设为达人
 router.post('/user/cancel_star', auth.adminRequired, user.toggleStar);  // 取消某用户的达人身份
 router.post('/user/:name/block', auth.adminRequired, user.block);  // 禁言某用户
