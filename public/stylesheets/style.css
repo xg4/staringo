@@ -1751,6 +1751,76 @@ footer ul li {
     margin-bottom: 0;
 }
 
+.settings-item-wrapper {
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+
+.settings-item-wrapper h2 {
+    font-weight: 700;
+    font-size: 14px;
+    outline: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.settings-item-wrapper .settings-item-intro {
+    color: #999;
+    margin: 6px 0 0 0;
+    padding: 0;
+}
+
+.settings-item.settings-item-solidline {
+    padding-top: 24px;
+    padding-bottom: 10px;
+}
+
+.settings-item {
+    padding: 12px 0;
+    width: 100%;
+    border-top: 1px solid #ccc;
+}
+
+.settings-item h3 {
+    font-weight: 700;
+    font-size: 14px;
+    outline: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.settings-item .settings-item-left {
+    width: 234px;
+    margin-bottom: 16px;
+}
+
+.settings-item .settings-item-right .row {
+    margin-bottom: 10px;
+}
+
+.settings-item .settings-item-right label {
+    width: 100px;
+    display: inline-block;
+    cursor: pointer;
+}
+.settings-item .settings-item-right input[type=radio] {
+    margin-right: 5px;
+}
+
+.zg-left {
+    float: left;
+}
+
+.clearfix::before,
+.clearfix::after {
+    display: table;
+    content: "";
+}
+
+.clearfix::after {
+    clear: both;
+}
+
 .user-profile-form .form-group:after {
     clear: both;
     display: table;
@@ -2253,17 +2323,20 @@ footer ul li {
     font-size: 1.1rem;
     padding: .5rem 1.3rem;
     outline: none;
-    transition: background-color .3s,color .3s;
+    transition: background-color .3s, color .3s;
     cursor: pointer;
     border-radius: 2px;
     display: none;
 }
+
 .tab-collect-btn::before {
-    content:'已';
+    content: '已';
 }
+
 .tab-collect-btn:hover::before {
-    content:'取消';
+    content: '取消';
 }
+
 .topic-type .nav-list {
     padding: 0;
     margin: 0;
@@ -2303,7 +2376,8 @@ footer ul li {
     color: #909090;
     font-size: 1.3rem;
 }
-.topic-type .nav-list li a:hover{
+
+.topic-type .nav-list li a:hover {
     color: #007fff;
 }
 

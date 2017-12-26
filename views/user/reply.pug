@@ -3,15 +3,48 @@ include ../mixins/reply
 include ../mixins/page
 
 block user_content
-    if (replies.length != 0)
-        each reply in replies
-            +reply(reply,current_user,markdown,formatDate,reply.topic)
-        +page(page,pages)
+    if (user._id.toString() === current_user._id.toString())
+        if (replies.length != 0)
+            each reply in replies
+                +reply(reply,current_user,markdown,formatDate,reply.topic)
+            +page(page,pages)
+        else
+            div.EmptyState
+                div.EmptyState-inner
+                    img(src="/public/images/error_panfish.png" alt="mascot")
+                    p 空
     else
-        div.EmptyState
-            div.EmptyState-inner
-                img(src="/public/images/error_panfish.png" alt="mascot")
-                p 空
+        if (user.show_replies === 0)
+            if (replies.length != 0)
+                each reply in replies
+                    +reply(reply,current_user,markdown,formatDate,reply.topic)
+                +page(page,pages)
+            else
+                div.EmptyState
+                    div.EmptyState-inner
+                        img(src="/public/images/error_panfish.png" alt="mascot")
+                        p 空
+        else if (user.show_replies === 1)
+            if (user_is_follow)
+                if (replies.length != 0)
+                    each reply in replies
+                        +reply(reply,current_user,markdown,formatDate,reply.topic)
+                    +page(page,pages)
+                else
+                    div.EmptyState
+                        div.EmptyState-inner
+                            img(src="/public/images/error_panfish.png" alt="mascot")
+                            p 空
+            else
+                div.EmptyState
+                    div.EmptyState-inner
+                        img(src="/public/images/error_panfish.png" alt="mascot")
+                        p 该用户设置了ta关注的人才可见！
+        else
+            div.EmptyState
+                div.EmptyState-inner
+                    img(src="/public/images/error_panfish.png" alt="mascot")
+                    p 该用户设置了仅自己可见！
 
 
 

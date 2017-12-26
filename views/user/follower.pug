@@ -3,12 +3,45 @@ include ../mixins/user_item
 include ../mixins/page
 
 block user_content
-    if (follower.length != 0)
-        each f in follower
-            +user_item(f.user,current_user)
-        +page(page,pages)
+    if (user._id.toString() === current_user._id.toString())
+        if (follower.length != 0)
+            each f in follower
+                +user_item(f.user,current_user)
+            +page(page,pages)
+        else
+            div.EmptyState
+                div.EmptyState-inner
+                    img(src="/public/images/error_panfish.png" alt="mascot")
+                    p 空
     else
-        div.EmptyState
-            div.EmptyState-inner
-                img(src="/public/images/error_panfish.png" alt="mascot")
-                p 空
+        if (user.show_followers === 0)
+            if (follower.length != 0)
+                each f in follower
+                    +user_item(f.user,current_user)
+                +page(page,pages)
+            else
+                div.EmptyState
+                    div.EmptyState-inner
+                        img(src="/public/images/error_panfish.png" alt="mascot")
+                        p 空
+        else if (user.show_followers === 1)
+            if (user_is_follow)
+                if (follower.length != 0)
+                    each f in follower
+                        +user_item(f.user,current_user)
+                    +page(page,pages)
+                else
+                    div.EmptyState
+                        div.EmptyState-inner
+                            img(src="/public/images/error_panfish.png" alt="mascot")
+                            p 空
+            else
+                div.EmptyState
+                    div.EmptyState-inner
+                        img(src="/public/images/error_panfish.png" alt="mascot")
+                        p 该用户设置了ta关注的人才可见！
+        else
+            div.EmptyState
+                div.EmptyState-inner
+                    img(src="/public/images/error_panfish.png" alt="mascot")
+                    p 该用户设置了仅自己可见！

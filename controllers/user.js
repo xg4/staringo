@@ -77,7 +77,7 @@ exports.index = function (req, res, next) {
 
         var proxy = new EventProxy();
         proxy.fail(next);
-        proxy.all('is_follow', function (is_follow) {
+        proxy.all('is_follow', 'user_is_follow', function (is_follow, user_is_follow) {
             /* active info */
             var active_info = '';
             if (currentUser && currentUser._id.toString() === user._id.toString()) {
@@ -95,7 +95,8 @@ exports.index = function (req, res, next) {
                 active: 'index',
                 active_info: active_info,
                 user: user,
-                is_follow: is_follow
+                is_follow: is_follow,
+                user_is_follow: user_is_follow
             });
         });
 
@@ -104,32 +105,12 @@ exports.index = function (req, res, next) {
         } else {
             proxy.emit('is_follow', null);
         }
+        if (currentUser) {
+            Follow.getFollow(user._id, currentUser._id, proxy.done('user_is_follow'));
+        } else {
+            proxy.emit('user_is_follow', null);
+        }
 
-        /*var proxy = new eventproxy();
-        proxy.all('recent_topics', 'recent_replies', render);
-        proxy.fail(next);
-
-        var query = {author_id: user._id};
-        var opt = {limit: 5, sort: '-create_at'};
-        Topic.getTopicsByQuery(query, opt, proxy.done('recent_topics'));
-
-        Reply.getRepliesByAuthorId(user._id, {limit: 20, sort: '-create_at'},
-            proxy.done(function (replies) {
-
-                var topic_ids = replies.map(function (reply) {
-                    return reply.topic_id.toString()
-                });
-                topic_ids = _.uniq(topic_ids).slice(0, 5); //  只显示最近5条
-
-                var query = {_id: {'$in': topic_ids}};
-                var opt = {};
-                Topic.getTopicsByQuery(query, opt, proxy.done('recent_replies', function (recent_replies) {
-                    recent_replies = _.sortBy(recent_replies, function (topic) {
-                        return topic_ids.indexOf(topic._id.toString())
-                    });
-                    return recent_replies;
-                }));
-            }));*/
     });
 };
 
@@ -154,7 +135,7 @@ exports.listTopics = function (req, res, next) {
 
         var proxy = new EventProxy();
         proxy.fail(next);
-        proxy.all('topics', 'pages', 'is_follow', function (topics, pages, is_follow) {
+        proxy.all('topics', 'pages', 'is_follow', 'user_is_follow', function (topics, pages, is_follow, user_is_follow) {
             /* active info */
             var active_info = '';
             if (currentUser && currentUser._id.toString() === user._id.toString()) {
@@ -175,7 +156,8 @@ exports.listTopics = function (req, res, next) {
                 topics: topics,
                 page: page,
                 pages: pages,
-                is_follow: is_follow
+                is_follow: is_follow,
+                user_is_follow: user_is_follow
             });
         });
 
@@ -217,6 +199,12 @@ exports.listTopics = function (req, res, next) {
             proxy.emit('is_follow', null);
         }
 
+        if (currentUser) {
+            Follow.getFollow(user._id, currentUser._id, proxy.done('user_is_follow'));
+        } else {
+            proxy.emit('user_is_follow', null);
+        }
+
 
     });
 };
@@ -241,7 +229,7 @@ exports.listReplies = function (req, res, next) {
 
         var proxy = new EventProxy();
         proxy.fail(next);
-        proxy.all('replies', 'pages', 'is_follow', function (replies, pages, is_follow) {
+        proxy.all('replies', 'pages', 'is_follow', 'user_is_follow', function (replies, pages, is_follow, user_is_follow) {
             /* active info */
             var active_info = '';
             if (currentUser && currentUser._id.toString() === user._id.toString()) {
@@ -262,7 +250,8 @@ exports.listReplies = function (req, res, next) {
                 is_follow: is_follow,
                 pages: pages,
                 page: page,
-                replies: replies
+                replies: replies,
+                user_is_follow: user_is_follow
             });
         });
 
@@ -280,6 +269,12 @@ exports.listReplies = function (req, res, next) {
             Follow.getFollow(currentUser._id, user._id, proxy.done('is_follow'));
         } else {
             proxy.emit('is_follow', null);
+        }
+
+        if (currentUser) {
+            Follow.getFollow(user._id, currentUser._id, proxy.done('user_is_follow'));
+        } else {
+            proxy.emit('user_is_follow', null);
         }
 
     });
@@ -304,7 +299,7 @@ exports.listCollections = function (req, res, next) {
         }
         var proxy = new EventProxy();
         proxy.fail(next);
-        proxy.all('topic_collect', 'pages', 'is_follow', function (collections, pages, is_follow) {
+        proxy.all('topic_collect', 'pages', 'is_follow', 'user_is_follow', function (collections, pages, is_follow, user_is_follow) {
             /* active info */
             var active_info = '';
             if (currentUser && currentUser._id.toString() === user._id.toString()) {
@@ -325,7 +320,8 @@ exports.listCollections = function (req, res, next) {
                 collections: collections,
                 pages: pages,
                 page: page,
-                is_follow: is_follow
+                is_follow: is_follow,
+                user_is_follow: user_is_follow
             });
         });
 
@@ -364,6 +360,12 @@ exports.listCollections = function (req, res, next) {
             proxy.emit('is_follow', null);
         }
 
+        if (currentUser) {
+            Follow.getFollow(user._id, currentUser._id, proxy.done('user_is_follow'));
+        } else {
+            proxy.emit('user_is_follow', null);
+        }
+
     });
 };
 
@@ -386,7 +388,7 @@ exports.listFollowing = function (req, res, next) {
         }
         var proxy = new EventProxy();
         proxy.fail(next);
-        proxy.all('all_following', 'pages', 'is_follow', function (all_following, pages, is_follow) {
+        proxy.all('all_following', 'pages', 'is_follow', 'user_is_follow', function (all_following, pages, is_follow, user_is_follow) {
             /* active info */
             var active_info = '';
             if (currentUser && currentUser._id.toString() === user._id.toString()) {
@@ -406,7 +408,8 @@ exports.listFollowing = function (req, res, next) {
                 following: all_following,
                 page: page,
                 pages: pages,
-                is_follow: is_follow
+                is_follow: is_follow,
+                user_is_follow: user_is_follow
             });
         });
 
@@ -440,6 +443,12 @@ exports.listFollowing = function (req, res, next) {
             proxy.emit('is_follow', null);
         }
 
+        if (currentUser) {
+            Follow.getFollow(user._id, currentUser._id, proxy.done('user_is_follow'));
+        } else {
+            proxy.emit('user_is_follow', null);
+        }
+
     });
 };
 
@@ -463,7 +472,7 @@ exports.listFollowers = function (req, res, next) {
 
         var proxy = new EventProxy();
         proxy.fail(next);
-        proxy.all('all_followers', 'pages', 'is_follow', function (all_followers, pages, is_follow) {
+        proxy.all('all_followers', 'pages', 'is_follow', 'user_is_follow', function (all_followers, pages, is_follow, user_is_follow) {
             /* active info */
             var active_info = '';
             if (currentUser && currentUser._id.toString() === user._id.toString()) {
@@ -483,7 +492,8 @@ exports.listFollowers = function (req, res, next) {
                 follower: all_followers,
                 page: page,
                 pages: pages,
-                is_follow: is_follow
+                is_follow: is_follow,
+                user_is_follow: user_is_follow
             });
         });
 
@@ -515,6 +525,12 @@ exports.listFollowers = function (req, res, next) {
             Follow.getFollow(currentUser._id, user._id, proxy.done('is_follow'));
         } else {
             proxy.emit('is_follow', null);
+        }
+
+        if (currentUser) {
+            Follow.getFollow(user._id, currentUser._id, proxy.done('user_is_follow'));
+        } else {
+            proxy.emit('user_is_follow', null);
         }
 
     });
@@ -646,6 +662,65 @@ exports.postAccount = function (req, res, next) {
         }));
     }));
 
+};
+
+/**
+ * user settings privacy page
+ */
+exports.getPrivacy = function (req, res, next) {
+    User.getUserById(req.session.user._id, function (err, user) {
+        if (err) {
+            return next(err);
+        }
+        res.render('user/setting/privacy', {
+            title: '个人中心 - ' + config.name,
+            user: user
+        });
+    });
+};
+
+exports.postPrivacy = function (req, res, next) {
+    var show_activities = req.body.show_activities;
+    var show_topics = req.body.show_topics;
+    var show_replies = req.body.show_replies;
+    var show_collections = req.body.show_collections;
+    var show_followers = req.body.show_followers;
+    var show_following = req.body.show_following;
+
+    User.getUserById(req.session.user._id, function (err, user) {
+        if (err) {
+            return next(err);
+        }
+        user.show_activities = show_activities;
+        user.show_topics = show_topics;
+        user.show_replies = show_replies;
+        user.show_collections = show_collections;
+        user.show_followers = show_followers;
+        user.show_following = show_following;
+
+        user.save();
+        req.session.user = user;
+        res.render('user/setting/privacy', {
+            title: '个人中心 - ' + config.name,
+            user: user,
+            success: '修改成功！'
+        });
+    });
+};
+
+/**
+ * user settings email page
+ */
+exports.getEmail = function (req, res, next) {
+    User.getUserById(req.session.user._id, function (err, user) {
+        if (err) {
+            return next(err);
+        }
+        res.render('user/setting/email', {
+            title: '个人中心 - ' + config.name,
+            user: user
+        });
+    });
 };
 
 exports.follow = function (req, res, next) {

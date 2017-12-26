@@ -1,7 +1,30 @@
 extends layout
 
 block user_content
-    div.EmptyState
-        div.EmptyState-inner
-            img(src="/public/images/error_panfish.png" alt="mascot")
-            p 空
+    if (user._id.toString() === current_user._id.toString())
+        div.EmptyState
+            div.EmptyState-inner
+                img(src="/public/images/error_panfish.png" alt="mascot")
+                p 空
+    else
+        if (user.show_activities === 0)
+            div.EmptyState
+                div.EmptyState-inner
+                    img(src="/public/images/error_panfish.png" alt="mascot")
+                    p 空
+        else if (user.show_activities === 1)
+            if (user_is_follow)
+                div.EmptyState
+                    div.EmptyState-inner
+                        img(src="/public/images/error_panfish.png" alt="mascot")
+                        p 空
+            else
+                div.EmptyState
+                    div.EmptyState-inner
+                        img(src="/public/images/error_panfish.png" alt="mascot")
+                        p 该用户设置了ta关注的人才可见！
+        else
+            div.EmptyState
+                div.EmptyState-inner
+                    img(src="/public/images/error_panfish.png" alt="mascot")
+                    p 该用户设置了仅自己可见！

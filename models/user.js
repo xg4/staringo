@@ -31,6 +31,13 @@ var UserSchema = new Schema({
     following_count: {type: Number, default: 0}, // 关注的人数
     follower_count: {type: Number, default: 0}, // 被关注的人数
 
+    show_activities:{type: Number, default: 0}, // 是否展示动态 0为所有人可见，1为自己关注的人可见，2为仅自己可见
+    show_topics:{type: Number, default: 0}, // 是否展示文章
+    show_replies:{type: Number, default: 0}, // 是否展示回复
+    show_collections:{type: Number, default: 0}, // 是否展示收藏
+    show_followers:{type: Number, default: 0}, // 是否展示被关注的人
+    show_following:{type: Number, default: 0}, // 是否展示关注的人
+
     is_star: {type: Boolean, default: false},
     is_verify: {type: Boolean, default: false},
 

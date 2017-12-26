@@ -77,7 +77,10 @@ router.post('/settings/profile', auth.userRequired, user.postProfile); // 提交
 router.get('/settings/account', auth.userRequired, user.getAccount); //  用户 账户信息
 router.post('/settings/account', auth.userRequired, user.postAccount); //  用户 账户信息
 
+router.get('/settings/privacy', auth.userRequired, user.getPrivacy); //  用户 隐私信息
+router.post('/settings/privacy', auth.userRequired, user.postPrivacy); //  用户 隐私信息
 
+router.get('/settings/email', auth.userRequired, user.getEmail); //  用户 邮箱信息
 /*router.post('/user/set_star', auth.adminRequired, user.toggleStar); // 把某用户设为达人
 router.post('/user/cancel_star', auth.adminRequired, user.toggleStar);  // 取消某用户的达人身份
 router.post('/user/:name/block', auth.adminRequired, user.block);  // 禁言某用户

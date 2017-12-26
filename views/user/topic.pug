@@ -3,17 +3,45 @@ include ../mixins/topic_item
 include ../mixins/page
 
 block user_content
-    if (topics.length != 0)
-        each topic in topics
-            +topic_item(current_user,topic,markdown)
-        +page(page,pages)
+    if (user._id.toString() === current_user._id.toString())
+        if (topics.length != 0)
+            each topic in topics
+                +topic_item(current_user,topic,markdown)
+            +page(page,pages)
+        else
+            div.EmptyState
+                div.EmptyState-inner
+                    img(src="/public/images/error_panfish.png" alt="mascot")
+                    p 空
     else
-        div.EmptyState
-            div.EmptyState-inner
-                img(src="/public/images/error_panfish.png" alt="mascot")
-                p 空
-
-
-
-
-
+        if (user.show_topics === 0)
+            if (topics.length != 0)
+                each topic in topics
+                    +topic_item(current_user,topic,markdown)
+                +page(page,pages)
+            else
+                div.EmptyState
+                    div.EmptyState-inner
+                        img(src="/public/images/error_panfish.png" alt="mascot")
+                        p 空
+        else if (user.show_topics === 1)
+            if (user_is_follow)
+                if (topics.length != 0)
+                    each topic in topics
+                        +topic_item(current_user,topic,markdown)
+                    +page(page,pages)
+                else
+                    div.EmptyState
+                        div.EmptyState-inner
+                            img(src="/public/images/error_panfish.png" alt="mascot")
+                            p 空
+            else
+                div.EmptyState
+                    div.EmptyState-inner
+                        img(src="/public/images/error_panfish.png" alt="mascot")
+                        p 该用户设置了ta关注的人才可见！
+        else
+            div.EmptyState
+                div.EmptyState-inner
+                    img(src="/public/images/error_panfish.png" alt="mascot")
+                    p 该用户设置了仅自己可见！

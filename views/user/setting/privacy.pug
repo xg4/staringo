@@ -1,0 +1,111 @@
+extends ../../layout
+
+block public
+
+block content
+    div.container-fluid
+        div.user-wrapper
+            div.user-side(role="navigation")
+                nav.menu
+                    h3.menu-header 个人设置
+                    a.menu-item(href="/settings/profile") 简介
+                    a.menu-item(href="/settings/account") 账户
+                    a.menu-item(href="/settings/email") 电子邮件
+                    a.menu-item.selected 隐私
+            div.user-main.card.p-2
+                div.setting-header
+                    h2.setting-header-text 隐私
+                if (error)
+                    +alert('danger',error)
+                if (success)
+                    +alert('success',success)
+                form.user-profile-form(method="post" action="/settings/privacy")
+                    div.settings-item-wrapper
+                        h2 显示设置
+                        p.settings-item-intro 用户个人界面显示设置
+                        div.settings-item.settings-item-solidline.clearfix
+                            h3.zg-left.settings-item-left 动态
+                            div.zg-left.settings-item-right
+                                - var a=false,b=false,c=false;
+                                - if (user.show_activities === 0) {a=true} else if (user.show_activities === 1) {b=true} else {c=true}
+                                label
+                                    input(type="radio" value="0" name="show_activities" checked= a)
+                                    | 所有人
+                                label
+                                    input(type="radio" value="1" name="show_activities" checked= b)
+                                    | 关注的人
+                                label
+                                    input(type="radio" value="2" name="show_activities" checked= c)
+                                    | 仅自己
+                    div.settings-item.settings-item-solidline.clearfix
+                        h3.zg-left.settings-item-left 文章
+                        div.zg-left.settings-item-right
+                            - a=false;b=false;c=false;
+                            - if (user.show_topics === 0) {a=true} else if (user.show_topics === 1) {b=true} else {c=true}
+                            label
+                                input(type="radio" value="0" name="show_topics" checked= a)
+                                | 所有人
+                            label
+                                input(type="radio" value="1" name="show_topics" checked= b)
+                                | 关注的人
+                            label
+                                input(type="radio" value="2" name="show_topics" checked= c)
+                                | 仅自己
+                    div.settings-item.settings-item-solidline.clearfix
+                        h3.zg-left.settings-item-left 回复
+                        div.zg-left.settings-item-right
+                            - a=false;b=false;c=false;
+                            - if (user.show_replies === 0) {a=true} else if (user.show_replies === 1) {b=true} else {c=true}
+                            label
+                                input(type="radio" value="0" name="show_replies" checked= a)
+                                | 所有人
+                            label
+                                input(type="radio" value="1" name="show_replies" checked= b)
+                                | 关注的人
+                            label
+                                input(type="radio" value="2" name="show_replies" checked= c)
+                                | 仅自己
+                    div.settings-item.settings-item-solidline.clearfix
+                        h3.zg-left.settings-item-left 收藏
+                        div.zg-left.settings-item-right
+                            - a=false;b=false;c=false;
+                            - if (user.show_collections === 0) {a=true} else if (user.show_collections === 1) {b=true} else {c=true}
+                            label
+                                input(type="radio" value="0" name="show_collections" checked= a)
+                                | 所有人
+                            label
+                                input(type="radio" value="1" name="show_collections" checked= b)
+                                | 关注的人
+                            label
+                                input(type="radio" value="2" name="show_collections" checked= c)
+                                | 仅自己
+                    div.settings-item.settings-item-solidline.clearfix
+                        h3.zg-left.settings-item-left 关注者
+                        div.zg-left.settings-item-right
+                            - a=false;b=false;c=false;
+                            - if (user.show_followers === 0) {a=true} else if (user.show_followers === 1) {b=true} else {c=true}
+                            label
+                                input(type="radio" value="0" name="show_followers" checked= a)
+                                | 所有人
+                            label
+                                input(type="radio" value="1" name="show_followers" checked= b)
+                                | 关注的人
+                            label
+                                input(type="radio" value="2" name="show_followers" checked= c)
+                                | 仅自己
+                    div.settings-item.settings-item-solidline.clearfix
+                        h3.zg-left.settings-item-left 关注了
+                        div.zg-left.settings-item-right
+                            - a=false;b=false;c=false;
+                            - if (user.show_following === 0) {a=true} else if (user.show_following === 1) {b=true} else {c=true}
+                            label
+                                input(type="radio" value="0" name="show_following" checked= a)
+                                | 所有人
+                            label
+                                input(type="radio" value="1" name="show_following" checked= b)
+                                | 关注的人
+                            label
+                                input(type="radio" value="2" name="show_following" checked= c)
+                                | 仅自己
+                    div.form-group
+                        input.btn.btn-primary.center-block(type="submit" value="提交")

@@ -9,12 +9,12 @@ block content
                 nav.menu
                     h3.menu-header 个人设置
                     a.menu-item(href="/settings/profile") 简介
-                    a.menu-item.selected 账户
-                    a.menu-item(href="/settings/email") 电子邮件
+                    a.menu-item(href="/settings/account") 账户
+                    a.menu-item.selected 电子邮件
                     a.menu-item(href="/settings/privacy") 隐私
             div.user-main.card.p-2
                 div.setting-header
-                    h2.setting-header-text 账号
+                    h2.setting-header-text 邮箱
                 if (error)
                     +alert('danger',error)
                 if (success)
