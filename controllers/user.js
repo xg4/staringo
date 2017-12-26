@@ -779,6 +779,40 @@ exports.postEmail = function (req, res, next) {
 
     });
 
+};
+
+/**
+ * user settings avatar page
+ */
+exports.getAvatar = function (req, res, next) {
+    User.getUserById(req.session.user._id, function (err, user) {
+        if (err) {
+            return next(err);
+        }
+        res.render('user/setting/avatar', {
+            title: '个人中心 - ' + config.name,
+            user: user
+        });
+    });
+};
+
+exports.postAvatar = function (req, res, next) {
+    var avatar = req.body.avatar;
+
+    User.getUserById(req.session.user._id, function (err, user) {
+        if (err) {
+            return next(err);
+        }
+        user.avatar = avatar;
+        user.save();
+        req.session.user = user;
+        return res.render('user/setting/avatar', {
+            title: '个人中心 - ' + config.name,
+            user: user,
+            success: '修改成功！'
+        });
+
+    });
 
 };
 

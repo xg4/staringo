@@ -1803,6 +1803,7 @@ footer ul li {
     display: inline-block;
     cursor: pointer;
 }
+
 .settings-item .settings-item-right input[type=radio] {
     margin-right: 5px;
 }
@@ -1819,6 +1820,24 @@ footer ul li {
 
 .clearfix::after {
     clear: both;
+}
+
+.user-avatar-box {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.user-avatar-box .user-avatar-img {
+    width: 100px;
+    height: 100px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+}
+.user-avatar-box label{
+    margin-left: 10px;
+}
+.user-avatar-box label input {
+    display: none;
 }
 
 .user-profile-form .form-group:after {

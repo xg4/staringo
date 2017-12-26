@@ -85,6 +85,9 @@ router.post('/settings/privacy', auth.userRequired, user.postPrivacy); //  用�
 
 router.get('/settings/email', auth.userRequired, user.getEmail); //  用户 邮箱信息
 router.post('/settings/email', auth.userRequired, user.postEmail); //  用户 邮箱信息
+
+router.get('/settings/avatar', auth.userRequired, user.getAvatar); //  用户 头像信息
+router.post('/settings/avatar', auth.userRequired, user.postAvatar); //  用户 头像信息
 /*router.post('/user/set_star', auth.adminRequired, user.toggleStar); // 把某用户设为达人
 router.post('/user/cancel_star', auth.adminRequired, user.toggleStar);  // 取消某用户的达人身份
 router.post('/user/:name/block', auth.adminRequired, user.block);  // 禁言某用户

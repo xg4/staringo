@@ -89,6 +89,24 @@ var userModal = function (title, currentUser, users) {
 };
 
 $(function () {
+    /* 上传头像 */
+    $('.user-avatar-btn').on('change', function () {
+        var $this = $(this)[0];
+        if ($this.files.length) {
+            var file = $this.files[0],
+                reader = new FileReader();
+            if (!reader) {
+                return this.value = '';
+            }
+            reader.onload = function (e) {
+                this.value = '';
+                $('.user-avatar-img').attr('src', e.target.result);
+                $('.user-avatar-val').val(e.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
     /* tab collect */
     $(document).on('click', '[data-tab="collect"]', function () {
         var $this = $(this);

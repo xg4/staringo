@@ -9,23 +9,23 @@ block content
                 nav.menu
                     h3.menu-header 个人设置
                     a.menu-item(href="/settings/profile") 简介
-                    a.menu-item(href="/settings/avatar") 头像
+                    a.menu-item.selected 头像
                     a.menu-item(href="/settings/account") 密码
-                    a.menu-item.selected 电子邮件
+                    a.menu-item(href="/settings/email") 电子邮件
                     a.menu-item(href="/settings/privacy") 隐私
             div.user-main.card.p-2
                 div.setting-header
-                    h2.setting-header-text 邮箱
+                    h2.setting-header-text 账号
                 if (error)
                     +alert('danger',error)
                 if (success)
                     +alert('success',success)
-                form.user-profile-form(method="post" action="/settings/email")
-                    div.form-group
-                        label.user-profile-label(for="password") 密码
-                        input.form-control.user-profile-input(name="password" id="password" type="password" tabindex="2" required)
-                    div.form-group
-                        label.user-profile-label(for="email") 原邮箱地址
-                        input.form-control.user-profile-input(name="email" id="email" type="text" tabindex="2" required)
+                form.user-profile-form(method="post" action="/settings/avatar")
+                    div.user-avatar-box
+                        img.user-avatar-img
+                        label.btn.btn-info
+                            input.user-avatar-btn(type="file")
+                            | 选择图片
+                        input.user-avatar-val(type="hidden" name="avatar")
                     div.form-group
                         input.btn.btn-primary.center-block(type="submit" value="提交")
