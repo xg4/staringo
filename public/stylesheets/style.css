@@ -23,6 +23,45 @@ a:focus {
     color: #0f88eb;
 }
 
+/* markdown */
+.markdown-text a {
+    margin-left: 5px;
+    margin-right: 5px;
+    text-decoration: none;
+    transition: none;
+    cursor: pointer;
+    color: #175199;
+}
+
+.markdown-text a:hover {
+    color: #175199;
+    border-bottom: 1px solid rgba(62,122,194,.72);
+}
+.markdown-text h1 {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    font-size: 22px;
+    font-weight: 600;
+}
+.markdown-text h2 {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    font-size: 20px;
+    font-weight: 600;
+}
+.markdown-text h3 {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    font-size: 18px;
+    font-weight: 600;
+}
+.markdown-text blockquote {
+    padding-left: 1em;
+    margin: 1em 0;
+    color: #6b7a8c;
+    border-left: 4px solid #cfd8e6;
+}
+
 /*----*/
 /*user badge*/
 .user-badge-box {
@@ -778,12 +817,33 @@ footer ul li {
 /*topic create or edit*/
 .topic-form-wrapper {
     overflow: hidden;
-    margin-top: 20px;
+    margin: 20px auto 0 auto;
     padding: 10px;
-    border-top: 1px solid #e5e5e5;
+    border: 1px solid #ccc;
     background-color: #fff;
     line-height: 2em;
     border-radius: 3px;
+
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    width: 1000px;
+}
+
+.topic-form-wrapper .sidebar {
+    width: 290px;
+    font-size: 14px;
+    margin-top: 20px;
+}
+
+.topic-form-wrapper .topic-edit-wrapper {
+    width: 650px;
 }
 
 .topic-form-title {
@@ -1833,9 +1893,11 @@ footer ul li {
     border: 1px solid #ccc;
     margin-right: 10px;
 }
-.user-avatar-box label{
+
+.user-avatar-box label {
     margin-left: 10px;
 }
+
 .user-avatar-box label input {
     display: none;
 }

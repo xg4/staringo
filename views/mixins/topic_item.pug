@@ -31,7 +31,10 @@ mixin topic_item(current_user,topic)
                 div.topic-content
                     div.topic-text
                         - var c = markdown(topic.content);
-                        | !{c}
+                        //-| !{c}
+                        - var content = c.replace(/<\/?.+?>/g,"").replace(/ /g,"")
+                        - content = content.slice(0,100)
+                        | #{content}
             div.topic-footer
                 ul.topic-footer-toolbar
                     li.like-btn

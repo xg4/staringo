@@ -82,7 +82,7 @@ block content
                         if (topic.lock)
                             span.label.label-danger 锁定
                     div.TopicHeader-detail
-                        - var c = markdown(topic.content)
+                        - var c = markdown(topic.linkedContent)
                         | !{c}
                 div.TopicHeader-side
                     div.TopicHeader-follow-status
@@ -199,13 +199,13 @@ block content
                     div.card-section
                         div.Author-counts
                             div.NumBoard
-                                a.NumBoard-item
+                                a.NumBoard-item(href="/user/"+topic.author.username)
                                     div.NumBoard-name 积分
                                     div.NumBoard-value #{topic.author.score}
-                                a.NumBoard-item
+                                a.NumBoard-item(href="/user/"+topic.author.username+'/topics')
                                     div.NumBoard-name 主题数
                                     div.NumBoard-value #{topic.author.topic_count}
-                                a.NumBoard-item
+                                a.NumBoard-item(href="/user/"+topic.author.username+'/followers')
                                     div.NumBoard-name 关注者
                                     div.NumBoard-value.author-follower-count #{topic.author.follower_count}
                         if (current_user && current_user._id.toString() === topic.author._id.toString())

@@ -10,15 +10,15 @@ exports.index = function (req, res, next) {
     ep.fail(next);
     ep.all('all_msg', 'pages', function (all_msg, pages) {
 
-        all_msg = all_msg.filter(function (msg) {
-            return msg.topic && msg.author && msg.reply && msg.master
-        });
+        // all_msg = all_msg.filter(function (msg) {
+        //     return msg.topic && msg.author && msg.reply && msg.master
+        // });
 
         var hasnot_read_msg = [];
         all_msg.forEach(function (msg, i, all_msg) {
-            if (!msg.topic || !msg.author || !msg.reply || !msg.master) {
-                all_msg.splice(i, 1);
-            }
+            // if (!msg.topic || !msg.author || !msg.reply || !msg.master) {
+            //     all_msg.splice(i, 1);
+            // }
             if (!msg.has_read) {
                 hasnot_read_msg.push(msg);
             }

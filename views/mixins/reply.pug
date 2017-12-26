@@ -28,9 +28,16 @@ mixin reply(reply,current_user,markdown,formatDate,topic)
                         | 人赞同了该回复
         div.Reply-body
             div.RichContent
-                div.RichContent-inner
-                    - var c = markdown(reply.content)
-                    | !{c}
+                if (!topic)
+                    div.RichContent-inner
+                        - var c = markdown(reply.content)
+                        | !{c}
+                else
+                    div.RichContent-inner
+                        - var c = markdown(reply.content)
+                        - var content = c.replace(/<\/?.+?>/g,"").replace(/ /g,"")
+                        - content = content.slice(0,50)
+                        | #{content}
                 - var t = formatDate(reply.create_at)
                 div.Reply-time
                     span(data-toggle="tooltip" title="发布于 "+ t) 编辑于 #{reply.update_at_ago()}
@@ -45,7 +52,7 @@ mixin reply(reply,current_user,markdown,formatDate,topic)
                                 button.btn-normal(data-reply="up" data-toggle="tooltip" title="点赞")
                                     span.glyphicon.glyphicon-heart-empty
                                     | 点赞
-                        li
+                        //-li
                             button.btn-normal(data-toggle="tooltip" title="评论")
                                 span.glyphicon.glyphicon-comment
                                 | 评论

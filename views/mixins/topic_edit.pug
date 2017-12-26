@@ -1,19 +1,22 @@
 //- topic create or edit
-mixin topic_edit(action,topic)
-    if (typeof (action) !== 'undefined' && action === 'edit')
-        - var form_title = '编辑文章',form_action = '/topic/'+ topic._id +'/edit'
-    else
-        - var form_title = '发布文章',form_action = '/topic/create'
-    h1.topic-form-title= form_title
-    form.topic-form(action= form_action method='post')
-        div.form-group
-            - var tab;
-            - if(topic.tab){ tab = topic.tab.name} else {tab = ''}
-            input.form-control(type="text" name='topic_tab' value= tab autofocus placeholder="文章的话题")
-        div.form-group
-            input.form-control(type="text" name='topic_title' value= topic.title placeholder="标题字数 10 字以上")
-        div.form-group
-            div.markdown-editor
-                textarea.editor(name="topic_content" placeholder="文章支持 Markdown 语法, 请注意标记代码") #{topic.content}
-                div.editor-btn-group
-                    input.btn.btn-primary.btn-form(type="submit" data-loading-text="提交中" value="提交")
+mixin topic_edit(action,topic,edit_error)
+    div.topic-edit-wrapper
+        if (edit_error)
+            +alert('danger',edit_error,'show')
+        if (typeof (action) !== 'undefined' && action === 'edit')
+            - var form_title = '编辑文章',form_action = '/topic/'+ topic._id +'/edit'
+        else
+            - var form_title = '发布文章',form_action = '/topic/create'
+        h1.topic-form-title= form_title
+        form.topic-form(action= form_action method='post')
+            div.form-group
+                - var tab;
+                - if(topic.tab){ tab = topic.tab.name} else {tab = ''}
+                input.form-control(type="text" name='topic_tab' value= tab autofocus placeholder="文章的话题，话题自定义")
+            div.form-group
+                input.form-control(type="text" name='topic_title' value= topic.title placeholder="文章的标题，标题字数 10 字以上")
+            div.form-group
+                div.markdown-editor
+                    textarea.editor(name="topic_content" placeholder="文章支持 Markdown 语法, 请注意标记代码") #{topic.content}
+                    div.editor-btn-group
+                        input.btn.btn-primary.btn-form(type="submit" data-loading-text="提交中" value="提交")

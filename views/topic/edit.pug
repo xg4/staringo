@@ -15,8 +15,27 @@ block public
 block content
     div.container
         div.topic-form-wrapper
-            if (edit_error)
-                +alert('danger',edit_error,'show')
-            +topic_edit(action,topic)
+            +topic_edit(action,topic,edit_error)
+            div.sidebar
+                div.panel.panel-info
+                    div.panel-heading
+                        h3.panel-title Markdown 语法参考
+                    div.panel-body
+                        p #一级标题 ##二级标题 ###三级标题
+                        p **粗体**
+                        p `console.log('行内代码')`
+                        p ```js\n code \n``` 标记代码块
+                        p [内容](链接)
+                        p ![文字说明](图片链接)
+                    div.panel-footer
+                        a(href="https://segmentfault.com/markdown") Markdown 文档
+                div.panel.panel-success
+                    div.panel-heading
+                        h3.panel-title 文章发布指南
+                    div.panel-body
+                        p 文章话题，可自定义
+                        p 文章标题，至少10个字
+                        p 文章内容，可输入Markdown语法
+
 
 
