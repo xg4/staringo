@@ -15,12 +15,11 @@ var Topic = require('../proxy').Topic;
 var TopicCollect = require('../proxy').TopicCollect;
 var Follow = require('../proxy').Follow;
 var Tab = require('../proxy').Tab;
+var Reply = require('../proxy').Reply;
 var EventProxy = require('eventproxy');
 var tools = require('../common/tools');
-/*var store = require('../common/store');*/
 var config = require('../config');
 var _ = require('lodash');
-/*var cache = require('../common/cache');*/
 var logger = require('../common/logger');
 
 /**
@@ -31,17 +30,9 @@ var logger = require('../common/logger');
  * @param  {Function} next
  */
 exports.index = function (req, res, next) {
-    function isUped(user, reply) {
-        /*if (!reply.ups) {
-            return false;
-        }
-        return reply.ups.indexOf(user._id) !== -1;*/
-        return false;
-    }
-
     var topic_id = req.params.tid;
     var currentUser = req.session.user;
-    var reply_type = req.body.reply || 'time';
+    var reply_type = req.query.reply || 'time';
 
     if (topic_id.length !== 24) {
         return res.render404('此话题不存在!');
@@ -49,15 +40,33 @@ exports.index = function (req, res, next) {
     var events = ['topic_edit', 'other_topics', 'no_reply_topics', 'is_collect', 'is_follow'];
     var ep = new EventProxy();
     ep.all(events, function (topic, other_topics, no_reply_topics, is_collect, is_follow) {
-        res.render('topic/index', {
-            title: topic.title + ' - ' + config.name,
-            topic: topic,
-            author_other_topics: other_topics,
-            no_reply_topics: no_reply_topics,
-            is_uped: isUped,
-            is_collect: is_collect,
-            is_follow: is_follow
-        });
+        if (reply_type === 'hot') {
+            Reply.getRepliesByTopicId(topic._id, {sort: '-up_count create_at'}, function (err, replies) {
+                if (err) {
+                    next(err)
+                }
+                topic.replies = replies;
+                res.render('topic/index', {
+                    title: topic.title + ' - ' + config.name,
+                    topic: topic,
+                    author_other_topics: other_topics,
+                    no_reply_topics: no_reply_topics,
+                    is_collect: is_collect,
+                    is_follow: is_follow,
+                    reply_type: reply_type
+                });
+            });
+        } else {
+            res.render('topic/index', {
+                title: topic.title + ' - ' + config.name,
+                topic: topic,
+                author_other_topics: other_topics,
+                no_reply_topics: no_reply_topics,
+                is_collect: is_collect,
+                is_follow: is_follow,
+                reply_type: reply_type
+            });
+        }
     });
 
     ep.fail(next);
@@ -458,19 +467,22 @@ exports.listCollections = function (req, res, next) {
                     collections: collections
                 });
             });
-            doc.map(function (d, idx) {
-
-                Follow.getFollow(currentUser._id, d.user._id, ep.done('is_follow', function (doc) {
-                    collections[idx] = [];
-                    if (doc) {
-                        collections[idx][1] = {current_is_follow: doc};
-                    } else {
-                        collections[idx][1] = {current_is_follow: null};
-                    }
+            doc.forEach(function (d, idx) {
+                collections[idx] = [];
+                if (!currentUser) {
                     collections[idx][0] = d.user;
-                }));
-
-
+                    collections[idx][1] = {current_is_follow: null};
+                    ep.emit('is_follow');
+                } else {
+                    Follow.getFollow(currentUser._id, d.user._id, ep.done('is_follow', function (doc) {
+                        if (doc) {
+                            collections[idx][1] = {current_is_follow: doc};
+                        } else {
+                            collections[idx][1] = {current_is_follow: null};
+                        }
+                        collections[idx][0] = d.user;
+                    }));
+                }
             });
 
         });
@@ -497,6 +509,7 @@ exports.up = function (req, res, next) {
             topic.ups.splice(upIndex, 1);
             action = 'down';
         }
+        topic.up_count = topic.ups.length;
         topic.save(function () {
             return res.json({
                 status: true,

@@ -128,7 +128,8 @@ router.get('/search', search.index);
  * tab controller
  */
 router.get('/tabs', tab.index);
-router.get('/tab/:tab_id', tab.show);
+router.get('/tab/:tab_id', tab.topics);
+router.post('/tab/:tab_id/collect', tab.collect);
 
 /**
  * admin controller

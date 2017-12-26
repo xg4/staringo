@@ -188,24 +188,29 @@ exports.ups = function (req, res, next) {
         var ep = EventProxy();
         ep.fail(next);
         ep.after('is_follow', ups.length, function () {
-            console.log(ups);
             res.json({
                 status: true,
-                currentUser: req.session.user,
+                currentUser: currentUser,
                 ups: users
             });
         });
         var users = [];
-        ups.map(function (up, idx) {
-            Follow.getFollow(currentUser._id, up._id, ep.done('is_follow', function (doc) {
-                users[idx] = [];
-                if (doc) {
-                    users[idx][1] = {current_is_follow: doc};
-                } else {
-                    users[idx][1] = {current_is_follow: null};
-                }
+        ups.forEach(function (up, idx) {
+            users[idx] = [];
+            if (!currentUser) {
                 users[idx][0] = up;
-            }));
+                users[idx][1] = {current_is_follow: null};
+                ep.emit('is_follow');
+            } else {
+                Follow.getFollow(currentUser._id, up._id, ep.done('is_follow', function (doc) {
+                    if (doc) {
+                        users[idx][1] = {current_is_follow: doc};
+                    } else {
+                        users[idx][1] = {current_is_follow: null};
+                    }
+                    users[idx][0] = up;
+                }));
+            }
         });
     });
 };

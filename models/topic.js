@@ -20,6 +20,7 @@ var TopicSchema = new Schema({
     update_at: {type: Date, default: Date.now}, // 更新时间
 
     ups: [{type: ObjectId, ref: 'User'}],
+    up_count:{type: Number, default: 0},
 
     last_reply: {type: ObjectId, ref: 'User'},  // 最后一个回复 的用户
     last_reply_at: {type: Date, default: Date.now}, // 最后一个回复 的时间

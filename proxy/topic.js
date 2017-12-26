@@ -108,7 +108,7 @@ exports.getTopicsByQuery = function (query, opt, callback) {
  */
 exports.getTopicsByQuery4Search = function (query, opt, callback) {
     Topic.find(query, {}, opt)
-        .populate(['author','tab'])
+        .populate(['author', 'tab'])
         .exec(function (err, topics) {
             if (err) {
                 return callback(err);
@@ -232,7 +232,7 @@ exports.getFullTopic = function (id, callback) {
             proxy.emit('tab', tab);
         }));
 
-        Reply.getRepliesByTopicId(topic._id, proxy.done('replies'));
+        Reply.getRepliesByTopicId(topic._id, {sort: 'create_at'}, proxy.done('replies'));
     }));
 };
 

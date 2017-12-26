@@ -20,6 +20,8 @@ block home_content
                         div.user-badge
                             if (user.is_admin)
                                 span.label.label-warning 管理员
+                            if (user.isAdvanced || user.is_verify)
+                                +user_badge(user)
                     td.text-center #{user.score}
                     td.text-center #{user.topic_count}
                     td.text-center #{user.reply_count}

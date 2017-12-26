@@ -6,7 +6,36 @@ block home_content
         div.tab-info-box
             div.tab-info
                 div.title #{tab.name}
-                div #{tab.collect_count} 关注 #{tab.topic_count} 文章
+                div
+                    span.tab-collect-count #{tab.collect_count}
+                    | &nbsp关注 &nbsp&nbsp
+                    span #{tab.topic_count}
+                    | &nbsp文章
+        div.topic-type
+            div.left
+                - var is_collect = '';var is_not_collect = '';
+                - if (tab_is_collect) { is_collect = 'show' } else { is_not_collect = 'show' }
+                    button.tab-collect-btn(class= is_collect data-tab="collect" data-id= tab._id.toString()) 关注
+                    button.tab-de_collect-btn(class= is_not_collect data-tab="collect" data-id= tab._id.toString()) 关注
+            ul.nav-list
+                if (topic_type !== 'hot' && topic_type !== 'good')
+                    li.active
+                        a(href="?topic_type=time") 最新
+                else
+                    li
+                        a(href="?topic_type=time") 最新
+                if (topic_type === 'hot')
+                    li.active
+                        a(href="?topic_type=hot") 最热
+                else
+                    li
+                        a(href="?topic_type=hot") 最热
+                if (topic_type === 'good')
+                    li.active
+                        a(href="?topic_type=good") 精华
+                else
+                    li
+                        a(href="?topic_type=good") 精华
         if (topics.length != 0)
             each topic in topics
                 +topic_item(current_user,topic,markdown)
@@ -14,4 +43,5 @@ block home_content
         else
             div.EmptyState.card.topic-item
                 div.EmptyState-inner
-                    span 空
+                    img(src="/public/images/error_panfish.png" alt="mascot")
+                    p 空

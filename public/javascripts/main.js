@@ -59,13 +59,18 @@ var userModal = function (title, currentUser, users) {
         user = user[0];
 
         var btn = '';
-        if (currentUser._id.toString() === user._id.toString()) {
-            btn = '';
-        } else if (current.current_is_follow) {
-            btn = '<button class="btn btn-primary User-follow-btn animated" data-user="follow" data-username="' + user.username + '">关注</button><button class="btn btn-info User-de-follow-btn animated show" data-user="de_follow" data-username="' + user.username + '">关注</button>';
+        if (currentUser) {
+            if (currentUser._id.toString() === user._id.toString()) {
+                btn = '';
+            } else if (current.current_is_follow) {
+                btn = '<button class="btn btn-primary User-follow-btn animated" data-user="follow" data-username="' + user.username + '">关注</button><button class="btn btn-info User-de-follow-btn animated show" data-user="de_follow" data-username="' + user.username + '">关注</button>';
+            } else {
+                btn = '<button class="btn btn-primary User-follow-btn animated show" data-user="follow" data-username="' + user.username + '">关注</button><button class="btn btn-info User-de-follow-btn animated" data-user="de_follow" data-username="' + user.username + '">关注</button>';
+            }
         } else {
-            btn = '<button class="btn btn-primary User-follow-btn animated show" data-user="follow" data-username="' + user.username + '">关注</button><button class="btn btn-info User-de-follow-btn animated" data-user="de_follow" data-username="' + user.username + '">关注</button>';
+            btn = '';
         }
+
         userTemplate += '<div class="User-item"><div class="User"><div class="User-avatar"><a href="/user/' + user.username + '"><img src="' + user.avatar + '" alt="用户头像"></a></div><div class="User-detail"><a href="/user/' + user.username + '"><h2 class="User-name">' + user.username + '</h2></a><div class="User-info"><span class="User-info-item">' + user.topic_count + ' 文章</span><span class="User-info-item">' + user.collect_topic_count + ' 收藏</span><span class="User-info-item"><span class="User-follow-count">' + user.follower_count + '</span> 关注者</span></div></div><div class="User-extra">' + btn + '</div></div></div>';
     });
 
@@ -84,6 +89,25 @@ var userModal = function (title, currentUser, users) {
 };
 
 $(function () {
+    /* tab collect */
+    $(document).on('click', '[data-tab="collect"]', function () {
+        var $this = $(this);
+        var url = '/tab/' + $(this).data('id') + '/collect';
+        $.ajax({
+            type: 'post',
+            url: url,
+            success: function (r) {
+                if (r.status) {
+                    $this.removeClass('show');
+                    $this.siblings().addClass('show');
+                    $this.closest('.topic-type').siblings('.tab-info-box').find('.tab-collect-count').text(r.collectors);
+                } else {
+                    modal({title: '关注失败！', content: r.msg});
+                }
+            }
+        });
+    });
+
     /* user hover */
     $('[data-user="show"]').each(function () {
         userHover($(this));

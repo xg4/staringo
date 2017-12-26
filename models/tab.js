@@ -5,10 +5,10 @@ var ObjectId = Schema.Types.ObjectId;
 
 var TabSchema = new Schema({
     name: {type: String},
-
     author: {type: ObjectId, ref: 'User'},
 
     collect_count: {type: Number, default: 0},
+    collectors:[{type: ObjectId, ref: 'User'}],
 
     create_at: {type: Date, default: Date.now}, // 创建时间
     update_at: {type: Date, default: Date.now} // 更新时间

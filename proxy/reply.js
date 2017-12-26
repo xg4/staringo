@@ -100,8 +100,8 @@ exports.getReplyById4Ups = function (id, callback) {
  * @param {String} id 主题ID
  * @param {Function} callback 回调函数
  */
-exports.getRepliesByTopicId = function (id, callback) {
-    Reply.find({topic: id, deleted: false}, '', {sort: 'create_at'}, function (err, replies) {
+exports.getRepliesByTopicId = function (id, opt, callback) {
+    Reply.find({topic: id, deleted: false}, '', opt, function (err, replies) {
         if (err) {
             return callback(err);
         }

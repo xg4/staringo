@@ -60,21 +60,11 @@ app.use(session({
     saveUninitialized: false
 }));
 
+app.use(errorPageMiddleware.errorPage);
+
 // custom middleware
 app.use(auth.authUser);
 app.use(auth.blockUser());
-
-if (!config.debug) {
-    app.use(function (req, res, next) {
-        if (req.path === '/api' || req.path.indexOf('/api') === -1) {
-            csurf()(req, res, next);
-            return;
-        }
-        next();
-    });
-    app.set('view cache', true);
-}
-
 
 // set static, dynamic helpers
 _.extend(app.locals, {
@@ -83,21 +73,9 @@ _.extend(app.locals, {
 
 _.extend(app.locals, {formatDate: require('./common/tools').formatDate});
 
-app.use(errorPageMiddleware.errorPage);
 _.extend(app.locals, require('./common/render_helper'));
-/*app.use(function (req, res, next) {
-    res.locals.csrf = req.csrfToken ? req.csrfToken() : '';
-    next();
-});*/
-
-/*app.use(busboy({
-    limits: {
-        fileSize: bytes(config.file_limit)
-    }
-}));*/
 
 // routes
-/*app.use('/api/v1', cors(), apiRouterV1);*/
 app.use('/', webRouter);
 
 // catch 404 and forward to error handler

@@ -7,8 +7,10 @@ block home_content
             | 话题广场
         if (tabs.length != 0)
             div.list
+                - var i = 1;
                 each tab in tabs
-                    div.item
+                    - i++;if(i>5){i=1};
+                    div.item(class="bg"+i)
                         div.content
                             a.tab-name(href="/tab/" + tab._id.toString()) #{tab.name}
                             p #{tab.collect_count} 关注 #{tab.topic_count} 文章

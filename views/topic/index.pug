@@ -140,8 +140,12 @@ block content
                 div.card.Topic-replies.List
                     div.List-header
                         h4.List-header-text #{topic.reply_count}个回复
-                        div.List-header-options
-                            button.btn-normal 默认排序
+                        if (reply_type === 'hot')
+                            div.List-header-options
+                                a.btn-normal(href="?reply=time") 按时间排序
+                        else
+                            div.List-header-options
+                                a.btn-normal(href="?reply=hot") 按热度排序
                     if (topic.replies.length === 0)
                         div.EmptyState
                             div.EmptyState-inner
