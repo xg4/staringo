@@ -6,10 +6,19 @@ var TopicCollect = require('../proxy').TopicCollect;
 
 exports.index = function (req, res, next) {
     var page = Number(req.query.page) || 1;
-    var limit = 16;
+    var limit = 9;
+    var currentUser = req.session.user;
+
+    var tab_type = req.query.tab_type || 'hot';
 
     var query = {};
-    var opt = {skip: (page - 1) * limit, limit: limit, sort: '-collect_count'};
+    var opt;
+
+    if (tab_type === 'time') {
+        opt = {skip: (page - 1) * limit, limit: limit, sort: '-create_at'};
+    } else {
+        opt = {skip: (page - 1) * limit, limit: limit, sort: '-collect_count'};
+    }
 
     var proxy = new EventProxy();
     proxy.fail(next);
@@ -22,10 +31,21 @@ exports.index = function (req, res, next) {
                     title: '话题中心 - ' + config.name,
                     tabs: tabs,
                     page: page,
-                    pages: pages
+                    pages: pages,
+                    tab_type:tab_type
                 })
             });
             tabs.forEach(function (tab) {
+                if (currentUser) {
+                    var upIndex = tab.collectors.indexOf(currentUser._id);
+                    if (upIndex === -1) {
+                        tab.is_collect = false;
+                    } else {
+                        tab.is_collect = true;
+                    }
+                } else {
+                    tab.is_collect = false;
+                }
                 Topic.getCountByQuery({tab: tab}, function (err, all_count) {
                     if (err) {
                         return next(err)

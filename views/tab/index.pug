@@ -1,22 +1,53 @@
 extends ../home
 
 block home_content
-    div.card.tab-list.clearfix
-        h2.tabs-title
-            span.glyphicon.glyphicon-th-large
-            | 话题广场
-        if (tabs.length != 0)
-            div.list
-                - var i = 1;
-                each tab in tabs
-                    - i++;if(i>5){i=1};
-                    div.item(class="bg"+i)
-                        div.content
-                            a.tab-name(href="/tab/" + tab._id.toString()) #{tab.name}
-                            p #{tab.collect_count} 关注 #{tab.topic_count} 文章
-            +page(page,pages)
-        else
-            div.EmptyState
-                div.EmptyState-inner
-                    img(src="/public/images/error_panfish.png" alt="mascot")
-                    p 空
+    div.view.subscribe-view
+        nav.view-nav(role="navigation")
+            ul.nav-list
+                li.nav-item.active
+                    h2
+                        span.glyphicon.glyphicon-th-large
+                            | 话题广场
+        div.view.subscribe-all-view
+            div.tag-list-box
+                div.tab-list-header
+                    nav.tab-type-nav(role="navigation")
+                        ul.nav-list
+                            if (tab_type === 'time')
+                                li.nav-item.active
+                                    a(href="?tab_type=time") 最新
+                            else
+                                li.nav-item
+                                    a(href="?tab_type=time") 最新
+                            if (tab_type === 'hot')
+                                li.nav-item.active
+                                    a(href="?tab_type=hot") 最热
+                            else
+                                li.nav-item
+                                    a(href="?tab_type=hot") 最热
+                ul.tab-list
+                    if (tabs.length != 0)
+                        each tab in tabs
+                            li.item
+                                div.tab
+                                    div.info-box
+                                        a(href="/tab/" + tab._id.toString())
+                                            if (tab.picture)
+                                                img(src= tab.picture)
+                                            else
+                                                img(src="/public/images/error_panfish.png")
+                                            div.title #{tab.name}
+                                        div.meta-box
+                                            div.meta.subscribe #{tab.collect_count} 关注
+                                            div.meta.article #{tab.topic_count} 文章
+                                    div.action-box
+                                        - var is_collect = '';var is_not_collect = '';
+                                        - if (tab.is_collect) { is_collect = 'show' } else { is_not_collect = 'show' }
+                                            button.tab-collect-btn(class= is_collect data-tab="collect" data-id= tab._id.toString()) 关注
+                                            button.tab-de_collect-btn(class= is_not_collect data-tab="collect" data-id= tab._id.toString()) 关注
+                        +page(page,pages)
+                    else
+                        div.EmptyState
+                            div.EmptyState-inner
+                                img(src="/public/images/error_panfish.png" alt="mascot")
+                                p 空

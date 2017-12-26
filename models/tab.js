@@ -8,7 +8,9 @@ var TabSchema = new Schema({
     author: {type: ObjectId, ref: 'User'},
 
     collect_count: {type: Number, default: 0},
-    collectors:[{type: ObjectId, ref: 'User'}],
+    collectors: [{type: ObjectId, ref: 'User'}],
+
+    picture: {type: String, default: '/public/images/error_panfish.png'},
 
     create_at: {type: Date, default: Date.now}, // 创建时间
     update_at: {type: Date, default: Date.now} // 更新时间

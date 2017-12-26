@@ -35,26 +35,30 @@ a:focus {
 
 .markdown-text a:hover {
     color: #175199;
-    border-bottom: 1px solid rgba(62,122,194,.72);
+    border-bottom: 1px solid rgba(62, 122, 194, .72);
 }
+
 .markdown-text h1 {
     margin-top: 1em;
     margin-bottom: 1em;
     font-size: 22px;
     font-weight: 600;
 }
+
 .markdown-text h2 {
     margin-top: 1em;
     margin-bottom: 1em;
     font-size: 20px;
     font-weight: 600;
 }
+
 .markdown-text h3 {
     margin-top: 1em;
     margin-bottom: 1em;
     font-size: 18px;
     font-weight: 600;
 }
+
 .markdown-text blockquote {
     padding-left: 1em;
     margin: 1em 0;
@@ -62,7 +66,179 @@ a:focus {
     border-left: 4px solid #cfd8e6;
 }
 
-/*----*/
+/* tab index */
+.view-nav {
+    width: 100%;
+    height: 46px;
+    background-color: #fff;
+    border-bottom: 1px solid #ccc;
+}
+
+.view-nav .nav-list {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.view-nav .nav-list h2 {
+    font-size: 16px;
+}
+
+.view-nav .nav-list .nav-item {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    font-size: 1.16rem;
+    font-weight: 600;
+    padding: 0 2.5rem;
+    border-bottom: 2px solid transparent;
+    transition: border-bottom .3s, color .3s;
+}
+
+.view-nav .nav-list .nav-item.active {
+    color: #007fff;
+    border-bottom-color: #007fff;
+}
+
+.tab-list-header {
+    padding: 1.3rem 1rem;
+    background: #fff;
+}
+
+.tab-list-header .tab-type-nav {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+}
+
+.tab-list-header .nav-list {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    line-height: 1;
+}
+
+.tab-list-header .nav-list .nav-item {
+    padding: .6rem .4rem;
+    margin-left: .3rem;
+    font-size: 1.6rem;
+    white-space: nowrap;
+    position: relative;
+    cursor: pointer;
+    list-style: none;
+}
+
+.tab-list-header .nav-list .nav-item.active a,
+.tab-list-header .nav-list .nav-item a:hover {
+    color: #007fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.tab-list {
+    padding: 0;
+    margin: 0;
+    background: #fff;
+    text-align: center;
+}
+
+.tab-list .item {
+    width: 25%;
+    border: 1px solid #ccc;
+    display: inline-block;
+    margin-bottom: 1.3rem;
+    padding: 0 .7rem;
+    box-sizing: border-box;
+    list-style: none;
+}
+
+.tab-list .tab {
+    display: inline-block;
+    width: 100%;
+    background-color: #fff;
+    transition: border-color .3s;
+    text-align: center;
+    padding: 1.5rem 0;
+}
+
+.tab-list .info-box a {
+    text-decoration: none;
+    cursor: pointer;
+    color: #909090;
+}
+
+.tab-list .info-box .title {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    color: #333;
+}
+
+.tab-list .info-box img {
+    width: 29px;
+    height: 32px;
+    margin: 1rem auto;
+    background-color: #fff;
+}
+
+.tab-list .tab .meta-box {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    font-size: 1.1rem;
+    color: #909090;
+}
+
+.tab-list .tab .meta-box .meta {
+    line-height: 2rem;
+}
+
+.tab-list .tab .meta-box .meta.article {
+    margin-left: .8rem;
+}
+
+.tab-list .action-box button {
+    white-space: nowrap;
+    background-color: #fff;
+    color: #0f88eb;
+    border: 1px solid #0f88eb;
+    margin: 1rem auto;
+    font-size: 1.1rem;
+    padding: .5rem 1.3rem;
+    outline: none;
+    transition: background-color .3s, color .3s;
+    cursor: pointer;
+    border-radius: 2px;
+    display: none;
+}
+
+.tab-list .action-box button:hover {
+    background-color: rgba(13, 121, 209, .06);
+}
+
 /*user badge*/
 .user-badge-box {
     display: -webkit-box;
@@ -2397,9 +2573,9 @@ footer ul li {
 
 .topic-type .left button {
     white-space: nowrap;
-    border: 1px solid #ff850b;
     background-color: #fff;
-    color: #ff850b;
+    color: #0f88eb;
+    border: 1px solid #0f88eb;
     margin: 1rem auto;
     font-size: 1.1rem;
     padding: .5rem 1.3rem;
@@ -2408,6 +2584,10 @@ footer ul li {
     cursor: pointer;
     border-radius: 2px;
     display: none;
+}
+
+.topic-type .left button:hover {
+    background-color: rgba(13, 121, 209, .06);
 }
 
 .tab-collect-btn::before {
