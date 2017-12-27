@@ -1,0 +1,13 @@
+extends ../home
+
+block public
+    script(src="/public/javascripts/game/five.js")
+
+block home_content
+    div.checkerboard
+        canvas#game(width="450" height="450")
+        div.info-box
+            div.title
+                h2 五子棋
+            div.info
+                button#game_replay 重玩

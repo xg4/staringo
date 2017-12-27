@@ -141,6 +141,25 @@ router.get('/tabs', tab.index);
 router.get('/tab/:tab_id', tab.topics);
 router.post('/tab/:tab_id/collect', tab.collect);
 
+/* game */
+//five
+router.get('/game/five', function (req, res, next) {
+    res.render('game/five', {
+        title: '五子棋 - ' + config.name
+    });
+});
+//aircraft
+router.get('/game/aircraft', function (req, res, next) {
+    res.render('game/aircraft', {
+        title: '飞机大战 - ' + config.name
+    });
+});
+//arkanoid
+router.get('/game/arkanoid', function (req, res, next) {
+    res.render('game/arkanoid', {
+        title: '打砖块 - ' + config.name
+    });
+});
 /**
  * admin controller
  */
