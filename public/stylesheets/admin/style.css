@@ -1,0 +1,53 @@
+/* layout css */
+.nav-stacked {
+    box-shadow: 0 0 10px #BDBDBD;
+    border-radius: 5px;
+}
+
+.nav-stacked li a {
+    transition: all .5s;
+}
+
+.nav-secondary {
+    box-shadow: none;
+    border-radius: 0;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.nav li a .caret {
+    transition: transform .3s;
+}
+
+/* end */
+
+/* content_index css */
+.td-break {
+    word-break: break-all;
+    word-wrap: break-word;
+}
+
+/* end */
+.container-fluid .row {
+    margin-top: 20px;
+}
+
+/**/
+.btn-x {
+    white-space: nowrap;
+    background-color: #fff;
+    color: #0f88eb;
+    border: 1px solid #0f88eb;
+    margin: 0;
+    font-size: 1.1rem;
+    padding: .5rem 1.3rem;
+    outline: none;
+    transition: background-color .3s, color .3s;
+    cursor: pointer;
+    border-radius: 2px;
+    margin-right: 5px;
+}
+
+.btn-x:hover {
+    background-color: rgba(13, 121, 209, .06);
+}

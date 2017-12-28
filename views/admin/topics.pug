@@ -1,0 +1,38 @@
+extends ./layout
+
+block content
+    div.panel.panel-primary
+        div.panel-heading 文章管理
+        div.panel-body
+            p 文章管理
+        table.table.table-striped.card
+            tr
+                th #
+                th 文章标题
+                th.text-center 浏览数
+                th.text-center 回复数
+                th.text-center 收藏数
+                th.text-center 操作
+            each topic,i in topics
+                tr
+                    td #{i + 1}
+                    td
+                        a(href="/topic/" + topic._id.toString()) #{topic.title}
+                    td.text-center #{topic.visit_count}
+                    td.text-center #{topic.reply_count}
+                    td.text-center #{topic.collect_count}
+                    td.text-center
+                        if (topic.good)
+                            button.btn-x 取消加精
+                        else
+                            button.btn-x 加精
+                        if (topic.top)
+                            button.btn-x 取消置顶
+                        else
+                            button.btn-x 置顶
+                        if (topic.lock)
+                            button.btn-x 取消锁定
+                        else
+                            button.btn-x 锁定
+                        button.btn-x 删除
+        +page(page,pages)

@@ -1,0 +1,22 @@
+extends ./layout
+
+block content
+    div.panel.panel-primary
+        div.panel-heading 评论管理
+        div.panel-body
+            p 评论管理
+        table.table.table-striped.card
+            tr
+                th #
+                th 评论内容
+                th.text-center 点赞数
+                th.text-center 操作
+            each reply,i in replies
+                tr
+                    td #{i + 1}
+                    td
+                        a(href="/topic/" + reply.topic.toString()) #{reply.content}
+                    td.text-center #{reply.up_count}
+                    td.text-center
+                        button.btn-x 删除
+        +page(page,pages)

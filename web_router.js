@@ -115,7 +115,8 @@ router.post('/topic/:tid/collections', topic.listCollections); // 收藏话题�
 router.post('/topic/:tid/up', auth.postUserRequired, topic.up); // 点赞话题
 
 router.post('/topic/:tid/lock', auth.userRequired, topic.lock); // 锁定话题
-
+router.post('/topic/:tid/top', auth.userRequired, topic.top);
+router.post('/topic/:tid/good', auth.userRequired, topic.good);
 /**
  * reply controller
  */
@@ -163,8 +164,10 @@ router.get('/game/arkanoid', function (req, res, next) {
 /**
  * admin controller
  */
-router.get('/admin', admin.index);
-router.get('/admin/tabs/create', admin.getTab);
-router.post('/admin/tabs/create', admin.postTab);
+router.get('/admin', auth.adminRequired, admin.index);
+router.get('/admin/tabs', auth.adminRequired, admin.getTabs);
+router.get('/admin/topics', auth.adminRequired, admin.getTopics);
+router.get('/admin/users', auth.adminRequired, admin.getUsers);
+router.get('/admin/replies', auth.adminRequired, admin.getReplies);
 
 module.exports = router;

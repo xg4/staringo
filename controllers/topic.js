@@ -546,3 +546,55 @@ exports.lock = function (req, res, next) {
         }
     });
 };
+
+// 锁定主题，不可再回复
+exports.top = function (req, res, next) {
+    var topicId = req.params.tid;
+    var currentUser = req.session.user;
+    Topic.getTopic(topicId, function (err, topic) {
+        if (err) {
+            return next(err);
+        }
+        if (!topic) {
+            return res.render404('此话题不存在或已被删除。');
+        }
+        if (currentUser.is_admin) {
+            topic.top = !topic.top;
+            topic.save(function (err) {
+                if (err) {
+                    return next(err);
+                }
+                //var msg = topic.lock ? '此话题已锁定。' : '此话题已取消锁定。';
+                return res.redirect('/topic/' + topic._id);
+            });
+        } else {
+            return res.renderError('无权进行此操作！', '403');
+        }
+    });
+};
+
+// 锁定主题，不可再回复
+exports.good = function (req, res, next) {
+    var topicId = req.params.tid;
+    var currentUser = req.session.user;
+    Topic.getTopic(topicId, function (err, topic) {
+        if (err) {
+            return next(err);
+        }
+        if (!topic) {
+            return res.render404('此话题不存在或已被删除。');
+        }
+        if (currentUser.is_admin) {
+            topic.good = !topic.good;
+            topic.save(function (err) {
+                if (err) {
+                    return next(err);
+                }
+                //var msg = topic.lock ? '此话题已锁定。' : '此话题已取消锁定。';
+                return res.redirect('/topic/' + topic._id);
+            });
+        } else {
+            return res.renderError('无权进行此操作！', '403');
+        }
+    });
+};

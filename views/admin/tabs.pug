@@ -1,0 +1,22 @@
+extends ./layout
+
+block content
+    div.panel.panel-primary
+        div.panel-heading 话题管理
+        div.panel-body
+            p 话题管理
+        table.table.table-striped.card
+            tr
+                th #
+                th 话题名字
+                th.text-center 关注数
+                th.text-center 操作
+            each tab,i in tabs
+                tr
+                    td #{i + 1}
+                    td
+                        a(href="/tab/" + tab._id.toString()) #{tab.name}
+                    td.text-center #{tab.collect_count}
+                    td.text-center
+                        button.btn-x 修改
+        +page(page,pages)

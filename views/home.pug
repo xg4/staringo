@@ -67,6 +67,12 @@ block content
                                 span.category-icon
                                     span.glyphicon.glyphicon-th-list
                                 span.category-label 飞机大战
+                        if (current_user && current_user.is_admin)
+                            li.category-item
+                                a(target="_blank" href="/admin")
+                                    span.category-icon
+                                        span.glyphicon.glyphicon-globe
+                                    span.category-label 后台管理
                 if (current_user)
                     div.author-card.is-placeholder
                     div.card.author-card.js-stuck

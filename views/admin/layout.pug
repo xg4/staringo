@@ -1,3 +1,7 @@
+include ../mixins/topic_item
+include ../mixins/page
+include ../mixins/user_badge
+
 doctype html
 html(lang="en")
     head
@@ -16,7 +20,7 @@ html(lang="en")
 
         //- style
         link(rel='stylesheet', href='/public/stylesheets/style.css')
-
+        link(rel='stylesheet', href='/public/stylesheets/admin/style.css')
         //- script
         script(src="/public/libs/jquery.js")
         script(src="/public/libs/bootstrap/js/bootstrap.js")
@@ -24,6 +28,7 @@ html(lang="en")
         block public
 
         script(src="/public/javascripts/main.js")
+        script(src="/public/javascripts/admin/main.js")
     body
 
         //- header
@@ -78,6 +83,55 @@ html(lang="en")
                                     a(href="/logout")
                                         span.glyphicon.glyphicon-log-out
                                         | 退出
-        //- 内容
-        div(role="main")
-            block content
+
+        div.container-fluid
+            div.row
+                div.col-sm-2.col-lg-2
+                    ul.nav.nav-pills.nav-stacked
+                        li
+                            a(href="/admin")
+                                i(class="glyphicon glyphicon-home")
+                                | &nbsp 首页
+                        if (action === 'users')
+                            li.active
+                                a(href="/admin/users")
+                                    i(class="glyphicon glyphicon-user")
+                                    | &nbsp 用户管理
+                        else
+                            li
+                                a(href="/admin/users")
+                                    i(class="glyphicon glyphicon-user")
+                                    | &nbsp 用户管理
+                        if (action === 'topics')
+                            li.active
+                                a(href="/admin/topics")
+                                    i(class="glyphicon glyphicon-book")
+                                    | &nbsp 文章管理
+                        else
+                            li
+                                a(href="/admin/topics")
+                                    i(class="glyphicon glyphicon-book")
+                                    | &nbsp 文章管理
+                        if (action === 'tabs')
+                            li.active
+                                a(href="/admin/tabs")
+                                    i(class="glyphicon glyphicon-th-list")
+                                    | &nbsp 话题管理
+                        else
+                            li
+                                a(href="/admin/tabs")
+                                    i(class="glyphicon glyphicon-th-list")
+                                    | &nbsp 话题管理
+                        if (action === 'replies')
+                            li.active
+                                a(href="/admin/replies")
+                                    i(class="glyphicon glyphicon-book")
+                                    | &nbsp 回复管理
+                        else
+                            li
+                                a(href="/admin/replies")
+                                    i(class="glyphicon glyphicon-book")
+                                    | &nbsp 回复管理
+                //- 内容
+                div.col-lg-10.col-sm-10(role="main")
+                    block content

@@ -68,6 +68,10 @@ exports.getReplyById = function (id, callback) {
     });
 };
 
+exports.getRepliesByQuery = function (query, opt, callback) {
+    Reply.find(query, '', opt, callback);
+};
+
 /**
  * 根据回复ID，获取回复
  * Callback:

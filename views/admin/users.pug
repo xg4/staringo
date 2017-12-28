@@ -1,0 +1,43 @@
+extends ./layout
+
+
+block content
+    div.panel.panel-primary
+        div.panel-heading 用户管理
+        div.panel-body
+            p 用户管理
+        table.table.table-striped.card
+            tr
+                th #
+                th 用户名
+                th.text-center 积分
+                th.text-center 主题数
+                th.text-center 评论数
+                th.text-center 操作
+            each user,i in users
+                tr
+                    td #{i + 1}
+                    td
+                        a(href="/user/" + user.username) #{user.username}
+                        div.user-badge
+                            if (user.is_admin)
+                                span.label.label-warning 管理员
+                            if (user.isAdvanced || user.is_verify)
+                                +user_badge(user)
+                    td.text-center #{user.score}
+                    td.text-center #{user.topic_count}
+                    td.text-center #{user.reply_count}
+                    td.text-center
+                        if (user.is_block)
+                            button.btn-x 解除封禁
+                        else
+                            button.btn-x 封禁
+                        if (user.is_verify)
+                            button.btn-x 取消认证用户
+                        else
+                            button.btn-x 添加认证用户
+                        if (user.is_star)
+                            button.btn-x 取消优秀用户
+                        else
+                            button.btn-x 添加优秀用户
+        +page(page,pages)
