@@ -88,10 +88,11 @@ router.post('/settings/email', auth.userRequired, user.postEmail); //  用户 �
 
 router.get('/settings/avatar', auth.userRequired, user.getAvatar); //  用户 头像信息
 router.post('/settings/avatar', auth.userRequired, user.postAvatar); //  用户 头像信息
-/*router.post('/user/set_star', auth.adminRequired, user.toggleStar); // 把某用户设为达人
-router.post('/user/cancel_star', auth.adminRequired, user.toggleStar);  // 取消某用户的达人身份
+
+router.post('/user/:name/star', auth.adminRequired, user.star); // 把某用户设为达人
 router.post('/user/:name/block', auth.adminRequired, user.block);  // 禁言某用户
-router.post('/user/:name/delete_all', auth.adminRequired, user.deleteAll);  // 删除某用户所有发言*/
+router.post('/user/:name/verify', auth.adminRequired, user.verify);  // 认证某用户
+// router.post('/user/:name/delete_all', auth.adminRequired, user.deleteAll);  // 删除某用户所有发言
 
 /**
  * topic controller

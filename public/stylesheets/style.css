@@ -110,6 +110,28 @@ a:focus {
     color: #6b7a8c;
     border-left: 4px solid #cfd8e6;
 }
+/* admin btn */
+.admin-btn-group {
+    text-align: center;
+}
+.admin-btn {
+    white-space: nowrap;
+    background-color: #fff;
+    color: #0f88eb;
+    border: 1px solid #0f88eb;
+    margin: 5px auto;
+    font-size: 1.1rem;
+    padding: .5rem 1.3rem;
+    outline: none;
+    transition: background-color .3s, color .3s;
+    cursor: pointer;
+    border-radius: 2px;
+    display: block;
+}
+
+.admin-btn:hover {
+    background-color: rgba(13, 121, 209, .06);
+}
 
 /* tab index */
 .view-nav {

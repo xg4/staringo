@@ -907,3 +907,102 @@ exports.top100 = function (req, res, next) {
         });
     });
 };
+
+// 设置优秀用户
+exports.star = function (req, res, next) {
+    var name = req.params.name;
+    var currentUser = req.session.user;
+    User.getUserByUsername(name, function (err, user) {
+        if (err) {
+            return next(err)
+        }
+        if (!user) {
+            return res.render404('该用户不存在！')
+        }
+        if (!currentUser.is_admin) {
+            return res.renderError('无权进行此操作！', 403)
+        }
+
+        user.is_star = !user.is_star;
+        user.save(function (err) {
+            if (err) {
+                return next(err);
+            }
+            return res.redirect('/user/' + user.username);
+        });
+    });
+};
+
+// 设置认证用户
+exports.verify = function (req, res, next) {
+    var name = req.params.name;
+    var currentUser = req.session.user;
+    User.getUserByUsername(name, function (err, user) {
+        if (err) {
+            return next(err)
+        }
+        if (!user) {
+            return res.render404('该用户不存在！')
+        }
+        if (!currentUser.is_admin) {
+            return res.renderError('无权进行此操作！', 403)
+        }
+
+        user.is_verify = !user.is_verify;
+        user.save(function (err) {
+            if (err) {
+                return next(err);
+            }
+            return res.redirect('/user/' + user.username);
+        });
+    });
+};
+
+// 封禁用户
+exports.block = function (req, res, next) {
+    var name = req.params.name;
+    var currentUser = req.session.user;
+    User.getUserByUsername(name, function (err, user) {
+        if (err) {
+            return next(err)
+        }
+        if (!user) {
+            return res.render404('该用户不存在！')
+        }
+        if (!currentUser.is_admin) {
+            return res.renderError('无权进行此操作！', 403)
+        }
+
+        user.is_block = !user.is_block;
+        user.save(function (err) {
+            if (err) {
+                return next(err);
+            }
+            return res.redirect('/user/' + user.username);
+        });
+    });
+};
+
+/*
+exports.deleteAll = function (req, res, next) {
+    var username = req.params.name;
+
+    var ep = EventProxy.create();
+    ep.fail(next);
+
+    User.getUserByUsername(username, ep.done(function (user) {
+        if (!user) {
+            return next(new Error('user is not exists'));
+        }
+        ep.all('del_topics', 'del_replys', 'del_ups',
+            function () {
+                res.json({status: 'success'});
+            });
+        // 删除主题
+        TopicModel.update({author_id: user._id}, {$set: {deleted: true}}, {multi: true}, ep.done('del_topics'));
+        // 删除评论
+        ReplyModel.update({author_id: user._id}, {$set: {deleted: true}}, {multi: true}, ep.done('del_replys'));
+        // 点赞数
+        ReplyModel.update({}, {$pull: {'ups': user._id}}, {multi: true}, ep.done('del_ups'));
+    }));
+};*/
