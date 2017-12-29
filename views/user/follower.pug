@@ -3,7 +3,7 @@ include ../mixins/user_item
 include ../mixins/page
 
 block user_content
-    if (user._id.toString() === current_user._id.toString())
+    if (current_user && (user._id.toString() === current_user._id.toString()))
         if (follower.length != 0)
             each f in follower
                 +user_item(f.user,current_user)

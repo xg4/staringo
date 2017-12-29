@@ -3,7 +3,7 @@ include ../mixins/topic_item
 include ../mixins/page
 
 block user_content
-    if (user._id.toString() === current_user._id.toString())
+    if (current_user && (user._id.toString() === current_user._id.toString()))
         if (topics.length != 0)
             each topic in topics
                 +topic_item(current_user,topic,markdown)

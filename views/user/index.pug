@@ -1,7 +1,7 @@
 extends layout
 
 block user_content
-    if (user._id.toString() === current_user._id.toString())
+    if (current_user && (user._id.toString() === current_user._id.toString()))
         div.EmptyState
             div.EmptyState-inner
                 img(src="/public/images/error_panfish.png" alt="mascot")

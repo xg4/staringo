@@ -83,26 +83,27 @@ block content
                     li
                         span.glyphicon.glyphicon-time
                         span(data-toggle="tooltip" title= formatDate(user.create_at))  创建于 #{user.create_at_ago()}
-                div.admin-btn-group
-                    | 仅管理员可见：
-                    if (user.is_block)
-                        form(action="/user/"+user.username+"/block" method="post")
-                            button.admin-btn 解除封禁
-                    else
-                        form(action="/user/"+user.username+"/block" method="post")
-                            button.admin-btn 封禁
-                    if (user.is_verify)
-                        form(action="/user/"+user.username+"/verify" method="post")
-                            button.admin-btn 取消认证用户
-                    else
-                        form(action="/user/"+user.username+"/verify" method="post")
-                            button.admin-btn 添加认证用户
-                    if (user.is_star)
-                        form(action="/user/"+user.username+"/star" method="post")
-                            button.admin-btn 取消优秀用户
-                    else
-                        form(action="/user/"+user.username+"/star" method="post")
-                            button.admin-btn 添加优秀用户
+                if (current_user && current_user.is_admin)
+                    div.admin-btn-group
+                        | 仅管理员可见：
+                        if (user.is_block)
+                            form(action="/user/" + user.username + "/block" method="post")
+                                button.admin-btn 解除封禁
+                        else
+                            form(action="/user/" + user.username + "/block" method="post")
+                                button.admin-btn 封禁
+                        if (user.is_verify)
+                            form(action="/user/" + user.username + "/verify" method="post")
+                                button.admin-btn 取消认证用户
+                        else
+                            form(action="/user/" + user.username + "/verify" method="post")
+                                button.admin-btn 添加认证用户
+                        if (user.is_star)
+                            form(action="/user/" + user.username + "/star" method="post")
+                                button.admin-btn 取消优秀用户
+                        else
+                            form(action="/user/" + user.username + "/star" method="post")
+                                button.admin-btn 添加优秀用户
             div.user-main.card
                 div.user-profile-nav.is-placeholder
                 div.user-profile-nav.js-sticky
@@ -110,7 +111,7 @@ block content
                         if (active == 'index')
                             a.underline-nav-item.selected(aria-selected="true" role="tab") 动态
                         else
-                            a.underline-nav-item(href="/user/"+ user.username aria-selected="false" role="tab") 动态
+                            a.underline-nav-item(href="/user/" + user.username aria-selected="false" role="tab") 动态
                         if (active == 'topic')
                             a.underline-nav-item.selected(aria-selected="true" role="tab")
                                 | 文章

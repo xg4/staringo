@@ -3,7 +3,7 @@ include ../mixins/reply
 include ../mixins/page
 
 block user_content
-    if (user._id.toString() === current_user._id.toString())
+    if (current_user && (user._id.toString() === current_user._id.toString()))
         if (replies.length != 0)
             each reply in replies
                 +reply(reply,current_user,markdown,formatDate,reply.topic)
