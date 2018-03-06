@@ -1,17 +1,21 @@
 /*统一 浏览器 样式*/
+
 @import "normalize.css";
 /*bootstrap*/
+
 @import "../libs/bootstrap/css/bootstrap.min.css";
 /* 复写 样式*/
+
 @import "x.css";
 /* animate css动画*/
-@import "animate.css";
 
+@import "animate.css";
 .p-2 {
     padding: 20px;
 }
 
 /*默认的a样式*/
+
 a {
     color: inherit;
     transition: color .2s;
@@ -24,6 +28,7 @@ a:focus {
 }
 
 /*.checkerboard*/
+
 .checkerboard {
     background: rgba(234, 203, 139, 1);
     position: relative;
@@ -53,22 +58,27 @@ a:focus {
 .checkerboard .info-box button:hover {
     background-color: rgba(13, 121, 209, .06);
 }
-.aircraft{
+
+.aircraft {
     text-align: center;
 }
-.aircraft canvas{
+
+.aircraft canvas {
     border: 1px solid #ccc;
     background: #fff;
 }
+
 .arkanoid {
     text-align: center;
 }
-.arkanoid canvas{
+
+.arkanoid canvas {
     border: 1px solid #ccc;
     background: #fff;
 }
 
 /* markdown */
+
 .markdown-text a {
     margin-left: 5px;
     margin-right: 5px;
@@ -110,10 +120,13 @@ a:focus {
     color: #6b7a8c;
     border-left: 4px solid #cfd8e6;
 }
+
 /* admin btn */
+
 .admin-btn-group {
     text-align: center;
 }
+
 .admin-btn {
     white-space: nowrap;
     background-color: #fff;
@@ -134,6 +147,7 @@ a:focus {
 }
 
 /* tab index */
+
 .view-nav {
     width: 100%;
     height: 46px;
@@ -256,6 +270,9 @@ a:focus {
     font-size: 1.5rem;
     line-height: 2rem;
     color: #333;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .tab-list .info-box img {
@@ -307,6 +324,7 @@ a:focus {
 }
 
 /*user badge*/
+
 .user-badge-box {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -334,6 +352,7 @@ a:focus {
 }
 
 /* loader */
+
 .loader {
     position: relative;
     width: 2.5em;
@@ -399,6 +418,7 @@ a:focus {
 }
 
 /* UserHover */
+
 .HoverCard-popoverTarget {
     border-width: 0;
     background: transparent;
@@ -415,7 +435,6 @@ a:focus {
 .HoverCard-loading {
     -webkit-box-shadow: 0 5px 20px rgba(0, 34, 77, .1);
     box-shadow: 0 5px 20px rgba(0, 34, 77, .1);
-
     border-radius: 2px;
 }
 
@@ -554,6 +573,7 @@ a:focus {
 }
 
 /*logo*/
+
 .Icon {
     vertical-align: text-bottom;
     fill: #9fadc7;
@@ -564,7 +584,9 @@ svg.logo {
 }
 
 /*-----*/
+
 /*默认 body 样式*/
+
 body {
     min-width: 1020px;
     word-wrap: break-word;
@@ -575,7 +597,9 @@ body {
 }
 
 /*-----*/
+
 /*header 样式*/
+
 .header {
     min-width: 1020px;
     box-shadow: rgba(0, 34, 77, 0.05) 0 1px 3px 0;
@@ -583,7 +607,7 @@ body {
     border-bottom: 1px solid rgba(30, 35, 42, 0.06);
 }
 
-.header > .container-fluid {
+.header>.container-fluid {
     height: 52px;
     display: flex;
     -webkit-box-pack: justify;
@@ -601,10 +625,9 @@ body {
     font-weight: 600;
     -webkit-box-align: center;
     align-items: center;
-
 }
 
-header nav > ul > li {
+header nav>ul>li {
     padding: 0 15px;
 }
 
@@ -706,7 +729,9 @@ header .header-link a {
 }
 
 /*-----*/
+
 /*footer 样式*/
+
 footer {
     display: flex;
     justify-content: space-between;
@@ -731,7 +756,9 @@ footer ul li {
 }
 
 /*-----*/
+
 /*清除 button 样式*/
+
 .btn-normal {
     padding: 0;
     background-color: transparent;
@@ -744,7 +771,9 @@ footer ul li {
 }
 
 /*-----*/
+
 /*topic*/
+
 .topic-wrapper {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -756,7 +785,6 @@ footer ul li {
     width: 1000px;
     padding: 0 16px;
     margin: 10px auto;
-
 }
 
 .topic-main {
@@ -814,9 +842,7 @@ footer ul li {
     position: relative;
 }
 
-.other-topic-list {
-
-}
+.other-topic-list {}
 
 .other-topic-item {
     font-size: 14px;
@@ -848,9 +874,7 @@ footer ul li {
     line-height: 1;
 }
 
-.topic-detail .topic-body {
-
-}
+.topic-detail .topic-body {}
 
 .topic-body .topic-title {
     font-size: 18px;
@@ -859,7 +883,6 @@ footer ul li {
     color: #1e1e1e;
     margin-top: -4px;
     margin-bottom: -4px;
-
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -885,17 +908,12 @@ footer ul li {
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
-
     overflow: hidden;
 }
 
-.topic-author-detail > li {
+.topic-author-detail>li {}
 
-}
-
-.topic-author-avatar {
-
-}
+.topic-author-avatar {}
 
 .topic-author-avatar .avatar {
     background-color: transparent;
@@ -1058,6 +1076,7 @@ footer ul li {
 /*-----*/
 
 /*topic create or edit*/
+
 .topic-form-wrapper {
     overflow: hidden;
     margin: 20px auto 0 auto;
@@ -1066,7 +1085,6 @@ footer ul li {
     background-color: #fff;
     line-height: 2em;
     border-radius: 3px;
-
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -1096,6 +1114,7 @@ footer ul li {
 /*-----*/
 
 /*Topic index 样式*/
+
 .TopicHeader {
     min-width: 1000px;
     padding: 16px 0;
@@ -1180,9 +1199,7 @@ footer ul li {
     text-align: right;
 }
 
-.TopicHeader-follow-status {
-
-}
+.TopicHeader-follow-status {}
 
 .TopicHeader-follow-counts {
     width: 200px;
@@ -1268,7 +1285,6 @@ footer ul li {
     perspective: 2000px;
     width: 82px;
     height: 34px;
-
     display: inline-block;
 }
 
@@ -1286,7 +1302,6 @@ footer ul li {
     -webkit-transition: -webkit-transform 0.3s;
     transform: rotateX(0deg);
     -webkit-transform: rotateX(0deg);
-
 }
 
 .collect-btn-group.collect {
@@ -1319,6 +1334,7 @@ footer ul li {
 }
 
 /* reply*/
+
 .Topic-body {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -1674,6 +1690,7 @@ footer ul li {
 }
 
 /* Reply add */
+
 .topic-add-reply {
     margin-top: 40px;
     margin-bottom: 60px;
@@ -1703,29 +1720,35 @@ footer ul li {
 }
 
 /*editor*/
+
 .editor-btn-group {
     text-align: center;
 }
 
-.reply-form .CodeMirror, .reply2-form .CodeMirror {
+.reply-form .CodeMirror,
+.reply2-form .CodeMirror {
     height: 160px;
 }
 
-.reply-form .CodeMirror:-webkit-full-screen, .reply2-form .CodeMirror:-webkit-full-screen {
+.reply-form .CodeMirror:-webkit-full-screen,
+.reply2-form .CodeMirror:-webkit-full-screen {
     height: 100%
 }
 
-.reply-form .CodeMirror:-moz-full-screen, .reply2-form .CodeMirror:-moz-full-screen {
+.reply-form .CodeMirror:-moz-full-screen,
+.reply2-form .CodeMirror:-moz-full-screen {
     height: 100%
 }
 
-.reply-form .CodeMirror:fullscreen, .reply2-form .CodeMirror:fullscreen {
+.reply-form .CodeMirror:fullscreen,
+.reply2-form .CodeMirror:fullscreen {
     height: 100%
 }
 
 /*-----*/
 
 /* tag 样式*/
+
 .tag {
     display: inline-block;
     padding: 0 12px;
@@ -1739,6 +1762,7 @@ footer ul li {
 /*-----*/
 
 /*user index*/
+
 .user-wrapper {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -1951,6 +1975,7 @@ footer ul li {
 }
 
 /* underline-nav */
+
 .underline-nav {
     height: 62px;
     display: table;
@@ -1974,6 +1999,7 @@ footer ul li {
 /*-----*/
 
 /* counter badge */
+
 .counter {
     display: inline-block;
     padding: 2px 5px;
@@ -1988,6 +2014,7 @@ footer ul li {
 /*-----*/
 
 /* menu nav */
+
 .menu {
     margin-bottom: 15px;
     list-style: none;
@@ -2036,6 +2063,7 @@ footer ul li {
 /*-----*/
 
 /* setting */
+
 .setting-header {
     display: -webkit-box;
     display: flex;
@@ -2228,7 +2256,7 @@ footer ul li {
     font-size: 14px;
 }
 
-.user-gender-group input:checked + .user-gender-btn {
+.user-gender-group input:checked+.user-gender-btn {
     color: #fff;
     background-color: #20a0ff;
     border-color: #20a0ff;
@@ -2236,6 +2264,7 @@ footer ul li {
 }
 
 /* msg index */
+
 .msg-wrapper {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -2336,7 +2365,6 @@ footer ul li {
     background-color: #fff;
     margin-bottom: 10px;
     position: relative;
-
     border: 1px solid #ccc;
     border: 1px solid rgba(0, 0, 0, .2);
     border-radius: 6px;
@@ -2378,7 +2406,6 @@ footer ul li {
     -webkit-box-pack: justify;
     -ms-flex-pack: justify;
     justify-content: space-between;
-
     overflow: hidden;
 }
 
@@ -2422,6 +2449,7 @@ footer ul li {
 /*-----*/
 
 /* User info card*/
+
 .User-item {
     padding: 16px 20px;
     position: relative;
@@ -2496,17 +2524,20 @@ footer ul li {
 /*-------*/
 
 /* search index */
+
 .search-input {
     border-top: none;
     border-radius: 0;
 }
 
 /*markdown editor*/
+
 .markdown-editor {
     border: 1px solid #ccc;
 }
 
 /*tabs*/
+
 .tabs-title {
     padding: 10px;
     margin: 0 0 10px 0;
@@ -2577,6 +2608,7 @@ footer ul li {
 }
 
 /*user 100*/
+
 .user-badge {
     display: inline-block;
     margin-right: 5px;
@@ -2590,6 +2622,7 @@ footer ul li {
 }
 
 /*tab topic*/
+
 .tab-info-box {
     position: relative;
     height: 150px;
@@ -2710,6 +2743,7 @@ footer ul li {
 }
 
 /*search page*/
+
 .search-form {
     height: 42px;
     margin: 2px;
